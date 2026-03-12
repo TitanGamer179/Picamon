@@ -18,8 +18,8 @@
 %}
 INDENTIFIER [a-zA-Z_$]
 NATURAL [0-9]
-NUMERO {Natural}{[_0-9]*{Natural}}?
-EXPO   [eE][+-]?{NATURAL}
+NUMERO {NATURAL}([_0-9]*{NATURAL})?
+EXPO   [eE][+-]?{NUMERO}
 
 
 %X COMMENT STRING LINE_COMMENT
@@ -69,9 +69,9 @@ EXPO   [eE][+-]?{NATURAL}
 ">>"                    { if (opt_print_tokens) printf("RSHIFT\n"); }
 "^"                     { if (opt_print_tokens) printf("XOR\n"); }
 
-{IDENTIFIER}({IDENTIFIER}|{NATURAL})*                         { if (opt_print_tokens) printf("IDENTIFIER(%s)\n", yytext); }
+{INDENTIFIER}({INDENTIFIER}|{NATURAL})*                         { if (opt_print_tokens) printf("IDENTIFIER(%s)\n", yytext); }
 0|([1-9]([_0-9]*[0-9])?)                                      { if (opt_print_tokens) printf("NATURAL(%s)\n", yytext); }
-{NUMERO}\.{NUMERO}?{EXPO}?|\.{NUMERO}{EXPO}?|{NUMERO}{EXPO}   { if (opt_print_tokens) printf("DECIMAL(%s)\n", yytext); }
+({NUMERO}\.{NUMERO}?{EXPO}?)|(\.{NUMERO}{EXPO}?)|({NUMERO}{EXPO})  { if (opt_print_tokens) printf("DECIMAL(%s)\n", yytext); }
 
 "//"                    { BEGIN(LINE_COMMENT); }
 <LINE_COMMENT>\n|\r|\r\n { line++; col = 1; BEGIN(INITIAL); }
@@ -86,20 +86,20 @@ EXPO   [eE][+-]?{NATURAL}
 \"                      { BEGIN(STRING); str_idx = 0; str_invalid_escape = false; str_line = token_line; str_col = token_col;}
 <STRING>\"              { BEGIN(INITIAL);if (!str_invalid_escape && opt_print_tokens) {str_buf[str_idx] = '\0';printf("STRLIT(\"%s\")\n", str_buf);}}
 <STRING>\\[fnrt\\"]     { if(str_idx < 2046) {str_buf[str_idx++] = '\\';str_buf[str_idx++] = yytext[1];}}
-<STRING>\\.|\\[^fnrt\\"]{ printf("Line %d, col %d: invalid escape sequence (%s)\n", token_line, token_col, yytext);str_invalid_escape = true;}
+<STRING>\\.|\\[^fnrt\\"] { printf("Line %d, col %d: invalid escape sequence (%s)\n", token_line, token_col, yytext);str_invalid_escape = true;}
 <STRING>\\              { printf("Line %d, col %d: invalid escape sequence (\\)\n", token_line, token_col);str_invalid_escape = true;}
 <STRING>\n|\r|\r\n      {printf("Line %d, col %d: unterminated string literal\n", str_line, str_col);line++; col = 1;BEGIN(INITIAL);}
 <STRING><<EOF>>         {printf("Line %d, col %d: unterminated string literal\n", str_line, str_col);BEGIN(INITIAL);}
 <STRING>.               { if(str_idx < 2047) {str_buf[str_idx++] = yytext[0];}}
 [ \t\f]                 { }
 \n|\r|\r\n              { line++; col = 1; }
-.                       { printf("Erro linha %d, coluna %d: não reconhece (%s)\n", token_line, token_col, yytext); }
+.                       { printf("Line %d, col %d: illegal character (%s)\n", token_line, token_col, yytext); }
 
 
 
 %%
 extern int yylex();
-int main() {
+int main(int argc, char **argv) {
     if (argc > 1 && strcmp(argv[1], "-l") == 0) {
         opt_print_tokens = true;
     }
