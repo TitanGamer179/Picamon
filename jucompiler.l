@@ -1,3 +1,5 @@
+/* Daniel José Mendes Ribeiro nº 2023208712*/
+/* Matilde de Oliveira Tavares Ângelo nº2023210357 */
 %{
     #include <stdio.h>
     #include <string.h>
