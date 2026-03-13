@@ -13,12 +13,12 @@
     int str_line = 1;
     int str_col = 1;
     bool str_invalid_escape = false;
-    char str_buf[2048];
+    char str_buf[65536];
     int str_idx = 0;
     #define YY_USER_ACTION token_line = line; token_col = col; col += yyleng;
     bool opt_print_tokens = false;
 %}
-INDENTIFIER [a-zA-Z_$]
+IDENTIFIER [a-zA-Z_$]
 NATURAL [0-9]
 NUMERO {NATURAL}([_0-9]*{NATURAL})?
 EXPO   [eE][+-]?{NUMERO}
@@ -26,7 +26,7 @@ EXPO   [eE][+-]?{NUMERO}
 
 %X COMMENT STRING LINE_COMMENT
 %%
-"++"|"--"|"null"|"Integer"|"System"|"abstract"|"assert"|"break"|"byte"|"case"|"catch"|"char"|"const"|"continue"|"default"|"do"|"enum"|"extends"|"final"|"finally"|"float"|"for"|"goto"|"implements"|"import"|"instanceof"|"interface"|"long"|"native"|"new"|"package"|"private"|"protected"|"short"|"strictfp"|"super"|"switch"|"synchronized"|"this"|"throw"|"throws"|"transient"|"try"|"volatile" { if (opt_print_tokens) printf("RESERVED\n"); }
+"++"|"--"|"null"|"Integer"|"System"|"abstract"|"assert"|"break"|"byte"|"case"|"catch"|"char"|"const"|"continue"|"default"|"do"|"enum"|"extends"|"final"|"finally"|"float"|"for"|"goto"|"implements"|"import"|"instanceof"|"interface"|"long"|"native"|"new"|"package"|"private"|"protected"|"short"|"strictfp"|"super"|"switch"|"synchronized"|"this"|"throw"|"throws"|"transient"|"try"|"volatile"|"_" { if (opt_print_tokens) printf("RESERVED(%s)\n", yytext); }
 "boolean"               { if (opt_print_tokens) printf("BOOL\n"); }
 "class"                 { if (opt_print_tokens) printf("CLASS\n"); }
 ".length"               { if (opt_print_tokens) printf("DOTLENGTH\n"); }
@@ -71,7 +71,7 @@ EXPO   [eE][+-]?{NUMERO}
 ">>"                    { if (opt_print_tokens) printf("RSHIFT\n"); }
 "^"                     { if (opt_print_tokens) printf("XOR\n"); }
 
-{INDENTIFIER}({INDENTIFIER}|{NATURAL})*                         { if (opt_print_tokens) printf("IDENTIFIER(%s)\n", yytext); }
+{IDENTIFIER}({IDENTIFIER}|{NATURAL})* { if (opt_print_tokens) printf("IDENTIFIER(%s)\n", yytext);}
 0|([1-9]([_0-9]*[0-9])?)                                      { if (opt_print_tokens) printf("NATURAL(%s)\n", yytext); }
 ({NUMERO}\.{NUMERO}?{EXPO}?)|(\.{NUMERO}{EXPO}?)|({NUMERO}{EXPO})  { if (opt_print_tokens) printf("DECIMAL(%s)\n", yytext); }
 
@@ -83,16 +83,16 @@ EXPO   [eE][+-]?{NUMERO}
 <COMMENT>"*/"           { BEGIN(INITIAL); }
 <COMMENT>\n|\r|\r\n     { line++; col = 1; }
 <COMMENT>.              {  }
-<COMMENT><<EOF>>        { printf("Line %d, col %d: unterminated comment\n", comment_line, comment_col); BEGIN(INITIAL); }
+<COMMENT><<EOF>>        { printf("Line %d, col %d: unterminated comment\n", comment_line, comment_col); return 0; }
 
 \"                      { BEGIN(STRING); str_idx = 0; str_invalid_escape = false; str_line = token_line; str_col = token_col;}
 <STRING>\"              { BEGIN(INITIAL);if (!str_invalid_escape && opt_print_tokens) {str_buf[str_idx] = '\0';printf("STRLIT(\"%s\")\n", str_buf);}}
-<STRING>\\[fnrt\\"]     { if(str_idx < 2046) {str_buf[str_idx++] = '\\';str_buf[str_idx++] = yytext[1];}}
-<STRING>\\.|\\[^fnrt\\"] { printf("Line %d, col %d: invalid escape sequence (%s)\n", token_line, token_col, yytext);str_invalid_escape = true;}
+<STRING>\\[fnrt\\"]     { if(str_idx < 65534) {str_buf[str_idx++] = '\\';str_buf[str_idx++] = yytext[1];}}
+<STRING>\\[^fnrt\\"\r\n] { printf("Line %d, col %d: invalid escape sequence (%s)\n", token_line, token_col, yytext);str_invalid_escape = true;}
 <STRING>\\              { printf("Line %d, col %d: invalid escape sequence (\\)\n", token_line, token_col);str_invalid_escape = true;}
 <STRING>\n|\r|\r\n      {printf("Line %d, col %d: unterminated string literal\n", str_line, str_col);line++; col = 1;BEGIN(INITIAL);}
-<STRING><<EOF>>         {printf("Line %d, col %d: unterminated string literal\n", str_line, str_col);BEGIN(INITIAL);}
-<STRING>.               { if(str_idx < 2047) {str_buf[str_idx++] = yytext[0];}}
+<STRING><<EOF>>         { printf("Line %d, col %d: unterminated string literal\n", str_line, str_col); return 0; }
+<STRING>.               { if(str_idx < 65535) {str_buf[str_idx++] = yytext[0];}}
 [ \t\f]                 { }
 \n|\r|\r\n              { line++; col = 1; }
 .                       { printf("Line %d, col %d: illegal character (%s)\n", token_line, token_col, yytext); }
