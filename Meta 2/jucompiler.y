@@ -57,6 +57,15 @@ Node* add_sibling(Node* node, Node* sibling) {
     return node;
 }
 
+void add_child(Node *parent, Node *child) {
+    if (!parent || !child) return;
+    if (!parent->child) {
+        parent->child = child;
+    } else {
+        add_sibling(parent->child, child);
+    }
+}
+
 %}
 
 %union {
@@ -92,13 +101,10 @@ Node* add_sibling(Node* node, Node* sibling) {
 
 Program : CLASS IDENTIFIER LBRACE ProgramElements RBRACE {
             $$ = create_node("Program", NULL);
-            Node* id = create_node("Identifier", $2);
-            add_child($$, id);
-            if ($4) add_sibling(id, $4);
-            root = $$;
+            add_child($$, create_node("Identifier", $2));
+            if ($4) add_child($$, $4); 
+            root = $$; 
         }
-        ;
-
 ProgramElements : { $$ = NULL; }
                 | ProgramElements MethodDecl { $$ = add_sibling($1, $2); }
                 | ProgramElements FieldDecl { $$ = add_sibling($1, $2); }
@@ -201,7 +207,7 @@ IdList : { $$ = NULL; }
        | IdList COMMA IDENTIFIER {  $$ = NULL; }
        ;
 
-StatementList : /* empty */ { $$ = NULL; }
+StatementList : { $$ = NULL; }
               | StatementList Statement {
                   if ($2 != NULL) {
                       $$ = add_sibling($1, $2);
@@ -223,20 +229,20 @@ Statement : LBRACE StatementList RBRACE {
           }
           | IF LPAR Expr RPAR Statement %prec IF_WITHOUT_ELSE {
               $$ = create_node("If", NULL);
-              add_child($$, $3);
-              add_sibling($3, $5 ? $5 : create_node("Block", NULL));
-              add_sibling($3->sibling, create_node("Block", NULL));
+              add_child($$, $3); 
+              add_child($$, $5 ? $5 : create_node("Block", NULL)); 
+              add_child($$, create_node("Block", NULL)); 
           }
           | IF LPAR Expr RPAR Statement ELSE Statement {
               $$ = create_node("If", NULL);
               add_child($$, $3);
-              add_sibling($3, $5 ? $5 : create_node("Block", NULL));
-              add_sibling($3->sibling, $7 ? $7 : create_node("Block", NULL));
+              add_child($$, $5 ? $5 : create_node("Block", NULL));
+              add_child($$, $7 ? $7 : create_node("Block", NULL));
           }
           | WHILE LPAR Expr RPAR Statement {
               $$ = create_node("While", NULL);
               add_child($$, $3);
-              add_sibling($3, $5 ? $5 : create_node("Block", NULL));
+              add_child($$, $5 ? $5 : create_node("Block", NULL));
           }
           | RETURN OptExpr SEMICOLON {
               $$ = create_node("Return", NULL);
@@ -295,22 +301,22 @@ ParseArgs : PARSEINT LPAR IDENTIFIER LSQ Expr RSQ RPAR {
           | PARSEINT LPAR error RPAR { $$ = NULL; }
           ;
 
-Expr : Expr PLUS Expr   { $$ = create_node("Add", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr MINUS Expr  { $$ = create_node("Sub", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr STAR Expr   { $$ = create_node("Mul", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr DIV Expr    { $$ = create_node("Div", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr MOD Expr    { $$ = create_node("Mod", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr AND Expr    { $$ = create_node("And", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr OR Expr     { $$ = create_node("Or", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr XOR Expr    { $$ = create_node("Xor", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr LSHIFT Expr { $$ = create_node("Lshift", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr RSHIFT Expr { $$ = create_node("Rshift", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr EQ Expr     { $$ = create_node("Eq", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr GE Expr     { $$ = create_node("Ge", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr GT Expr     { $$ = create_node("Gt", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr LE Expr     { $$ = create_node("Le", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr LT Expr     { $$ = create_node("Lt", NULL); add_child($$, $1); add_sibling($1, $3); }
-     | Expr NE Expr     { $$ = create_node("Ne", NULL); add_child($$, $1); add_sibling($1, $3); }
+Expr : Expr PLUS Expr   { $$ = create_node("Add", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr MINUS Expr  { $$ = create_node("Sub", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr STAR Expr   { $$ = create_node("Mul", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr DIV Expr    { $$ = create_node("Div", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr MOD Expr    { $$ = create_node("Mod", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr AND Expr    { $$ = create_node("And", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr OR Expr     { $$ = create_node("Or", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr XOR Expr    { $$ = create_node("Xor", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr LSHIFT Expr { $$ = create_node("Lshift", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr RSHIFT Expr { $$ = create_node("Rshift", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr EQ Expr     { $$ = create_node("Eq", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr GE Expr     { $$ = create_node("Ge", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr GT Expr     { $$ = create_node("Gt", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr LE Expr     { $$ = create_node("Le", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr LT Expr     { $$ = create_node("Lt", NULL); add_child($$, $1); add_child($$, $3); }
+     | Expr NE Expr     { $$ = create_node("Ne", NULL); add_child($$, $1); add_child($$, $3); }
      | MINUS Expr %prec UNARY_MINUS { $$ = create_node("Minus", NULL); add_child($$, $2); }
      | PLUS Expr %prec UNARY_PLUS   { $$ = create_node("Plus", NULL); add_child($$, $2); }
      | NOT Expr         { $$ = create_node("Not", NULL); add_child($$, $2); }
