@@ -1,81 +1,133 @@
 /* Daniel José Mendes Ribeiro nº 2023208712*/
 /* Matilde de Oliveira Tavares Ângelo nº2023210357 */
 %{
-#include "y.tab.h"
-#include <string.h>
-int line = 1, col = 1;
-extern int flag_lex;
-
-void print_token(const char* name, char* val) {
-    if (flag_lex) {
-        if (val) printf("%s(%s)\n", name, val);
-        else printf("%s\n", name);
-    }
-}
+    #include "y.tab.h"
+    #include <stdio.h>
+    #include <string.h>
+    #include <stdbool.h>
+    int line = 1;
+    int col = 1;
+    int token_line = 1;
+    int token_col = 1;
+    int comment_line = 1;
+    int comment_col = 1;
+    int str_line = 1;
+    int str_col = 1;
+    bool str_invalid_escape = false;
+    char str_buf[65536];
+    int str_idx = 0;
+    extern int flag_lex; 
+    #define YY_USER_ACTION token_line = line; token_col = col; col += yyleng;
 %}
+
+IDENTIFIER [a-zA-Z_$]
+NATURAL [0-9]
+NUMERO {NATURAL}([_0-9]*{NATURAL})?
+EXPO   [eE][+-]?{NUMERO}
 
 %option nounput noinput
 
-ID [a-zA-Z_$][a-zA-Z0-9_$]*
-NATURAL 0|[1-9](_?[0-9])*
-DECIMAL ([0-9](_?[0-9])*\.[0-9](_?[0-9])*([eE][+-]?[0-9](_?[0-9])*)?)|(\.[0-9](_?[0-9])*([eE][+-]?[0-9](_?[0-9])*)?)|([0-9](_?[0-9])*([eE][+-]?[0-9](_?[0-9])*)?)
-STRLIT \"([^\"\r\n\\]|\\[fnrt\"\\])*\"
+%X COMMENT STR LINE_COMMENT
 
 %%
 
-"boolean"           { print_token("BOOL", NULL); col += yyleng; return BOOL; }
-"class"             { print_token("CLASS", NULL); col += yyleng; return CLASS; }
-".length"           { print_token("DOTLENGTH", NULL); col += yyleng; return DOTLENGTH; }
-"double"            { print_token("DOUBLE", NULL); col += yyleng; return DOUBLE; }
-"else"              { print_token("ELSE", NULL); col += yyleng; return ELSE; }
-"if"                { print_token("IF", NULL); col += yyleng; return IF; }
-"int"               { print_token("INT", NULL); col += yyleng; return INT; }
-"System.out.print"  { print_token("PRINT", NULL); col += yyleng; return PRINT; }
-"Integer.parseInt"  { print_token("PARSEINT", NULL); col += yyleng; return PARSEINT; }
-"public"            { print_token("PUBLIC", NULL); col += yyleng; return PUBLIC; }
-"return"            { print_token("RETURN", NULL); col += yyleng; return RETURN; }
-"static"            { print_token("STATIC", NULL); col += yyleng; return STATIC; }
-"String"            { print_token("STRING", NULL); col += yyleng; return STRING; }
-"void"              { print_token("VOID", NULL); col += yyleng; return VOID; }
-"while"             { print_token("WHILE", NULL); col += yyleng; return WHILE; }
-"true"|"false"      { print_token("BOOLLIT", yytext); col += yyleng; yylval.str = strdup(yytext); return BOOLLIT; }
-"&&"                { print_token("AND", NULL); col += yyleng; return AND; }
-"="                 { print_token("ASSIGN", NULL); col += yyleng; return ASSIGN; }
-"*"                 { print_token("STAR", NULL); col += yyleng; return STAR; }
-","                 { print_token("COMMA", NULL); col += yyleng; return COMMA; }
-"/"                 { print_token("DIV", NULL); col += yyleng; return DIV; }
-"=="                { print_token("EQ", NULL); col += yyleng; return EQ; }
-">="                { print_token("GE", NULL); col += yyleng; return GE; }
-">"                 { print_token("GT", NULL); col += yyleng; return GT; }
-"{"                 { print_token("LBRACE", NULL); col += yyleng; return LBRACE; }
-"<="                { print_token("LE", NULL); col += yyleng; return LE; }
-"("                 { print_token("LPAR", NULL); col += yyleng; return LPAR; }
-"["                 { print_token("LSQ", NULL); col += yyleng; return LSQ; }
-"<"                 { print_token("LT", NULL); col += yyleng; return LT; }
-"-"                 { print_token("MINUS", NULL); col += yyleng; return MINUS; }
-"%"                 { print_token("MOD", NULL); col += yyleng; return MOD; }
-"!="                { print_token("NE", NULL); col += yyleng; return NE; }
-"!"                 { print_token("NOT", NULL); col += yyleng; return NOT; }
-"||"                { print_token("OR", NULL); col += yyleng; return OR; }
-"+"                 { print_token("PLUS", NULL); col += yyleng; return PLUS; }
-"}"                 { print_token("RBRACE", NULL); col += yyleng; return RBRACE; }
-")"                 { print_token("RPAR", NULL); col += yyleng; return RPAR; }
-"]"                 { print_token("RSQ", NULL); col += yyleng; return RSQ; }
-";"                 { print_token("SEMICOLON", NULL); col += yyleng; return SEMICOLON; }
-"->"                { print_token("ARROW", NULL); col += yyleng; return ARROW; }
-"<<"                { print_token("LSHIFT", NULL); col += yyleng; return LSHIFT; }
-">>"                { print_token("RSHIFT", NULL); col += yyleng; return RSHIFT; }
-"^"                 { print_token("XOR", NULL); col += yyleng; return XOR; }
-{ID}                { print_token("IDENTIFIER", yytext); col += yyleng; yylval.str = strdup(yytext); return IDENTIFIER; }
-{NATURAL}           { print_token("NATURAL", yytext); col += yyleng; yylval.str = strdup(yytext); return NATURAL; }
-{DECIMAL}           { print_token("DECIMAL", yytext); col += yyleng; yylval.str = strdup(yytext); return DECIMAL; }
-{STRLIT}            { print_token("STRLIT", yytext); col += yyleng; yylval.str = strdup(yytext); return STRLIT; }
-"/*"([^*]|\*+[^*/])*\*+"/" { /* Comentários multi-linha: contar \n para linha e atualizar col */ }
-"//".* { /* Comentário linha: não faz nada */ }
-[ \t\r]+            { col += yyleng; }
-\n                  { line++; col = 1; }
+"++"|"--"|"null"|"Integer"|"System"|"abstract"|"assert"|"break"|"byte"|"case"|"catch"|"char"|"const"|"continue"|"default"|"do"|"enum"|"extends"|"final"|"finally"|"float"|"for"|"goto"|"implements"|"import"|"instanceof"|"interface"|"long"|"native"|"new"|"package"|"private"|"protected"|"short"|"strictfp"|"super"|"switch"|"synchronized"|"this"|"throw"|"throws"|"transient"|"try"|"volatile"|"_" { if (flag_lex) printf("RESERVED(%s)\n", yytext); return RESERVED; }
+"boolean"               { if (flag_lex) printf("BOOL\n"); return BOOL; }
+"class"                 { if (flag_lex) printf("CLASS\n"); return CLASS; }
+".length"               { if (flag_lex) printf("DOTLENGTH\n"); return DOTLENGTH; }
+"double"                { if (flag_lex) printf("DOUBLE\n"); return DOUBLE; }
+"else"                  { if (flag_lex) printf("ELSE\n"); return ELSE; }
+"if"                    { if (flag_lex) printf("IF\n"); return IF; }
+"int"                   { if (flag_lex) printf("INT\n"); return INT; }
+"System.out.print"      { if (flag_lex) printf("PRINT\n"); return PRINT; }
+"Integer.parseInt"      { if (flag_lex) printf("PARSEINT\n"); return PARSEINT; }
+"public"                { if (flag_lex) printf("PUBLIC\n"); return PUBLIC; }
+"return"                { if (flag_lex) printf("RETURN\n"); return RETURN; }
+"static"                { if (flag_lex) printf("STATIC\n"); return STATIC; }
+"String"                { if (flag_lex) printf("STRING\n"); return STRING; }
+"void"                  { if (flag_lex) printf("VOID\n"); return VOID; }
+"while"                 { if (flag_lex) printf("WHILE\n"); return WHILE; }
+"true"|"false"          { if (flag_lex) printf("BOOLLIT(%s)\n", yytext); yylval.str = strdup(yytext); return BOOLLIT; }
+"&&"                    { if (flag_lex) printf("AND\n"); return AND; }
+"="                     { if (flag_lex) printf("ASSIGN\n"); return ASSIGN; }
+"*"                     { if (flag_lex) printf("STAR\n"); return STAR; }
+","                     { if (flag_lex) printf("COMMA\n"); return COMMA; }
+"/"                     { if (flag_lex) printf("DIV\n"); return DIV; }
+"=="                    { if (flag_lex) printf("EQ\n"); return EQ; }
+">="                    { if (flag_lex) printf("GE\n"); return GE; }
+">"                     { if (flag_lex) printf("GT\n"); return GT; }
+"{"                     { if (flag_lex) printf("LBRACE\n"); return LBRACE; }
+"<="                    { if (flag_lex) printf("LE\n"); return LE; }
+"("                     { if (flag_lex) printf("LPAR\n"); return LPAR; }
+"["                     { if (flag_lex) printf("LSQ\n"); return LSQ; }
+"<"                     { if (flag_lex) printf("LT\n"); return LT; }
+"-"                     { if (flag_lex) printf("MINUS\n"); return MINUS; }
+"%"                     { if (flag_lex) printf("MOD\n"); return MOD; }
+"!="                    { if (flag_lex) printf("NE\n"); return NE; }
+"!"                     { if (flag_lex) printf("NOT\n"); return NOT; }
+"||"                    { if (flag_lex) printf("OR\n"); return OR; }
+"+"                     { if (flag_lex) printf("PLUS\n"); return PLUS; }
+"}"                     { if (flag_lex) printf("RBRACE\n"); return RBRACE; }
+")"                     { if (flag_lex) printf("RPAR\n"); return RPAR; }
+"]"                     { if (flag_lex) printf("RSQ\n"); return RSQ; }
+";"                     { if (flag_lex) printf("SEMICOLON\n"); return SEMICOLON; }
+"->"                    { if (flag_lex) printf("ARROW\n"); return ARROW; }
+"<<"                    { if (flag_lex) printf("LSHIFT\n"); return LSHIFT; }
+">>"                    { if (flag_lex) printf("RSHIFT\n"); return RSHIFT; }
+"^"                     { if (flag_lex) printf("XOR\n"); return XOR; }
 
-.                   { printf("Line %d, col %d: illegal character (%s)\n", line, col, yytext); col += yyleng; }
+{IDENTIFIER}({IDENTIFIER}|{NATURAL})* { 
+    if (flag_lex) printf("IDENTIFIER(%s)\n", yytext);
+    yylval.str = strdup(yytext); 
+    return IDENTIFIER;
+}
+
+0|([1-9]([_0-9]*[0-9])?) { 
+    if (flag_lex) printf("NATURAL(%s)\n", yytext); 
+    yylval.str = strdup(yytext); 
+    return NATURAL; 
+}
+
+({NUMERO}\.{NUMERO}?{EXPO}?)|(\.{NUMERO}{EXPO}?)|({NUMERO}{EXPO}) { 
+    if (flag_lex) printf("DECIMAL(%s)\n", yytext); 
+    yylval.str = strdup(yytext); 
+    return DECIMAL; 
+}
+
+"//"                    { BEGIN(LINE_COMMENT); }
+<LINE_COMMENT>\n|\r|\r\n { line++; col = 1; BEGIN(INITIAL); }
+<LINE_COMMENT>.         { }
+
+"/*"                    { BEGIN(COMMENT); comment_line = token_line; comment_col = token_col; }
+<COMMENT>"*/"           { BEGIN(INITIAL); }
+<COMMENT>\n|\r|\r\n     { line++; col = 1; }
+<COMMENT>.              { }
+<COMMENT><<EOF>>        { printf("Line %d, col %d: unterminated comment\n", comment_line, comment_col); return 0; }
+
+\"                      { BEGIN(STR); str_idx = 0; str_invalid_escape = false; str_line = token_line; str_col = token_col;}
+<STR>\" { 
+    BEGIN(INITIAL);
+    if (!str_invalid_escape) {
+        str_buf[str_idx] = '\0';
+        if (flag_lex) printf("STRLIT(\"%s\")\n", str_buf);
+        char full_str[65540]; 
+        sprintf(full_str, "\"%s\"", str_buf);
+        yylval.str = strdup(full_str);
+        return STRLIT;
+    }
+}
+<STR>\\[fnrt\\"]     { if(str_idx < 65534) {str_buf[str_idx++] = '\\';str_buf[str_idx++] = yytext[1];}}
+<STR>\\[^fnrt\\"\r\n] { printf("Line %d, col %d: invalid escape sequence (%s)\n", token_line, token_col, yytext);str_invalid_escape = true;}
+<STR>\\              { printf("Line %d, col %d: invalid escape sequence (\\)\n", token_line, token_col);str_invalid_escape = true;}
+<STR>\n|\r|\r\n      { printf("Line %d, col %d: unterminated string literal\n", str_line, str_col); line++; col = 1; BEGIN(INITIAL); }
+<STR><<EOF>>         { printf("Line %d, col %d: unterminated string literal\n", str_line, str_col); return 0; }
+<STR>.               { if(str_idx < 65535) {str_buf[str_idx++] = yytext[0];}}
+
+[ \t\f]                 { }
+\n|\r|\r\n              { line++; col = 1; }
+.                       { printf("Line %d, col %d: illegal character (%s)\n", token_line, token_col, yytext); }
 
 %%
-int yywrap() { return 1; }
+int yywrap() {  
+    return 1;
+}

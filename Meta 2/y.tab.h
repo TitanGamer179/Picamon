@@ -101,9 +101,10 @@ extern int yydebug;
     DECIMAL = 302,                 /* DECIMAL  */
     STRLIT = 303,                  /* STRLIT  */
     BOOLLIT = 304,                 /* BOOLLIT  */
-    IF_WITHOUT_ELSE = 305,         /* IF_WITHOUT_ELSE  */
-    UNARY_PLUS = 306,              /* UNARY_PLUS  */
-    UNARY_MINUS = 307              /* UNARY_MINUS  */
+    RESERVED = 305,                /* RESERVED  */
+    IF_WITHOUT_ELSE = 306,         /* IF_WITHOUT_ELSE  */
+    UNARY_PLUS = 307,              /* UNARY_PLUS  */
+    UNARY_MINUS = 308              /* UNARY_MINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -159,20 +160,21 @@ extern int yydebug;
 #define DECIMAL 302
 #define STRLIT 303
 #define BOOLLIT 304
-#define IF_WITHOUT_ELSE 305
-#define UNARY_PLUS 306
-#define UNARY_MINUS 307
+#define RESERVED 305
+#define IF_WITHOUT_ELSE 306
+#define UNARY_PLUS 307
+#define UNARY_MINUS 308
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 71 "jucompiler.y"
+#line 63 "jucompiler.y"
 
     char* str;
     struct _node* node;
 
-#line 176 "y.tab.h"
+#line 178 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

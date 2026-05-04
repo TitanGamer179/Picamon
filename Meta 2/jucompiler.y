@@ -12,8 +12,10 @@ int flag_errors = 0;
 int syntax_errors_count = 0;
 
 extern int line, col;
+extern int token_line, token_col;
 extern char* yytext;
 extern int yyleng;
+extern int yychar;
 
 int yylex(void);
 void yyerror(char *s);
@@ -26,6 +28,7 @@ typedef struct _node {
 } Node;
 
 Node* root = NULL; 
+
 Node* create_node(char *type, char *value) {
     Node* new_node = (Node*)malloc(sizeof(Node));
     new_node->type = type ? strdup(type) : NULL;
@@ -33,17 +36,6 @@ Node* create_node(char *type, char *value) {
     new_node->child = NULL;
     new_node->sibling = NULL;
     return new_node;
-}
-
-void add_child(Node *parent, Node *child) {
-    if (!parent || !child) return;
-    if (!parent->child) {
-        parent->child = child;
-    } else {
-        Node *sibling = parent->child;
-        while (sibling->sibling) sibling = sibling->sibling;
-        sibling->sibling = child;
-    }
 }
 
 Node* add_sibling(Node* node, Node* sibling) {
@@ -75,7 +67,7 @@ void add_child(Node *parent, Node *child) {
 
 %token BOOL CLASS DOTLENGTH DOUBLE ELSE IF INT PRINT PARSEINT PUBLIC RETURN STATIC STRING VOID WHILE
 %token AND ASSIGN STAR COMMA DIV EQ GE GT LBRACE LE LPAR LSQ LT MINUS MOD NE NOT OR PLUS RBRACE RPAR RSQ SEMICOLON ARROW LSHIFT RSHIFT XOR
-%token <str> IDENTIFIER NATURAL DECIMAL STRLIT BOOLLIT
+%token <str> IDENTIFIER NATURAL DECIMAL STRLIT BOOLLIT RESERVED
 
 %type <node> Program ProgramElements MethodDecl FieldDecl Type MethodHeader 
 %type <node> OptFormalParams FormalParams FormalParamsRest MethodBody 
@@ -105,6 +97,7 @@ Program : CLASS IDENTIFIER LBRACE ProgramElements RBRACE {
             if ($4) add_child($$, $4); 
             root = $$; 
         }
+
 ProgramElements : { $$ = NULL; }
                 | ProgramElements MethodDecl { $$ = add_sibling($1, $2); }
                 | ProgramElements FieldDecl { $$ = add_sibling($1, $2); }
@@ -121,10 +114,41 @@ MethodDecl : PUBLIC STATIC MethodHeader MethodBody {
 FieldDecl : PUBLIC STATIC Type IDENTIFIER IdList SEMICOLON {
             $$ = create_node("FieldDecl", NULL);
             add_child($$, $3);
-            add_sibling($3, create_node("Identifier", $4));
+            add_child($$, create_node("Identifier", $4));
+            Node* aux = $5;
+            while(aux != NULL) {
+                Node* next = aux->sibling;
+                aux->sibling = NULL;
+                Node* new_field = create_node("FieldDecl", NULL);
+                add_child(new_field, create_node($3->type, NULL)); 
+                add_child(new_field, aux);
+                $$ = add_sibling($$, new_field);
+                aux = next;
+            }
           }
           | error SEMICOLON { $$ = NULL; }
           ;
+
+VarDecl : Type IDENTIFIER IdList SEMICOLON {
+            $$ = create_node("VarDecl", NULL);
+            add_child($$, $1);
+            add_child($$, create_node("Identifier", $2));
+            Node* aux = $3;
+            while(aux != NULL) {
+                Node* next = aux->sibling;
+                aux->sibling = NULL;
+                Node* new_var = create_node("VarDecl", NULL);
+                add_child(new_var, create_node($1->type, NULL));
+                add_child(new_var, aux);
+                $$ = add_sibling($$, new_var);
+                aux = next;
+            }
+        }
+        ;
+
+IdList :{ $$ = NULL; }
+       | IdList COMMA IDENTIFIER {   $$ = add_sibling($1, create_node("Identifier", $3)); }
+       ;
 
 Type : BOOL   { $$ = create_node("Bool", NULL); }
      | INT    { $$ = create_node("Int", NULL); }
@@ -196,16 +220,6 @@ StatementAndVarDeclList : { $$ = NULL; }
                         | StatementAndVarDeclList VarDecl { $$ = add_sibling($1, $2); }
                         ;
 
-VarDecl : Type IDENTIFIER IdList SEMICOLON {
-            $$ = create_node("VarDecl", NULL);
-            add_child($$, $1);
-            add_sibling($1, create_node("Identifier", $2));
-        }
-        ;
-
-IdList : { $$ = NULL; }
-       | IdList COMMA IDENTIFIER {  $$ = NULL; }
-       ;
 
 StatementList : { $$ = NULL; }
               | StatementList Statement {
@@ -222,9 +236,9 @@ Statement : LBRACE StatementList RBRACE {
                   $$ = create_node("Block", NULL);
                   add_child($$, $2);
               } else if ($2 != NULL) {
-                  $$ = $2;
+                  $$ = $2; 
               } else {
-                  $$ = NULL;
+                  $$ = NULL; 
               }
           }
           | IF LPAR Expr RPAR Statement %prec IF_WITHOUT_ELSE {
@@ -335,7 +349,7 @@ Expr : Expr PLUS Expr   { $$ = create_node("Add", NULL); add_child($$, $1); add_
      }
      | NATURAL          { $$ = create_node("Natural", $1); }
      | DECIMAL          { $$ = create_node("Decimal", $1); }
-     | BOOLLIT          { $$ = create_node("Bool", $1); }
+     | BOOLLIT          { $$ = create_node("BoolLit", $1); }
      ;
 
 OptDotLength : { $$ = NULL; }
@@ -347,7 +361,15 @@ int get_error_col() { return col - yyleng; }
 
 void yyerror(char *s) {
     syntax_errors_count++;
-    printf("Line %d, col %d: %s: %s\n", line, get_error_col(), s, yytext);
+    if (yychar == 0) {
+        printf("Line %d, col %d: %s: \"end of file\"\n", line, get_error_col(), s);
+    } 
+    else if (yychar == STRLIT) {
+        printf("Line %d, col %d: %s: %s\n", line, get_error_col(), s, yylval.str);
+    } 
+    else {
+        printf("Line %d, col %d: %s: %s\n", line, get_error_col(), s, yytext);
+    }
 }
 
 void print_tree(Node* node, int depth) {
