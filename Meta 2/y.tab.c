@@ -2346,10 +2346,13 @@ int get_error_col() { return col - yyleng; }
 void yyerror(char *s) {
     syntax_errors_count++;
     if (yychar == 0) {
-        printf("Line %d, col %d: %s: \"end of file\"\n", line, get_error_col(), s);
+        printf("Line %d, col %d: %s: \"end of file\"\n", line, col, s);
+    } 
+    else if (yychar == STRLIT) {
+        printf("Line %d, col %d: %s: %s\n", str_line, str_col, s, yylval.str);
     } 
     else {
-        printf("Line %d, col %d: %s: %s\n", line, get_error_col(), s, yytext);
+        printf("Line %d, col %d: %s: %s\n", token_line, token_col, s, yytext);
     }
 }
 void print_tree(Node* node, int depth) {
