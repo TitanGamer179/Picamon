@@ -16,6 +16,7 @@ extern int token_line, token_col;
 extern char* yytext;
 extern int yyleng;
 extern int yychar;
+extern int str_line, str_col;
 
 int yylex(void);
 void yyerror(char *s);
@@ -364,14 +365,10 @@ void yyerror(char *s) {
     if (yychar == 0) {
         printf("Line %d, col %d: %s: \"end of file\"\n", line, get_error_col(), s);
     } 
-    else if (yychar == STRLIT) {
-        printf("Line %d, col %d: %s: %s\n", line, get_error_col(), s, yylval.str);
-    } 
     else {
         printf("Line %d, col %d: %s: %s\n", line, get_error_col(), s, yytext);
     }
 }
-
 void print_tree(Node* node, int depth) {
     if (!node) return;
     for (int i = 0; i < depth; i++) printf("..");
