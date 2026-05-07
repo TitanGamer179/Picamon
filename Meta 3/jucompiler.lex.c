@@ -1,5 +1,6 @@
+#line 2 "jucompiler.lex.c"
 
-#line 3 "lex.yy.c"
+#line 4 "jucompiler.lex.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -693,10 +694,10 @@ char *yytext;
     int str_idx = 0;
     extern int flag_lex; 
     #define YY_USER_ACTION token_line = line; token_col = col; col += yyleng; yylval.token.line = token_line; yylval.token.col = token_col;
-#line 697 "lex.yy.c"
+#line 698 "jucompiler.lex.c"
 #define YY_NO_INPUT 1
 
-#line 700 "lex.yy.c"
+#line 701 "jucompiler.lex.c"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -917,7 +918,7 @@ YY_DECL
 #line 32 "jucompiler.l"
 
 
-#line 921 "lex.yy.c"
+#line 922 "jucompiler.lex.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -1333,7 +1334,7 @@ YY_RULE_SETUP
 #line 130 "jucompiler.l"
 ECHO;
 	YY_BREAK
-#line 1337 "lex.yy.c"
+#line 1338 "jucompiler.lex.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(LINE_COMMENT):
 	yyterminate();

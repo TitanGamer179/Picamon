@@ -2,15 +2,22 @@ Line 4, col 23: Symbol c already defined
 Line 4, col 26: Symbol a already defined
 Line 4, col 29: Symbol b already defined
 Line 5, col 26: Symbol _ is reserved
-Line 13, col 11: Symbol ola already defined
 Line 15, col 45: Symbol i already defined
+Line 23, col 45: Symbol i already defined
+Line 23, col 51: Symbol _ is reserved
+Line 3, col 23: Symbol a already defined
+Line 3, col 26: Symbol b already defined
+Line 3, col 29: Symbol c already defined
+Line 4, col 23: Symbol c already defined
+Line 4, col 26: Symbol a already defined
+Line 4, col 29: Symbol b already defined
+Line 5, col 26: Symbol _ is reserved
+Line 8, col 11: Incompatible type int in if statement
+Line 13, col 11: Symbol ola already defined
 Line 17, col 13: Symbol i already defined
 Line 18, col 13: Symbol argument already defined
 Line 20, col 16: Symbol i already defined
 Line 20, col 18: Symbol _ is reserved
-Line 23, col 45: Symbol i already defined
-Line 23, col 51: Symbol _ is reserved
-Line 8, col 7: Incompatible type int in if statement
 ===== Class errors Symbol Table =====
 a		int
 b		int
@@ -34,93 +41,93 @@ return		void
 i		int	param
 
 Program
-..Identifier(errors)
+..Id(errors)
 ..FieldDecl
 ....Int
-....Identifier(a)
+....Id(a)
 ..FieldDecl
 ....Int
-....Identifier(b)
+....Id(b)
 ..FieldDecl
 ....Int
-....Identifier(c)
+....Id(c)
 ..FieldDecl
 ....Int
-....Identifier(c)
+....Id(c)
 ..FieldDecl
 ....Int
-....Identifier(a)
+....Id(a)
 ..FieldDecl
 ....Int
-....Identifier(b)
+....Id(b)
 ..FieldDecl
 ....Double
-....Identifier(_)
+....Id(_)
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Identifier(underscore)
+......Id(underscore)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Identifier(ola)
+..........Id(ola)
 ....MethodBody
 ......If
-........Identifier(ola) - int
+........Id(ola) - int
 ........Return
-..........Identifier(ola) - int
+..........Id(ola) - int
 ........Return
-..........Identifier(ola) - int
+..........Id(ola) - int
 ......VarDecl
 ........Int
-........Identifier(ola)
+........Id(ola)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Identifier(factorial)
+......Id(factorial)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Identifier(i)
+..........Id(i)
 ........ParamDecl
 ..........Int
-..........Identifier(i)
+..........Id(i)
 ....MethodBody
 ......VarDecl
 ........Int
-........Identifier(argument)
+........Id(argument)
 ......VarDecl
 ........Int
-........Identifier(i)
+........Id(i)
 ......VarDecl
 ........Int
-........Identifier(argument)
+........Id(argument)
 ......VarDecl
 ........Int
-........Identifier(a)
+........Id(a)
 ......VarDecl
 ........Double
-........Identifier(i)
+........Id(i)
 ......VarDecl
 ........Double
-........Identifier(_)
+........Id(_)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Identifier(factorial)
+......Id(factorial)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Identifier(i)
+..........Id(i)
 ........ParamDecl
 ..........Int
-..........Identifier(i)
+..........Id(i)
 ........ParamDecl
 ..........Int
-..........Identifier(_)
+..........Id(_)
 ....MethodBody
 ......Assign - int
-........Identifier(i) - int
+........Id(i) - int
 ........Add - int
-..........Identifier(i) - int
-..........Identifier(i) - int
+..........Id(i) - int
+..........Id(i) - int

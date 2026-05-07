@@ -1,11 +1,6 @@
 /* Daniel José Mendes Ribeiro nº 2023208712*/
 /* Matilde de Oliveira Tavares Ângelo nº2023210357 */
 %{
-    typedef struct {
-        char *str;
-        int line;
-        int col;
-    } TokenInfo;
     #include "y.tab.h"
     #include <stdio.h>
     #include <string.h>
@@ -22,7 +17,7 @@
     char str_buf[65536];
     int str_idx = 0;
     extern int flag_lex; 
-    #define YY_USER_ACTION token_line = line; token_col = col; col += yyleng; yylval.tinfo.line = token_line; yylval.tinfo.col = token_col;
+    #define YY_USER_ACTION token_line = line; token_col = col; col += yyleng; yylval.token.line = token_line; yylval.token.col = token_col;
 %}
 
 IDENTIFIER [a-zA-Z_$]
@@ -36,7 +31,7 @@ EXPO   [eE][+-]?{NUMERO}
 
 %%
 
-"++"|"--"|"null"|"Integer"|"System"|"abstract"|"assert"|"break"|"byte"|"case"|"catch"|"char"|"const"|"continue"|"default"|"do"|"enum"|"extends"|"final"|"finally"|"float"|"for"|"goto"|"implements"|"import"|"instanceof"|"interface"|"long"|"native"|"new"|"package"|"private"|"protected"|"short"|"strictfp"|"super"|"switch"|"synchronized"|"this"|"throw"|"throws"|"transient"|"try"|"volatile" { if (flag_lex) printf("RESERVED(%s)\n", yytext); return RESERVED; }
+"++"|"--"|"null"|"Integer"|"System"|"abstract"|"assert"|"break"|"byte"|"case"|"catch"|"char"|"const"|"continue"|"default"|"do"|"enum"|"extends"|"final"|"finally"|"float"|"for"|"goto"|"implements"|"import"|"instanceof"|"interface"|"long"|"native"|"new"|"package"|"private"|"protected"|"short"|"strictfp"|"super"|"switch"|"synchronized"|"this"|"throw"|"throws"|"transient"|"try"|"volatile"|"_" { if (flag_lex) printf("RESERVED(%s)\n", yytext); yylval.token.str = strdup(yytext); return RESERVED; }
 "boolean"               { if (flag_lex) printf("BOOL\n"); return BOOL; }
 "class"                 { if (flag_lex) printf("CLASS\n"); return CLASS; }
 ".length"               { if (flag_lex) printf("DOTLENGTH\n"); return DOTLENGTH; }
@@ -52,7 +47,7 @@ EXPO   [eE][+-]?{NUMERO}
 "String"                { if (flag_lex) printf("STRING\n"); return STRING; }
 "void"                  { if (flag_lex) printf("VOID\n"); return VOID; }
 "while"                 { if (flag_lex) printf("WHILE\n"); return WHILE; }
-"true"|"false"          { if (flag_lex) printf("BOOLLIT(%s)\n", yytext); yylval.tinfo.str = strdup(yytext); return BOOLLIT; }
+"true"|"false"          { if (flag_lex) printf("BOOLLIT(%s)\n", yytext); yylval.token.str = strdup(yytext); return BOOLLIT; }
 "&&"                    { if (flag_lex) printf("AND\n"); return AND; }
 "="                     { if (flag_lex) printf("ASSIGN\n"); return ASSIGN; }
 "*"                     { if (flag_lex) printf("STAR\n"); return STAR; }
@@ -83,19 +78,19 @@ EXPO   [eE][+-]?{NUMERO}
 
 {IDENTIFIER}({IDENTIFIER}|{NATURAL})* { 
     if (flag_lex) printf("IDENTIFIER(%s)\n", yytext);
-    yylval.tinfo.str = strdup(yytext); 
+    yylval.token.str = strdup(yytext); 
     return IDENTIFIER;
 }
 
 0|([1-9]([_0-9]*[0-9])?) { 
     if (flag_lex) printf("NATURAL(%s)\n", yytext); 
-    yylval.tinfo.str = strdup(yytext); 
+    yylval.token.str = strdup(yytext); 
     return NATURAL; 
 }
 
 ({NUMERO}\.{NUMERO}?{EXPO}?)|(\.{NUMERO}{EXPO}?)|({NUMERO}{EXPO}) { 
     if (flag_lex) printf("DECIMAL(%s)\n", yytext); 
-    yylval.tinfo.str = strdup(yytext); 
+    yylval.token.str = strdup(yytext); 
     return DECIMAL; 
 }
 
@@ -117,7 +112,7 @@ EXPO   [eE][+-]?{NUMERO}
         if (flag_lex) printf("STRLIT(\"%s\")\n", str_buf);
         char full_str[65540]; 
         sprintf(full_str, "\"%s\"", str_buf);
-        yylval.tinfo.str = strdup(full_str);
+        yylval.token.str = strdup(full_str);
         return STRLIT;
     }
 }

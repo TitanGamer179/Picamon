@@ -32,58 +32,58 @@ i		int
 d		double
 
 Program
-..Identifier(ClassTeste)
+..Id(ClassTeste)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Identifier(main)
+......Id(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Identifier(args)
+..........Id(args)
 ....MethodBody
 ......VarDecl
 ........Bool
-........Identifier(b)
+........Id(b)
 ......VarDecl
 ........Int
-........Identifier(i)
+........Id(i)
 ......VarDecl
 ........Double
-........Identifier(d)
+........Id(d)
 ......ParseArgs - undef
-........Identifier(undef) - undef
-........Identifier(undef) - undef
+........Id(undef) - undef
+........Id(undef) - undef
 ......ParseArgs - undef
-........Identifier(undef) - undef
+........Id(undef) - undef
 ........Lshift - int
-..........Natural(1) - int
-..........Natural(1) - int
+..........DecLit(1) - int
+..........DecLit(1) - int
 ......ParseArgs - undef
-........Identifier(undef) - undef
-........Natural(0) - int
+........Id(undef) - undef
+........DecLit(0) - int
 ......ParseArgs - undef
-........Identifier(undef) - undef
-........Identifier(i) - int
+........Id(undef) - undef
+........Id(i) - int
 ......ParseArgs - undef
-........Identifier(undef) - undef
+........Id(undef) - undef
 ........Length - int
-..........Identifier(args) - String[]
+..........Id(args) - String[]
 ......ParseArgs - undef
-........Identifier(undef) - undef
-........Decimal(0.0) - double
+........Id(undef) - undef
+........RealLit(0.0) - double
 ......ParseArgs - undef
-........Identifier(undef) - undef
-........Identifier(d) - double
+........Id(undef) - undef
+........Id(d) - double
 ......ParseArgs - undef
-........Identifier(undef) - undef
+........Id(undef) - undef
 ........BoolLit(true) - boolean
 ......ParseArgs - undef
-........Identifier(undef) - undef
-........Identifier(b) - boolean
+........Id(undef) - undef
+........Id(b) - boolean
 ......ParseArgs - undef
-........Identifier(undef) - undef
-........Identifier(args) - String[]
+........Id(undef) - undef
+........Id(args) - String[]
 ......ParseArgs - undef
-........Identifier(args) - String[]
-........Identifier(undef) - undef
+........Id(args) - String[]
+........Id(undef) - undef

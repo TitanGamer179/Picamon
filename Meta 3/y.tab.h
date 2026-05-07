@@ -35,8 +35,8 @@
    especially those whose name start with YY_ or yy_.  They are
    private implementation details that can be changed or removed.  */
 
-#ifndef YY_YY_Y_NEW_TAB_H_INCLUDED
-# define YY_YY_Y_NEW_TAB_H_INCLUDED
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -108,17 +108,77 @@ extern int yydebug;
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
+/* Token kinds.  */
+#define YYEMPTY -2
+#define YYEOF 0
+#define YYerror 256
+#define YYUNDEF 257
+#define BOOL 258
+#define CLASS 259
+#define DOTLENGTH 260
+#define DOUBLE 261
+#define ELSE 262
+#define IF 263
+#define INT 264
+#define PRINT 265
+#define PARSEINT 266
+#define PUBLIC 267
+#define RETURN 268
+#define STATIC 269
+#define STRING 270
+#define VOID 271
+#define WHILE 272
+#define AND 273
+#define ASSIGN 274
+#define STAR 275
+#define COMMA 276
+#define DIV 277
+#define EQ 278
+#define GE 279
+#define GT 280
+#define LBRACE 281
+#define LE 282
+#define LPAR 283
+#define LSQ 284
+#define LT 285
+#define MINUS 286
+#define MOD 287
+#define NE 288
+#define NOT 289
+#define OR 290
+#define PLUS 291
+#define RBRACE 292
+#define RPAR 293
+#define RSQ 294
+#define SEMICOLON 295
+#define ARROW 296
+#define LSHIFT 297
+#define RSHIFT 298
+#define XOR 299
+#define IDENTIFIER 300
+#define NATURAL 301
+#define DECIMAL 302
+#define STRLIT 303
+#define BOOLLIT 304
+#define RESERVED 305
+#define IF_WITHOUT_ELSE 306
+#define UNARY_PLUS 307
+#define UNARY_MINUS 308
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 95 "jucompiler.y"
+#line 587 "jucompiler.y"
 
+    struct {
+        char* str;
+        int line;
+        int col;
+    } token;
     struct _node* node;
-    TokenInfo tinfo;
 
-#line 122 "y_new.tab.h"
+#line 182 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -133,4 +193,4 @@ extern YYSTYPE yylval;
 int yyparse (void);
 
 
-#endif /* !YY_YY_Y_NEW_TAB_H_INCLUDED  */
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */

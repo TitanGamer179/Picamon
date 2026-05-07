@@ -1,6 +1,16 @@
-Line 4, col 11: Operator + cannot be applied to types int, boolean
+Line 4, col 9: Cannot find symbol b
+Line 4, col 11: Operator + cannot be applied to types undef, boolean
 Line 4, col 7: Operator = cannot be applied to types int, undef
-Line 5, col 7: Operator = cannot be applied to types int, double
+Line 5, col 9: Cannot find symbol b
+Line 5, col 11: Operator + cannot be applied to types undef, double
+Line 5, col 7: Operator = cannot be applied to types int, undef
+Line 6, col 9: Cannot find symbol b
+Line 6, col 11: Operator + cannot be applied to types undef, int
+Line 6, col 7: Operator = cannot be applied to types int, undef
+Line 7, col 9: Cannot find symbol b
+Line 7, col 13: Cannot find symbol c
+Line 7, col 11: Operator + cannot be applied to types undef, undef
+Line 7, col 7: Operator = cannot be applied to types int, undef
 ===== Class Java Symbol Table =====
 a	()	int
 
@@ -11,44 +21,44 @@ b		int
 c		int
 
 Program
-..Identifier(Java)
+..Id(Java)
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Identifier(a)
+......Id(a)
 ......MethodParams
 ....MethodBody
 ......VarDecl
 ........Int
-........Identifier(a)
-......Assign - undef
-........Identifier(a) - int
+........Id(a)
+......Assign - int
+........Id(a) - int
 ........Add - undef
-..........Identifier(b) - int
+..........Id(b) - undef
 ..........BoolLit(true) - boolean
-......Assign - undef
-........Identifier(a) - int
-........Add - double
-..........Identifier(b) - int
-..........Decimal(1.043443) - double
 ......Assign - int
-........Identifier(a) - int
-........Add - int
-..........Identifier(b) - int
-..........Natural(1) - int
+........Id(a) - int
+........Add - undef
+..........Id(b) - undef
+..........RealLit(1.0_43443) - double
 ......Assign - int
-........Identifier(a) - int
-........Add - int
-..........Identifier(b) - int
-..........Identifier(c) - int
+........Id(a) - int
+........Add - undef
+..........Id(b) - undef
+..........DecLit(1) - int
+......Assign - int
+........Id(a) - int
+........Add - undef
+..........Id(b) - undef
+..........Id(c) - undef
 ......VarDecl
 ........Int
-........Identifier(b)
+........Id(b)
 ......VarDecl
 ........Int
-........Identifier(c)
+........Id(c)
 ......Assign - int
-........Identifier(a) - int
+........Id(a) - int
 ........Add - int
-..........Identifier(b) - int
-..........Identifier(c) - int
+..........Id(b) - int
+..........Id(c) - int

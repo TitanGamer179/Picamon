@@ -16,68 +16,68 @@ x		boolean
 y		boolean
 
 Program
-..Identifier(Sum)
+..Id(Sum)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Identifier(operator)
+......Id(operator)
 ......MethodParams
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Identifier(main)
+......Id(main)
 ......MethodParams
 ....MethodBody
 ......VarDecl
 ........Int
-........Identifier(a)
+........Id(a)
 ......VarDecl
 ........Int
-........Identifier(b)
+........Id(b)
 ......VarDecl
 ........Int
-........Identifier(c)
+........Id(c)
 ......VarDecl
 ........Double
-........Identifier(d)
+........Id(d)
 ......VarDecl
 ........Double
-........Identifier(e)
+........Id(e)
 ......VarDecl
 ........Bool
-........Identifier(x)
+........Id(x)
 ......VarDecl
 ........Bool
-........Identifier(y)
+........Id(y)
 ......If
 ........Eq - boolean
-..........Identifier(x) - boolean
-..........Identifier(y) - boolean
+..........Id(x) - boolean
+..........Id(y) - boolean
 ........If
 ..........Eq - boolean
-............Identifier(a) - int
-............Identifier(b) - int
+............Id(a) - int
+............Id(b) - int
 ..........If
 ............Eq - boolean
-..............Identifier(d) - double
-..............Identifier(b) - int
+..............Id(d) - double
+..............Id(b) - int
 ............Assign - boolean
-..............Identifier(x) - boolean
+..............Id(x) - boolean
 ..............Or - boolean
 ................Le - boolean
 ..................Mul - double
-....................Identifier(d) - double
-....................Identifier(e) - double
+....................Id(d) - double
+....................Id(e) - double
 ..................Rshift - int
-....................Identifier(a) - int
-....................Identifier(c) - int
+....................Id(a) - int
+....................Id(c) - int
 ................Eq - boolean
-..................Identifier(x) - boolean
+..................Id(x) - boolean
 ..................Not - boolean
-....................Identifier(y) - boolean
+....................Id(y) - boolean
 ............Block
 ..........Block
 ........Block
 ......Call - void
-........Identifier(operator) - ()void
+........Id(operator) - ()

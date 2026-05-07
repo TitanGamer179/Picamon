@@ -1,10 +1,13 @@
-Line 17, col 11: Symbol b already defined
 Line 28, col 71: Symbol e already defined
+Line 4, col 20: Symbol i already defined
+Line 5, col 24: Symbol b already defined
+Line 12, col 20: Symbol pI already defined
+Line 17, col 11: Symbol b already defined
+Line 18, col 4: Operator = cannot be applied to types int, boolean
+Line 21, col 10: Incompatible type int in return statement
 Line 30, col 7: Symbol a already defined
 Line 30, col 10: Symbol b already defined
 Line 30, col 19: Symbol e already defined
-Line 18, col 4: Operator = cannot be applied to types int, boolean
-Line 21, col 3: Incompatible type int in return statement
 ===== Class newClass Symbol Table =====
 i		int
 b		boolean
@@ -51,158 +54,158 @@ k		int	param
 j		int	param
 
 Program
-..Identifier(newClass)
+..Id(newClass)
 ..FieldDecl
 ....Int
-....Identifier(i)
+....Id(i)
 ..FieldDecl
 ....Bool
-....Identifier(b)
+....Id(b)
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Identifier(main)
+......Id(main)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Identifier(a)
+..........Id(a)
 ........ParamDecl
 ..........Int
-..........Identifier(c)
+..........Id(c)
 ........ParamDecl
 ..........Double
-..........Identifier(d)
+..........Id(d)
 ....MethodBody
 ......VarDecl
 ........Bool
-........Identifier(b)
+........Id(b)
 ......VarDecl
 ........Int
-........Identifier(i1)
+........Id(i1)
 ......Return
-........Natural(0) - int
+........DecLit(0) - int
 ..FieldDecl
 ....Int
-....Identifier(pI)
+....Id(pI)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Identifier(a)
+......Id(a)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Identifier(a)
+..........Id(a)
 ........ParamDecl
 ..........Int
-..........Identifier(b)
+..........Id(b)
 ........ParamDecl
 ..........Bool
-..........Identifier(c)
+..........Id(c)
 ....MethodBody
 ......VarDecl
 ........Int
-........Identifier(d)
+........Id(d)
 ......Assign - int
-........Identifier(d) - int
-........Identifier(b) - int
+........Id(d) - int
+........Id(b) - int
 ......VarDecl
 ........Int
-........Identifier(i)
+........Id(i)
 ......VarDecl
 ........Bool
-........Identifier(b)
-......Assign - undef
-........Identifier(b) - int
+........Id(b)
+......Assign - int
+........Id(b) - int
 ........BoolLit(true) - boolean
 ......VarDecl
 ........Double
-........Identifier(f)
+........Id(f)
 ......Assign - double
-........Identifier(f) - double
-........Decimal(0.03) - double
+........Id(f) - double
+........RealLit(0.03) - double
 ......Return
-........Identifier(d) - int
+........Id(d) - int
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Identifier(a)
+......Id(a)
 ......MethodParams
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Double
-......Identifier(test)
+......Id(test)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Identifier(a)
+..........Id(a)
 ........ParamDecl
 ..........Int
-..........Identifier(b)
+..........Id(b)
 ........ParamDecl
 ..........Double
-..........Identifier(s)
+..........Id(s)
 ........ParamDecl
 ..........Bool
-..........Identifier(e)
+..........Id(e)
 ........ParamDecl
 ..........Bool
-..........Identifier(e)
+..........Id(e)
 ....MethodBody
 ......Call - void
-........Identifier(a) - (int,int,boolean)void
-........Natural(2) - int
-........Natural(3) - int
+........Id(a) - (int,int,boolean)
+........DecLit(2) - int
+........DecLit(3) - int
 ........BoolLit(true) - boolean
 ......VarDecl
 ........Int
-........Identifier(a)
+........Id(a)
 ......VarDecl
 ........Int
-........Identifier(b)
+........Id(b)
 ......VarDecl
 ........Int
-........Identifier(c)
+........Id(c)
 ......VarDecl
 ........Int
-........Identifier(d)
+........Id(d)
 ......VarDecl
 ........Int
-........Identifier(e)
+........Id(e)
 ......VarDecl
 ........Int
-........Identifier(finalI)
+........Id(finalI)
 ......Assign - int
-........Identifier(finalI) - int
+........Id(finalI) - int
 ........Add - int
-..........Natural(2) - int
-..........Natural(3) - int
+..........DecLit(2) - int
+..........DecLit(3) - int
 ......Return
 ........Div - double
 ..........Mul - double
-............Decimal(0.02) - double
-............Decimal(0.03) - double
-..........Natural(5) - int
+............RealLit(0.02) - double
+............RealLit(0.03) - double
+..........DecLit(5) - int
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Identifier(sum)
+......Id(sum)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Identifier(k)
+..........Id(k)
 ........ParamDecl
 ..........Int
-..........Identifier(j)
+..........Id(j)
 ....MethodBody
 ......Call - double
-........Identifier(test) - (int,int,double,boolean,boolean)double
-........Natural(2) - int
-........Natural(2) - int
-........Decimal(2.0) - double
+........Id(test) - (int,int,double,boolean,boolean)
+........DecLit(2) - int
+........DecLit(2) - int
+........RealLit(2.0) - double
 ........BoolLit(true) - boolean
 ........BoolLit(false) - boolean
 ......Return
 ........Add - int
-..........Identifier(k) - int
-..........Identifier(j) - int
+..........Id(k) - int
+..........Id(j) - int

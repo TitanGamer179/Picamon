@@ -1,4 +1,4 @@
-Line 16, col 9: Cannot find symbol operators
+Line 16, col 9: Cannot find symbol operators()
 ===== Class Factorial Symbol Table =====
 operators	(int)	int
 main	(String[])	void
@@ -18,62 +18,62 @@ return		void
 args		String[]	param
 
 Program
-..Identifier(Factorial)
+..Id(Factorial)
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Identifier(operators)
+......Id(operators)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Identifier(n)
+..........Id(n)
 ....MethodBody
 ......VarDecl
 ........Int
-........Identifier(x)
+........Id(x)
 ......VarDecl
 ........Int
-........Identifier(b)
+........Id(b)
 ......VarDecl
 ........Int
-........Identifier(a)
+........Id(a)
 ......VarDecl
 ........Double
-........Identifier(y)
+........Id(y)
 ......VarDecl
 ........Bool
-........Identifier(z)
+........Id(z)
 ......VarDecl
 ........Bool
-........Identifier(t)
+........Id(t)
 ......If
 ........And - boolean
 ..........Eq - boolean
-............Identifier(x) - int
-............Identifier(b) - int
+............Id(x) - int
+............Id(b) - int
 ..........Eq - boolean
-............Identifier(z) - boolean
-............Identifier(t) - boolean
+............Id(z) - boolean
+............Id(t) - boolean
 ........Assign - double
-..........Identifier(y) - double
+..........Id(y) - double
 ..........Mul - double
 ............Lshift - int
-..............Identifier(a) - int
-..............Identifier(b) - int
-............Decimal(1.0) - double
+..............Id(a) - int
+..............Id(b) - int
+............RealLit(1.0) - double
 ........Assign - double
-..........Identifier(y) - double
+..........Id(y) - double
 ..........Mod - double
-............Identifier(a) - int
-............Identifier(y) - double
+............Id(a) - int
+............Id(y) - double
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Identifier(main)
+......Id(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Identifier(args)
+..........Id(args)
 ....MethodBody
 ......Call - undef
-........Identifier(operators) - undef
+........Id(operators) - undef

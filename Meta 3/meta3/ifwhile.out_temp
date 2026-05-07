@@ -1,3 +1,6 @@
+Line 3, col 27: Symbol b already defined
+Line 4, col 23: Symbol i already defined
+Line 5, col 26: Symbol d already defined
 ===== Class ifwhile Symbol Table =====
 b		boolean
 i		int
@@ -12,61 +15,61 @@ t		boolean
 f		boolean
 
 Program
-..Identifier(ifwhile)
+..Id(ifwhile)
 ..FieldDecl
 ....Bool
-....Identifier(b)
+....Id(b)
 ..FieldDecl
 ....Int
-....Identifier(i)
+....Id(i)
 ..FieldDecl
 ....Double
-....Identifier(d)
+....Id(d)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Identifier(main)
+......Id(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Identifier(args)
+..........Id(args)
 ....MethodBody
 ......VarDecl
 ........Bool
-........Identifier(bl)
+........Id(bl)
 ......VarDecl
 ........Bool
-........Identifier(t)
+........Id(t)
 ......VarDecl
 ........Bool
-........Identifier(f)
+........Id(f)
 ......If
-........Identifier(t) - boolean
+........Id(t) - boolean
 ........Block
 ..........While
-............Identifier(b) - boolean
+............Id(b) - boolean
 ............While
 ..............BoolLit(true) - boolean
 ..............Block
 ................Print
-..................Identifier(i) - int
+..................Id(i) - int
 ................Print
-..................Identifier(b) - boolean
+..................Id(b) - boolean
 ................Print
-..................Identifier(d) - double
+..................Id(d) - double
 ..........Print
 ............StrLit("Gotcha!") - String
 ..........While
 ............BoolLit(true) - boolean
 ............Block
 ..............If
-................Identifier(f) - boolean
+................Id(f) - boolean
 ................Block
 ................Block
 ..................While
-....................Identifier(f) - boolean
+....................Id(f) - boolean
 ....................Print
-......................Identifier(d) - double
+......................Id(d) - double
 ..................Print
 ....................StrLit("Twice!") - String
 ..............Print
@@ -75,4 +78,4 @@ Program
 ......While
 ........BoolLit(false) - boolean
 ........Print
-..........Identifier(b) - boolean
+..........Id(b) - boolean

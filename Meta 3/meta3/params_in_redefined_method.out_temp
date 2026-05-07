@@ -1,5 +1,4 @@
-Line 4, col 24: Symbol a already defined
-Line 4, col 37: Symbol a already defined
+Line 4, col 24: Symbol a(int,int) already defined
 ===== Class test Symbol Table =====
 a	(int,int)	void
 main	(String[])	void
@@ -9,46 +8,42 @@ return		void
 a		int	param
 b		int	param
 
-===== Method a(int,int) Symbol Table =====
-return		void
-a		int	param
-
 ===== Method main(String[]) Symbol Table =====
 return		void
 args		String[]	param
 
 Program
-..Identifier(test)
+..Id(test)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Identifier(a)
+......Id(a)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Identifier(a)
+..........Id(a)
 ........ParamDecl
 ..........Int
-..........Identifier(b)
+..........Id(b)
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Identifier(a)
+......Id(a)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Identifier(a)
+..........Id(a)
 ........ParamDecl
 ..........Int
-..........Identifier(a)
+..........Id(a)
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Identifier(main)
+......Id(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Identifier(args)
+..........Id(args)
 ....MethodBody
