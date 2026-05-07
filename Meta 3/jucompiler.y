@@ -190,7 +190,7 @@ int is_expression(char *type) {
     char *exprs[] = {"Assign", "Or", "And", "Eq", "Ne", "Lt", "Gt", "Le", "Ge", 
                      "Add", "Sub", "Mul", "Div", "Mod", "Xor", "Lshift", "Rshift",
                      "Not", "Minus", "Plus", "Length", "Call", "ParseArgs", 
-                     "Identifier", "Natural", "Decimal", "BoolLit", "StrLit", NULL};
+                     "Identifier", "Natural", "Decimal", "BoolLit", NULL};
     for (int i = 0; exprs[i] != NULL; i++) {
         if (strcmp(type, exprs[i]) == 0) return 1;
     }
@@ -913,9 +913,6 @@ void yyerror(char *s) {
 }
 const char* display_type(const char *type) {
     if (!type) return "";
-    if (strcmp(type, "Identifier") == 0) return "Id";
-    if (strcmp(type, "Natural") == 0) return "DecLit";
-    if (strcmp(type, "Decimal") == 0) return "RealLit";
     return type;
 }
 
