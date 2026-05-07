@@ -1,0 +1,54 @@
+Line 4, col 11: Operator + cannot be applied to types int, boolean
+Line 4, col 7: Operator = cannot be applied to types int, undef
+Line 5, col 7: Operator = cannot be applied to types int, double
+===== Class Java Symbol Table =====
+a	()	int
+
+===== Method a() Symbol Table =====
+return		int
+a		int
+b		int
+c		int
+
+Program
+..Identifier(Java)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(a)
+......MethodParams
+....MethodBody
+......VarDecl
+........Int
+........Identifier(a)
+......Assign - undef
+........Identifier(a) - int
+........Add - undef
+..........Identifier(b) - int
+..........BoolLit(true) - boolean
+......Assign - undef
+........Identifier(a) - int
+........Add - double
+..........Identifier(b) - int
+..........Decimal(1.043443) - double
+......Assign - int
+........Identifier(a) - int
+........Add - int
+..........Identifier(b) - int
+..........Natural(1) - int
+......Assign - int
+........Identifier(a) - int
+........Add - int
+..........Identifier(b) - int
+..........Identifier(c) - int
+......VarDecl
+........Int
+........Identifier(b)
+......VarDecl
+........Int
+........Identifier(c)
+......Assign - int
+........Identifier(a) - int
+........Add - int
+..........Identifier(b) - int
+..........Identifier(c) - int

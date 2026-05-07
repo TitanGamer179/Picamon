@@ -1,0 +1,160 @@
+Line 10, column 5: Symbol i already defined
+Line 13, column 6: Symbol f already defined
+Line 12, column 17: Cannot find symbol h()
+Line 18, column 11: Operator && cannot be applied to types int, int
+Line 20, column 5: Cannot find symbol h()
+Line 21, column 7: Operator ! cannot be applied to type int
+Line 22, column 7: Operator = cannot be applied to types int, float32
+Line 23, column 9: Incompatible type int in for statement
+Line 24, column 12: Incompatible type int in if statement
+Line 25, column 16: Operator + cannot be applied to types float32, int
+Line 25, column 13: Cannot find symbol h(undef)
+Line 16, column 12: Symbol y declared but never used
+Line 32, column 13: Cannot find symbol undeclared
+Line 32, column 11: Operator < cannot be applied to types int, undef
+Line 39, column 11: Operator + cannot be applied to types int, float32
+Line 39, column 7: Operator = cannot be applied to types float32, undef
+===== Global Symbol Table =====
+a		float32
+i		int
+f	()	none
+main	()	none
+undef	()	none
+types	()	none
+g	()	none
+h	(bool)	int
+
+===== Function f() Symbol Table =====
+return		none
+
+===== Function main() Symbol Table =====
+return		none
+x		int
+y		int
+b		bool
+
+===== Function undef() Symbol Table =====
+return		none
+
+===== Function types() Symbol Table =====
+return		none
+x		float32
+n		int
+
+===== Function g() Symbol Table =====
+return		none
+
+===== Function h(bool) Symbol Table =====
+return		int
+q		bool	param
+
+Program
+..VarDecl
+....Float32
+....Identifier(a)
+..VarDecl
+....Int
+....Identifier(i)
+..VarDecl
+....Bool
+....Identifier(i)
+..FuncDecl
+....FuncHeader
+......Identifier(f)
+......FuncParams
+....FuncBody
+......Call
+........Identifier(g) - ()
+......Call - undef
+........Identifier(h) - undef
+..FuncDecl
+....FuncHeader
+......Identifier(f)
+......FuncParams
+....FuncBody
+..FuncDecl
+....FuncHeader
+......Identifier(main)
+......FuncParams
+....FuncBody
+......VarDecl
+........Int
+........Identifier(x)
+......VarDecl
+........Int
+........Identifier(y)
+......VarDecl
+........Bool
+........Identifier(b)
+......Assign - bool
+........Identifier(b) - bool
+........And - bool
+..........Natural(1) - int
+..........Natural(1) - int
+......Assign - int
+........Identifier(i) - int
+........Add - int
+..........Identifier(i) - int
+..........Natural(007) - int
+......Call - undef
+........Identifier(h) - undef
+......Call - int
+........Identifier(h) - (bool)
+........Not - bool
+..........Identifier(i) - int
+......Assign - int
+........Identifier(x) - int
+........Decimal(1.0) - float32
+......For
+........Identifier(x) - int
+........Block
+..........If
+............Identifier(x) - int
+............Block
+..............Call - undef
+................Identifier(h) - undef
+................Add - undef
+..................Identifier(a) - float32
+..................Identifier(x) - int
+..............Return
+............Block
+..FuncDecl
+....FuncHeader
+......Identifier(undef)
+......FuncParams
+....FuncBody
+......For
+........Lt - bool
+..........Natural(1) - int
+..........Identifier(undeclared) - undef
+........Block
+..FuncDecl
+....FuncHeader
+......Identifier(types)
+......FuncParams
+....FuncBody
+......VarDecl
+........Float32
+........Identifier(x)
+......VarDecl
+........Int
+........Identifier(n)
+......Assign - float32
+........Identifier(x) - float32
+........Add - undef
+..........Identifier(n) - int
+..........Identifier(x) - float32
+..FuncDecl
+....FuncHeader
+......Identifier(g)
+......FuncParams
+....FuncBody
+..FuncDecl
+....FuncHeader
+......Identifier(h)
+......Int
+......FuncParams
+........ParamDecl
+..........Bool
+..........Identifier(q)
+....FuncBody

@@ -10,6 +10,9 @@ int flag_lex = 0;
 int flag_syntax = 0;
 int flag_errors = 0;
 int syntax_errors_count = 0;
+int assign_line = 0, assign_col = 0;
+int eq_line = 0, eq_col = 0;
+
 
 extern int line, col;
 extern int token_line, token_col;
@@ -74,7 +77,7 @@ void add_child(Node *parent, Node *child) {
 %type <node> OptFormalParams FormalParams FormalParamsRest MethodBody 
 %type <node> StatementAndVarDeclList VarDecl IdList StatementList Statement 
 %type <node> OptExpr ExprOrStrlit MethodInvocation OptExprList ExprList 
-%type <node> Assignment ParseArgs Expr OptDotLength
+%type <node> Assignment ParseArgs Expr AExpr OptDotLength
 
 %nonassoc IF_WITHOUT_ELSE
 %nonassoc ELSE
@@ -242,19 +245,19 @@ Statement : LBRACE StatementList RBRACE {
                   $$ = NULL; 
               }
           }
-          | IF LPAR Expr RPAR Statement %prec IF_WITHOUT_ELSE {
+          | IF LPAR AExpr RPAR Statement %prec IF_WITHOUT_ELSE {
               $$ = create_node("If", NULL);
               add_child($$, $3); 
               add_child($$, $5 ? $5 : create_node("Block", NULL)); 
               add_child($$, create_node("Block", NULL)); 
           }
-          | IF LPAR Expr RPAR Statement ELSE Statement {
+          | IF LPAR AExpr RPAR Statement ELSE Statement {
               $$ = create_node("If", NULL);
               add_child($$, $3);
               add_child($$, $5 ? $5 : create_node("Block", NULL));
               add_child($$, $7 ? $7 : create_node("Block", NULL));
           }
-          | WHILE LPAR Expr RPAR Statement {
+          | WHILE LPAR AExpr RPAR Statement {
               $$ = create_node("While", NULL);
               add_child($$, $3);
               add_child($$, $5 ? $5 : create_node("Block", NULL));
@@ -275,10 +278,10 @@ Statement : LBRACE StatementList RBRACE {
           ;
 
 OptExpr : { $$ = NULL; }
-        | Expr { $$ = $1; }
+        | AExpr { $$ = $1; }
         ;
 
-ExprOrStrlit : Expr { $$ = $1; }
+ExprOrStrlit : AExpr { $$ = $1; }
              | STRLIT { $$ = create_node("StrLit", $1); }
              ;
 
@@ -295,11 +298,11 @@ OptExprList : { $$ = NULL; }
             | ExprList { $$ = $1; }
             ;
 
-ExprList : Expr { $$ = $1; }
-         | ExprList COMMA Expr { $$ = add_sibling($1, $3); }
+ExprList : AExpr { $$ = $1; }
+         | ExprList COMMA AExpr { $$ = add_sibling($1, $3); }
          ;
 
-Assignment : IDENTIFIER ASSIGN Expr {
+Assignment : IDENTIFIER ASSIGN AExpr {
                $$ = create_node("Assign", NULL);
                Node* id = create_node("Identifier", $1);
                add_child($$, id);
@@ -307,7 +310,16 @@ Assignment : IDENTIFIER ASSIGN Expr {
            }
            ;
 
-ParseArgs : PARSEINT LPAR IDENTIFIER LSQ Expr RSQ RPAR {
+AExpr : IDENTIFIER ASSIGN AExpr {
+            $$ = create_node("Assign", NULL);
+            Node* id = create_node("Identifier", $1);
+            add_child($$, id);
+            add_sibling(id, $3);
+        }
+      | Expr { $$ = $1; }
+      ;
+
+ParseArgs : PARSEINT LPAR IDENTIFIER LSQ AExpr RSQ RPAR {
               $$ = create_node("ParseArgs", NULL);
               Node* id = create_node("Identifier", $3);
               add_child($$, id);
@@ -335,10 +347,9 @@ Expr : Expr PLUS Expr   { $$ = create_node("Add", NULL); add_child($$, $1); add_
      | MINUS Expr %prec UNARY_MINUS { $$ = create_node("Minus", NULL); add_child($$, $2); }
      | PLUS Expr %prec UNARY_PLUS   { $$ = create_node("Plus", NULL); add_child($$, $2); }
      | NOT Expr         { $$ = create_node("Not", NULL); add_child($$, $2); }
-     | LPAR Expr RPAR   { $$ = $2; }
+     | LPAR AExpr RPAR  { $$ = $2; }
      | LPAR error RPAR  { $$ = NULL; }
      | MethodInvocation { $$ = $1; }
-     | Assignment       { $$ = $1; }
      | ParseArgs        { $$ = $1; }
      | IDENTIFIER OptDotLength {
          if ($2) {
@@ -363,7 +374,7 @@ int get_error_col() { return col - yyleng; }
 void yyerror(char *s) {
     syntax_errors_count++;
     if (yychar == 0) {
-        printf("Line %d, col %d: %s: \"end of file\"\n", line, col, s);
+        printf("Line %d, col %d: %s: \n", line, col, s);
     } 
     else if (yychar == STRLIT) {
         printf("Line %d, col %d: %s: %s\n", str_line, str_col, s, yylval.str);
@@ -387,7 +398,7 @@ void print_tree(Node* node, int depth) {
 
 int main(int argc, char *argv[]) {
     if (argc > 1) {
-        if (strcmp(argv[1], "-1") == 0) {
+        if (strcmp(argv[1], "-l") == 0) {
             flag_lex = 1;
             while (yylex());
             return 0;

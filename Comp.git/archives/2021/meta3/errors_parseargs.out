@@ -1,0 +1,132 @@
+Line 15, column 11: Operator strconv.Atoi cannot be applied to types float32, float32
+Line 16, column 11: Operator strconv.Atoi cannot be applied to types float32, int
+Line 17, column 11: Operator strconv.Atoi cannot be applied to types int, float32
+Line 29, column 11: Operator + cannot be applied to types int, float32
+Line 29, column 7: Operator = cannot be applied to types int, undef
+Line 30, column 11: Operator + cannot be applied to types float32, int
+Line 30, column 7: Operator = cannot be applied to types int, undef
+Line 31, column 7: Operator = cannot be applied to types int, float32
+Line 32, column 11: Operator + cannot be applied to types bool, bool
+Line 32, column 7: Operator = cannot be applied to types int, undef
+Line 33, column 11: Operator + cannot be applied to types bool, bool
+Line 33, column 7: Operator = cannot be applied to types bool, undef
+Line 36, column 11: Operator > cannot be applied to types bool, bool
+Line 37, column 11: Operator <= cannot be applied to types bool, bool
+===== Global Symbol Table =====
+ci		float32
+rad		float32
+area		float32
+PI		float32
+main	(bool)	none
+
+===== Function main(bool) Symbol Table =====
+return		none
+unused		bool	param
+i		int
+f		float32
+s		string
+b		bool
+
+Program
+..VarDecl
+....Float32
+....Identifier(ci)
+..VarDecl
+....Float32
+....Identifier(rad)
+..VarDecl
+....Float32
+....Identifier(area)
+..VarDecl
+....Float32
+....Identifier(PI)
+..FuncDecl
+....FuncHeader
+......Identifier(main)
+......FuncParams
+........ParamDecl
+..........Bool
+..........Identifier(unused)
+....FuncBody
+......VarDecl
+........Int
+........Identifier(i)
+......VarDecl
+........Float32
+........Identifier(f)
+......VarDecl
+........String
+........Identifier(s)
+......VarDecl
+........Bool
+........Identifier(b)
+......ParseArgs - int
+........Identifier(f) - float32
+........Identifier(f) - float32
+......ParseArgs - int
+........Identifier(f) - float32
+........Identifier(i) - int
+......ParseArgs - int
+........Identifier(i) - int
+........Identifier(f) - float32
+......ParseArgs - int
+........Identifier(i) - int
+........Identifier(i) - int
+......Print
+........Identifier(f) - float32
+......Print
+........Identifier(i) - int
+......Print
+........Identifier(s) - string
+......Print
+........Identifier(b) - bool
+......Assign - int
+........Identifier(i) - int
+........Add - undef
+..........Identifier(i) - int
+..........Identifier(f) - float32
+......Assign - int
+........Identifier(i) - int
+........Add - undef
+..........Identifier(f) - float32
+..........Identifier(i) - int
+......Assign - int
+........Identifier(i) - int
+........Add - float32
+..........Identifier(f) - float32
+..........Identifier(f) - float32
+......Assign - int
+........Identifier(i) - int
+........Add - undef
+..........Identifier(b) - bool
+..........Identifier(b) - bool
+......Assign - bool
+........Identifier(b) - bool
+........Add - undef
+..........Identifier(b) - bool
+..........Identifier(b) - bool
+......Assign - bool
+........Identifier(b) - bool
+........Gt - bool
+..........Identifier(b) - bool
+..........Identifier(b) - bool
+......Assign - bool
+........Identifier(b) - bool
+........Le - bool
+..........Identifier(b) - bool
+..........Identifier(b) - bool
+......Assign - bool
+........Identifier(b) - bool
+........Eq - bool
+..........Identifier(b) - bool
+..........Identifier(b) - bool
+......Assign - bool
+........Identifier(b) - bool
+........Ne - bool
+..........Identifier(b) - bool
+..........Identifier(b) - bool
+......Assign - int
+........Identifier(i) - int
+........Add - int
+..........Identifier(s) - string
+..........Identifier(s) - string

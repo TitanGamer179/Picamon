@@ -1,0 +1,1 @@
+class Test { public static int f() { System.out.print(1

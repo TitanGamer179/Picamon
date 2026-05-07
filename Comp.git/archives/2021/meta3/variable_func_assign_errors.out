@@ -1,0 +1,120 @@
+Line 12, column 6: Symbol globalVar_int already defined
+Line 44, column 6: Symbol function_1 already defined
+Line 28, column 2: Cannot find symbol function_1(int,int)
+Line 34, column 2: Cannot find symbol function_2(int,string)
+Line 41, column 13: Operator = cannot be applied to types float32, int
+===== Global Symbol Table =====
+globalVar_int		int
+globalVar_float32		float32
+function_2	()	none
+main	()	none
+function_1	()	none
+globalVar_string		string
+global_var_bool		bool
+
+===== Function function_2() Symbol Table =====
+return		none
+
+===== Function main() Symbol Table =====
+return		none
+main_string		string
+
+===== Function function_1() Symbol Table =====
+return		none
+localVar_1		float32
+
+Program
+..VarDecl
+....Int
+....Identifier(globalVar_int)
+..VarDecl
+....Float32
+....Identifier(globalVar_float32)
+..FuncDecl
+....FuncHeader
+......Identifier(globalVar_int)
+......Int
+......FuncParams
+....FuncBody
+......VarDecl
+........Int
+........Identifier(_globalVar_int)
+......VarDecl
+........String
+........Identifier(_globalVar_string)
+......VarDecl
+........Bool
+........Identifier(globalVar_float32)
+......VarDecl
+........Bool
+........Identifier(_globalVar_bool)
+......Assign
+........Identifier(globalVar_float32)
+........Identifier(_globalVar_string)
+......Return
+........Identifier(_globalVar_int)
+..FuncDecl
+....FuncHeader
+......Identifier(function_2)
+......FuncParams
+....FuncBody
+..FuncDecl
+....FuncHeader
+......Identifier(main)
+......FuncParams
+....FuncBody
+......VarDecl
+........String
+........Identifier(main_string)
+......Call - undef
+........Identifier(function_1) - undef
+........Natural(12) - int
+........Natural(13) - int
+......Call
+........Identifier(function_1) - ()
+......Call
+........Identifier(function_2) - ()
+......Call - undef
+........Identifier(function_2) - undef
+........Natural(123) - int
+........Identifier(main_string) - string
+..FuncDecl
+....FuncHeader
+......Identifier(function_1)
+......FuncParams
+....FuncBody
+......VarDecl
+........Float32
+........Identifier(localVar_1)
+......Assign - float32
+........Identifier(localVar_1) - float32
+........Identifier(globalVar_int) - int
+..FuncDecl
+....FuncHeader
+......Identifier(function_1)
+......FuncParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+........ParamDecl
+..........Int
+..........Identifier(b)
+....FuncBody
+......VarDecl
+........Int
+........Identifier(localVar_1)
+......VarDecl
+........Float32
+........Identifier(localVar_2)
+......Assign
+........Identifier(localVar_1)
+........Identifier(globalVar_float32)
+......Assign
+........Identifier(localVar_2)
+........Identifier(globalVar_int)
+..VarDecl
+....String
+....Identifier(globalVar_string)
+..VarDecl
+....Bool
+....Identifier(global_var_bool)
