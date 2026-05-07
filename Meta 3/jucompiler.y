@@ -148,7 +148,10 @@ int insert_symbol(SymTable *table, char *name, char *type, char *param_types, in
     while (curr) {
         if (strcmp(curr->name, name) == 0) {
             if ((!param_types && !curr->param_types) || (param_types && curr->param_types && strcmp(curr->param_types, param_types) == 0)) {
-                printf("Line %d, col %d: Symbol %s already defined\n", line, col, name);
+                if (param_types)
+                    printf("Line %d, col %d: Symbol %s(%s) already defined\n", line, col, name, param_types);
+                else
+                    printf("Line %d, col %d: Symbol %s already defined\n", line, col, name);
                 return 0;
             }
         }
@@ -185,7 +188,7 @@ char* get_juc_type(char *type) {
 int is_expression(char *type) {
     if (!type) return 0;
     char *exprs[] = {"Assign", "Or", "And", "Eq", "Ne", "Lt", "Gt", "Le", "Ge", 
-                     "Add", "Sub", "Mul", "Div", "Mod", "Xor", "Lshift", "Rshift", 
+                     "Add", "Sub", "Mul", "Div", "Mod", "Xor", "Lshift", "Rshift",
                      "Not", "Minus", "Plus", "Length", "Call", "ParseArgs", 
                      "Identifier", "Natural", "Decimal", "BoolLit", "StrLit", NULL};
     for (int i = 0; exprs[i] != NULL; i++) {
@@ -283,25 +286,32 @@ void annotate_ast(Node *node, SymTable *current_env) {
                 Node *header = temp->child;
                 Node *id_node = header->child->sibling;
                 char *params_str = build_param_types(id_node->sibling);
-                insert_symbol(global_table, id_node->value, get_juc_type(header->child->type), params_str, 0, id_node->line, id_node->col);
-                
-                // Build method table here so parameter errors are printed first
                 char table_name[8192];
                 snprintf(table_name, sizeof(table_name), "Method %s(%s)", id_node->value, params_str);
-                
-                int redefined = 0;
+
+                /* Check if this signature already exists (would be redefined) */
+                int will_redefine = 0;
                 Symbol *s = global_table->symbols;
                 while (s) {
                     if (strcmp(s->name, id_node->value) == 0 && s->param_types && strcmp(s->param_types, params_str) == 0) {
-                        if (s->line < id_node->line || (s->line == id_node->line && s->col < id_node->col)) {
-                            redefined = 1;
-                            break;
-                        }
+                        will_redefine = 1; break;
                     }
                     s = s->next;
                 }
-                
-                if (!redefined) {
+
+                if (will_redefine) {
+                    /* Check param duplicates FIRST (so their error prints before method error) */
+                    SymTable tmp; tmp.name="TMP"; tmp.type="Tmp"; tmp.symbols=NULL; tmp.next=NULL;
+                    Node *params = id_node->sibling->child;
+                    while (params) {
+                        insert_symbol(&tmp, params->child->sibling->value, get_juc_type(params->child->type), NULL, 1, params->child->sibling->line, params->child->sibling->col);
+                        params = params->sibling;
+                    }
+                    /* Then insert method (prints "already defined") */
+                    insert_symbol(global_table, id_node->value, get_juc_type(header->child->type), params_str, 0, id_node->line, id_node->col);
+                } else {
+                    /* New method: insert, then build method table with params */
+                    insert_symbol(global_table, id_node->value, get_juc_type(header->child->type), params_str, 0, id_node->line, id_node->col);
                     SymTable *method_table = create_table(table_name, "Method");
                     insert_symbol(method_table, "return", get_juc_type(header->child->type), NULL, 0, id_node->line, id_node->col);
                     Node *params = id_node->sibling->child;
@@ -377,7 +387,7 @@ void annotate_ast(Node *node, SymTable *current_env) {
         else if (strcmp(t1, "int") == 0 && strcmp(t2, "int") == 0) valid = 1;
         else if (strcmp(t1, "boolean") == 0 && strcmp(t2, "boolean") == 0) valid = 1;
         
-        if (!valid && strcmp(t1, "undef") != 0 && strcmp(t2, "undef") != 0) printf("Line %d, col %d: Operator = cannot be applied to types %s, %s\n", node->line, node->col, t1, t2);
+        if (!valid && strcmp(t1, "undef") != 0) printf("Line %d, col %d: Operator = cannot be applied to types %s, %s\n", node->line, node->col, t1, t2);
         node->anot_type = strdup(t1);
     } else if (strcmp(node->type, "Add") == 0 || strcmp(node->type, "Sub") == 0 || strcmp(node->type, "Mul") == 0 || strcmp(node->type, "Div") == 0 || strcmp(node->type, "Mod") == 0) {
         Node *c1 = node->child;
@@ -430,11 +440,10 @@ void annotate_ast(Node *node, SymTable *current_env) {
         }
     } else if (strcmp(node->type, "Not") == 0) {
         char *t1 = (node->child && node->child->anot_type) ? node->child->anot_type : "none";
-        if (strcmp(t1, "boolean") == 0) node->anot_type = strdup("boolean");
-        else {
+        if (strcmp(t1, "boolean") != 0) {
             printf("Line %d, col %d: Operator ! cannot be applied to type %s\n", node->line, node->col, t1);
-            node->anot_type = strdup("undef");
         }
+        node->anot_type = strdup("boolean");
     } else if (strcmp(node->type, "Length") == 0) {
         char *t1 = (node->child && node->child->anot_type) ? node->child->anot_type : "none";
         if (strcmp(t1, "String[]") != 0) printf("Line %d, col %d: Operator .length cannot be applied to type %s\n", node->line, node->col, t1);
@@ -505,11 +514,11 @@ void annotate_ast(Node *node, SymTable *current_env) {
             sprintf(sig_form, "(%s)", compat_matches[0]->param_types ? compat_matches[0]->param_types : "");
             node->child->anot_type = strdup(sig_form);
         } else if (compat_count > 1) {
-            printf("Line %d, col %d: Reference to method %s is ambiguous\n", el, ec, method_name);
+            printf("Line %d, col %d: Reference to method %s(%s) is ambiguous\n", el, ec, method_name, arg_sig);
             node->anot_type = strdup("undef");
             node->child->anot_type = strdup("undef");
         } else {
-            printf("Line %d, col %d: Cannot find symbol %s\n", el, ec, method_name);
+            printf("Line %d, col %d: Cannot find symbol %s(%s)\n", el, ec, method_name, arg_sig);
             node->anot_type = strdup("undef");
             node->child->anot_type = strdup("undef");
         }
@@ -574,7 +583,7 @@ void print_tables() {
         Symbol *s = t->symbols;
         while (s) {
             if (s->param_types) printf("%s\t(%s)\t%s\n", s->name, s->param_types, s->type);
-            else printf("%s\t%s%s\n", s->name, s->type, s->is_param ? "\tparam" : "");
+            else printf("%s\t\t%s%s\n", s->name, s->type, s->is_param ? "\tparam" : "");
             s = s->next;
         }
         printf("\n");
@@ -902,12 +911,21 @@ void yyerror(char *s) {
         printf("Line %d, col %d: %s: %s\n", token_line, token_col, s, yytext);
     }
 }
+const char* display_type(const char *type) {
+    if (!type) return "";
+    if (strcmp(type, "Identifier") == 0) return "Id";
+    if (strcmp(type, "Natural") == 0) return "DecLit";
+    if (strcmp(type, "Decimal") == 0) return "RealLit";
+    return type;
+}
+
 void print_tree(Node* node, int depth) {
     if (!node) return;
     for (int i = 0; i < depth; i++) printf("..");
     
-    if (node->value) printf("%s(%s)", node->type, node->value);
-    else printf("%s", node->type);
+    const char *disp = display_type(node->type);
+    if (node->value) printf("%s(%s)", disp, node->value);
+    else printf("%s", disp);
     if (node->anot_type && is_expression(node->type)) printf(" - %s", node->anot_type);
     printf("\n");
     
@@ -931,24 +949,27 @@ int main(int argc, char *argv[]) {
         } else if (strcmp(argv[1], "-t") == 0) {
             flag_syntax = 1;
         } else if (strcmp(argv[1], "-e2") == 0) {
-            // Error detection only, default behavior
+            // syntax only
         } else if (strcmp(argv[1], "-s") == 0) {
             flag_s = 1;
         } else if (strcmp(argv[1], "-e3") == 0) {
-            // Semantic analysis only (errors only), which is the default behavior if no other flags are set
+            /* -e3: run semantics, errors only - no tables or AST */
         }
     }
     
     yyparse();
     if (syntax_errors_count == 0) {
         if (flag_syntax) {
+            /* -t: syntax AST only */
+            print_tree(root, 0);
+        } else if (flag_s) {
+            /* -s: errors + tables + annotated AST */
+            annotate_ast(root, NULL);
+            print_tables();
             print_tree(root, 0);
         } else {
+            /* -e3 or no flag: errors only */
             annotate_ast(root, NULL);
-            if (flag_s) {
-                print_tables();
-                print_tree(root, 0);
-            }
         }
     }
     return 0;
