@@ -27,111 +27,111 @@ d		double
 b		boolean
 
 Program
-..Id(sub_2_pewdiepie)
+..Identifier(sub_2_pewdiepie)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(i)
+........Identifier(i)
 ......VarDecl
 ........Double
-........Id(d)
+........Identifier(d)
 ......VarDecl
 ........Bool
-........Id(b)
+........Identifier(b)
 ......Assign - int
-........Id(i) - int
-........DecLit(1) - int
+........Identifier(i) - int
+........Natural(1) - int
 ......Assign - double
-........Id(d) - double
-........RealLit(1.1) - double
+........Identifier(d) - double
+........Decimal(1.1) - double
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........BoolLit(true) - boolean
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Add - int
-..........Id(i) - int
-..........Id(i) - int
+..........Identifier(i) - int
+..........Identifier(i) - int
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Sub - int
-..........Id(i) - int
-..........Id(i) - int
+..........Identifier(i) - int
+..........Identifier(i) - int
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Add - double
-..........Id(i) - int
-..........Id(d) - double
+..........Identifier(i) - int
+..........Identifier(d) - double
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Sub - double
-..........Id(i) - int
-..........Id(d) - double
+..........Identifier(i) - int
+..........Identifier(d) - double
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Add - undef
-..........Id(i) - int
-..........Id(b) - boolean
+..........Identifier(i) - int
+..........Identifier(b) - boolean
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Sub - undef
-..........Id(i) - int
-..........Id(b) - boolean
+..........Identifier(i) - int
+..........Identifier(b) - boolean
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Add - undef
-..........Id(i) - int
-..........Id(args) - String[]
+..........Identifier(i) - int
+..........Identifier(args) - String[]
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Sub - undef
-..........Id(i) - int
-..........Id(args) - String[]
+..........Identifier(i) - int
+..........Identifier(args) - String[]
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Add - int
-..........Id(i) - int
-..........Id(i) - int
+..........Identifier(i) - int
+..........Identifier(i) - int
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Sub - int
-..........Id(i) - int
-..........Id(i) - int
+..........Identifier(i) - int
+..........Identifier(i) - int
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Add - double
-..........Id(i) - int
-..........Id(d) - double
+..........Identifier(i) - int
+..........Identifier(d) - double
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Sub - double
-..........Id(i) - int
-..........Id(d) - double
+..........Identifier(i) - int
+..........Identifier(d) - double
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Add - undef
-..........Id(i) - int
-..........Id(b) - boolean
+..........Identifier(i) - int
+..........Identifier(b) - boolean
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Sub - undef
-..........Id(i) - int
-..........Id(b) - boolean
+..........Identifier(i) - int
+..........Identifier(b) - boolean
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Add - undef
-..........Id(i) - int
-..........Id(args) - String[]
+..........Identifier(i) - int
+..........Identifier(args) - String[]
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Sub - undef
-..........Id(i) - int
-..........Id(args) - String[]
+..........Identifier(i) - int
+..........Identifier(args) - String[]

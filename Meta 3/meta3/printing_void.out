@@ -12,32 +12,32 @@ return		void
 args		String[]	param
 
 Program
-..Id(Error)
+..Identifier(Error)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(a)
+......Identifier(a)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(b)
+..........Identifier(b)
 ....MethodBody
 ......Assign - int
-........Id(b) - int
+........Identifier(b) - int
 ........Add - int
-..........Id(b) - int
-..........DecLit(2) - int
+..........Identifier(b) - int
+..........Natural(2) - int
 ......Return
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......Print
 ........Call - void
-..........Id(a) - (int)
-..........DecLit(3) - int
+..........Identifier(a) - (int)
+..........Natural(3) - int

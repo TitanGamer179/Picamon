@@ -70,294 +70,294 @@ c		int	param
 d		double	param
 
 Program
-..Id(Call_Me_Maybe)
+..Identifier(Call_Me_Maybe)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(i)
+........Identifier(i)
 ......VarDecl
 ........Double
-........Id(d)
+........Identifier(d)
 ......VarDecl
 ........Bool
-........Id(b)
+........Identifier(b)
 ......Call - void
-........Id(f) - ()
+........Identifier(f) - ()
 ......Call - int
-........Id(f) - (boolean)
+........Identifier(f) - (boolean)
 ........BoolLit(true) - boolean
 ......Call - boolean
-........Id(f) - (double)
-........RealLit(0e0) - double
+........Identifier(f) - (double)
+........Decimal(0e0) - double
 ......Call - double
-........Id(f) - (int)
-........DecLit(123) - int
+........Identifier(f) - (int)
+........Natural(123) - int
 ......Call - void
-........Id(f) - (String[])
-........Id(args) - String[]
+........Identifier(f) - (String[])
+........Identifier(args) - String[]
 ......Call - boolean
-........Id(f) - (int,double)
-........Id(i) - int
-........Id(d) - double
+........Identifier(f) - (int,double)
+........Identifier(i) - int
+........Identifier(d) - double
 ......Call - boolean
-........Id(f) - (int,double,boolean)
-........Id(i) - int
-........Id(d) - double
-........Id(b) - boolean
+........Identifier(f) - (int,double,boolean)
+........Identifier(i) - int
+........Identifier(d) - double
+........Identifier(b) - boolean
 ......Call - boolean
-........Id(f) - (int,double,boolean,int)
-........Id(i) - int
-........Id(d) - double
-........Id(b) - boolean
-........Id(i) - int
+........Identifier(f) - (int,double,boolean,int)
+........Identifier(i) - int
+........Identifier(d) - double
+........Identifier(b) - boolean
+........Identifier(i) - int
 ......Call - int
-........Id(f) - (double,int,double,int)
-........RealLit(0.) - double
-........DecLit(1) - int
-........RealLit(2.) - double
-........DecLit(3) - int
+........Identifier(f) - (double,int,double,int)
+........Decimal(0.) - double
+........Natural(1) - int
+........Decimal(2.) - double
+........Natural(3) - int
 ......Call - double
-........Id(f) - (int,double,int,double)
-........DecLit(0) - int
-........RealLit(.1) - double
-........DecLit(2) - int
-........RealLit(.3) - double
+........Identifier(f) - (int,double,int,double)
+........Natural(0) - int
+........Decimal(.1) - double
+........Natural(2) - int
+........Decimal(.3) - double
 ......Call - boolean
-........Id(f) - (int,double)
-........Id(i) - int
-........Id(i) - int
+........Identifier(f) - (int,double)
+........Identifier(i) - int
+........Identifier(i) - int
 ......Call - boolean
-........Id(f) - (int,double,boolean)
-........Id(i) - int
-........Id(i) - int
-........Id(b) - boolean
+........Identifier(f) - (int,double,boolean)
+........Identifier(i) - int
+........Identifier(i) - int
+........Identifier(b) - boolean
 ......Call - boolean
-........Id(f) - (int,double,boolean,int)
-........Id(i) - int
-........Id(i) - int
-........Id(b) - boolean
-........Id(i) - int
+........Identifier(f) - (int,double,boolean,int)
+........Identifier(i) - int
+........Identifier(i) - int
+........Identifier(b) - boolean
+........Identifier(i) - int
 ......Call - int
-........Id(f) - (double,int,double,int)
-........RealLit(0.) - double
-........DecLit(1) - int
-........DecLit(2) - int
-........DecLit(3) - int
+........Identifier(f) - (double,int,double,int)
+........Decimal(0.) - double
+........Natural(1) - int
+........Natural(2) - int
+........Natural(3) - int
 ......Call - int
-........Id(f) - (double,int,double,int)
-........DecLit(0) - int
-........DecLit(1) - int
-........RealLit(2.) - double
-........DecLit(3) - int
+........Identifier(f) - (double,int,double,int)
+........Natural(0) - int
+........Natural(1) - int
+........Decimal(2.) - double
+........Natural(3) - int
 ......Call - double
-........Id(f) - (int,double,int,double)
-........DecLit(0) - int
-........RealLit(.1) - double
-........DecLit(2) - int
-........DecLit(3) - int
+........Identifier(f) - (int,double,int,double)
+........Natural(0) - int
+........Decimal(.1) - double
+........Natural(2) - int
+........Natural(3) - int
 ......Call - double
-........Id(f) - (int,double,int,double)
-........DecLit(0) - int
-........DecLit(1) - int
-........DecLit(2) - int
-........RealLit(.3) - double
+........Identifier(f) - (int,double,int,double)
+........Natural(0) - int
+........Natural(1) - int
+........Natural(2) - int
+........Decimal(.3) - double
 ......Call - int
-........Id(f) - (boolean)
+........Identifier(f) - (boolean)
 ........Call - boolean
-..........Id(f) - (double)
+..........Identifier(f) - (double)
 ..........Call - double
-............Id(f) - (int)
+............Identifier(f) - (int)
 ............Call - int
-..............Id(f) - (boolean)
+..............Identifier(f) - (boolean)
 ..............Call - boolean
-................Id(f) - (double)
+................Identifier(f) - (double)
 ................Call - double
-..................Id(f) - (int)
-..................DecLit(0) - int
+..................Identifier(f) - (int)
+..................Natural(0) - int
 ......Call - boolean
-........Id(f) - (int,double,boolean)
+........Identifier(f) - (int,double,boolean)
 ........Call - int
-..........Id(f) - (boolean)
+..........Identifier(f) - (boolean)
 ..........BoolLit(true) - boolean
 ........Call - double
-..........Id(f) - (int)
-..........DecLit(0) - int
+..........Identifier(f) - (int)
+..........Natural(0) - int
 ........Call - boolean
-..........Id(f) - (double)
-..........RealLit(0.0) - double
+..........Identifier(f) - (double)
+..........Decimal(0.0) - double
 ......Call - boolean
-........Id(f) - (int,double,boolean)
+........Identifier(f) - (int,double,boolean)
 ........Call - int
-..........Id(f) - (boolean)
+..........Identifier(f) - (boolean)
 ..........BoolLit(true) - boolean
 ........Call - int
-..........Id(f) - (boolean)
+..........Identifier(f) - (boolean)
 ..........BoolLit(false) - boolean
 ........Call - boolean
-..........Id(f) - (double)
-..........RealLit(0.0) - double
+..........Identifier(f) - (double)
+..........Decimal(0.0) - double
 ......Print
 ........Call - int
-..........Id(f) - (boolean)
+..........Identifier(f) - (boolean)
 ..........Call - boolean
-............Id(f) - (double)
+............Identifier(f) - (double)
 ............Call - double
-..............Id(f) - (int)
+..............Identifier(f) - (int)
 ..............Call - int
-................Id(f) - (boolean)
+................Identifier(f) - (boolean)
 ................Call - boolean
-..................Id(f) - (double)
+..................Identifier(f) - (double)
 ..................Call - double
-....................Id(f) - (int)
-....................DecLit(0) - int
+....................Identifier(f) - (int)
+....................Natural(0) - int
 ......Print
 ........Call - boolean
-..........Id(f) - (int,double,boolean)
+..........Identifier(f) - (int,double,boolean)
 ..........Call - int
-............Id(f) - (boolean)
+............Identifier(f) - (boolean)
 ............BoolLit(true) - boolean
 ..........Call - double
-............Id(f) - (int)
-............DecLit(0) - int
+............Identifier(f) - (int)
+............Natural(0) - int
 ..........Call - boolean
-............Id(f) - (double)
-............RealLit(0.0) - double
+............Identifier(f) - (double)
+............Decimal(0.0) - double
 ......Print
 ........Call - boolean
-..........Id(f) - (double)
-..........RealLit(0e0) - double
+..........Identifier(f) - (double)
+..........Decimal(0e0) - double
 ......Print
 ........Call - double
-..........Id(f) - (int)
-..........DecLit(123) - int
+..........Identifier(f) - (int)
+..........Natural(123) - int
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(f)
+......Identifier(f)
 ......MethodParams
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Id(f)
+......Identifier(f)
 ......MethodParams
 ........ParamDecl
 ..........Bool
-..........Id(a)
+..........Identifier(a)
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Bool
-......Id(f)
+......Identifier(f)
 ......MethodParams
 ........ParamDecl
 ..........Double
-..........Id(a)
+..........Identifier(a)
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Double
-......Id(f)
+......Identifier(f)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(a)
+..........Identifier(a)
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(f)
+......Identifier(f)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(a)
+..........Identifier(a)
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Bool
-......Id(f)
+......Identifier(f)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(a)
+..........Identifier(a)
 ........ParamDecl
 ..........Double
-..........Id(b)
+..........Identifier(b)
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Bool
-......Id(f)
+......Identifier(f)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(a)
+..........Identifier(a)
 ........ParamDecl
 ..........Double
-..........Id(b)
+..........Identifier(b)
 ........ParamDecl
 ..........Bool
-..........Id(c)
+..........Identifier(c)
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Bool
-......Id(f)
+......Identifier(f)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(a)
+..........Identifier(a)
 ........ParamDecl
 ..........Double
-..........Id(b)
+..........Identifier(b)
 ........ParamDecl
 ..........Bool
-..........Id(c)
+..........Identifier(c)
 ........ParamDecl
 ..........Int
-..........Id(d)
+..........Identifier(d)
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Id(f)
+......Identifier(f)
 ......MethodParams
 ........ParamDecl
 ..........Double
-..........Id(a)
+..........Identifier(a)
 ........ParamDecl
 ..........Int
-..........Id(b)
+..........Identifier(b)
 ........ParamDecl
 ..........Double
-..........Id(c)
+..........Identifier(c)
 ........ParamDecl
 ..........Int
-..........Id(d)
+..........Identifier(d)
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Double
-......Id(f)
+......Identifier(f)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(a)
+..........Identifier(a)
 ........ParamDecl
 ..........Double
-..........Id(b)
+..........Identifier(b)
 ........ParamDecl
 ..........Int
-..........Id(c)
+..........Identifier(c)
 ........ParamDecl
 ..........Double
-..........Id(d)
+..........Identifier(d)
 ....MethodBody

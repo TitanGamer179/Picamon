@@ -23,61 +23,61 @@ argument		int
 return		void
 
 Program
-..Id(Factorial)
+..Identifier(Factorial)
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Id(factorial)
+......Identifier(factorial)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(n)
+..........Identifier(n)
 ........ParamDecl
 ..........Int
-..........Id(x)
+..........Identifier(x)
 ........ParamDecl
 ..........Double
-..........Id(y)
+..........Identifier(y)
 ....MethodBody
 ......If
 ........Eq - boolean
-..........Id(n) - int
-..........DecLit(0) - int
+..........Identifier(n) - int
+..........Natural(0) - int
 ........Return
-..........DecLit(1) - int
+..........Natural(1) - int
 ........Block
 ......Return
 ........Mul - undef
-..........Id(n) - int
+..........Identifier(n) - int
 ..........Call - undef
-............Id(factorial) - undef
+............Identifier(factorial) - undef
 ............Sub - int
-..............Id(n) - int
-..............DecLit(1) - int
+..............Identifier(n) - int
+..............Natural(1) - int
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(argument)
+........Identifier(argument)
 ......Assign - int
-........Id(argument) - int
+........Identifier(argument) - int
 ........ParseArgs - int
-..........Id(args) - String[]
-..........DecLit(0) - int
+..........Identifier(args) - String[]
+..........Natural(0) - int
 ......Print
 ........Call - undef
-..........Id(factorial) - undef
-..........Id(argument) - int
+..........Identifier(factorial) - undef
+..........Identifier(argument) - int
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(noArguments)
+......Identifier(noArguments)
 ......MethodParams
 ....MethodBody

@@ -4,10 +4,12 @@ Line 11, col 15: Incompatible type double in while statement
 Line 12, col 15: Incompatible type double in while statement
 Line 13, col 16: Incompatible type int in while statement
 Line 14, col 19: Operator << cannot be applied to types boolean, boolean
-Line 14, col 19: Incompatible type undef in while statement
+Line 14, col 19: Incompatible type int in while statement
 Line 15, col 16: Operator << cannot be applied to types boolean, boolean
-Line 15, col 16: Incompatible type undef in while statement
+Line 15, col 16: Incompatible type int in while statement
 Line 16, col 16: Incompatible type int in while statement
+Line 17, col 19: Operator ^ cannot be applied to types boolean, boolean
+Line 17, col 19: Incompatible type int in while statement
 ===== Class while_errors Symbol Table =====
 main	(String[])	void
 
@@ -19,65 +21,65 @@ b		boolean
 d		double
 
 Program
-..Id(while_errors)
+..Identifier(while_errors)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(i)
+........Identifier(i)
 ......VarDecl
 ........Bool
-........Id(b)
+........Identifier(b)
 ......VarDecl
 ........Double
-........Id(d)
+........Identifier(d)
 ......While
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........Block
 ......While
 ........BoolLit(true) - boolean
 ........Block
 ......While
-........Id(i) - int
+........Identifier(i) - int
 ........Block
 ......While
-........DecLit(1) - int
+........Natural(1) - int
 ........Block
 ......While
-........Id(d) - double
+........Identifier(d) - double
 ........Block
 ......While
-........RealLit(1.1) - double
+........Decimal(1.1) - double
 ........Block
 ......While
 ........Lshift - int
-..........DecLit(1) - int
-..........DecLit(1) - int
+..........Natural(1) - int
+..........Natural(1) - int
 ........Block
 ......While
-........Lshift - undef
+........Lshift - int
 ..........BoolLit(true) - boolean
 ..........BoolLit(true) - boolean
 ........Block
 ......While
-........Lshift - undef
-..........Id(b) - boolean
-..........Id(b) - boolean
+........Lshift - int
+..........Identifier(b) - boolean
+..........Identifier(b) - boolean
 ........Block
 ......While
 ........Xor - int
-..........DecLit(1) - int
-..........DecLit(1) - int
+..........Natural(1) - int
+..........Natural(1) - int
 ........Block
 ......While
-........Xor - boolean
+........Xor - int
 ..........BoolLit(true) - boolean
 ..........BoolLit(false) - boolean
 ........Block

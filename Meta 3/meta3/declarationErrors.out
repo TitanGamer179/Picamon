@@ -34,93 +34,93 @@ return		void
 i		int	param
 
 Program
-..Id(errors)
+..Identifier(errors)
 ..FieldDecl
 ....Int
-....Id(a)
+....Identifier(a)
 ..FieldDecl
 ....Int
-....Id(b)
+....Identifier(b)
 ..FieldDecl
 ....Int
-....Id(c)
+....Identifier(c)
 ..FieldDecl
 ....Int
-....Id(c)
+....Identifier(c)
 ..FieldDecl
 ....Int
-....Id(a)
+....Identifier(a)
 ..FieldDecl
 ....Int
-....Id(b)
+....Identifier(b)
 ..FieldDecl
 ....Double
-....Id(_)
+....Identifier(_)
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Id(underscore)
+......Identifier(underscore)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(ola)
+..........Identifier(ola)
 ....MethodBody
 ......If
-........Id(ola) - int
+........Identifier(ola) - int
 ........Return
-..........Id(ola) - int
+..........Identifier(ola) - int
 ........Return
-..........Id(ola) - int
+..........Identifier(ola) - int
 ......VarDecl
 ........Int
-........Id(ola)
+........Identifier(ola)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(factorial)
+......Identifier(factorial)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(i)
+..........Identifier(i)
 ........ParamDecl
 ..........Int
-..........Id(i)
+..........Identifier(i)
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(argument)
+........Identifier(argument)
 ......VarDecl
 ........Int
-........Id(i)
+........Identifier(i)
 ......VarDecl
 ........Int
-........Id(argument)
+........Identifier(argument)
 ......VarDecl
 ........Int
-........Id(a)
+........Identifier(a)
 ......VarDecl
 ........Double
-........Id(i)
+........Identifier(i)
 ......VarDecl
 ........Double
-........Id(_)
+........Identifier(_)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(factorial)
+......Identifier(factorial)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(i)
+..........Identifier(i)
 ........ParamDecl
 ..........Int
-..........Id(i)
+..........Identifier(i)
 ........ParamDecl
 ..........Int
-..........Id(_)
+..........Identifier(_)
 ....MethodBody
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Add - int
-..........Id(i) - int
-..........Id(i) - int
+..........Identifier(i) - int
+..........Identifier(i) - int

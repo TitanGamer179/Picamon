@@ -21,44 +21,44 @@ b		int
 c		int
 
 Program
-..Id(Java)
+..Identifier(Java)
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Id(a)
+......Identifier(a)
 ......MethodParams
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(a)
+........Identifier(a)
 ......Assign - int
-........Id(a) - int
+........Identifier(a) - int
 ........Add - undef
-..........Id(b) - undef
+..........Identifier(b) - undef
 ..........BoolLit(true) - boolean
 ......Assign - int
-........Id(a) - int
+........Identifier(a) - int
 ........Add - undef
-..........Id(b) - undef
-..........RealLit(1.0_43443) - double
+..........Identifier(b) - undef
+..........Decimal(1.0_43443) - double
 ......Assign - int
-........Id(a) - int
+........Identifier(a) - int
 ........Add - undef
-..........Id(b) - undef
-..........DecLit(1) - int
+..........Identifier(b) - undef
+..........Natural(1) - int
 ......Assign - int
-........Id(a) - int
+........Identifier(a) - int
 ........Add - undef
-..........Id(b) - undef
-..........Id(c) - undef
+..........Identifier(b) - undef
+..........Identifier(c) - undef
 ......VarDecl
 ........Int
-........Id(b)
+........Identifier(b)
 ......VarDecl
 ........Int
-........Id(c)
+........Identifier(c)
 ......Assign - int
-........Id(a) - int
+........Identifier(a) - int
 ........Add - int
-..........Id(b) - int
-..........Id(c) - int
+..........Identifier(b) - int
+..........Identifier(c) - int

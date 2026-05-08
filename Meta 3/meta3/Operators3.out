@@ -1,4 +1,3 @@
-Line 14, col 22: Operator <= cannot be applied to types double, none
 ===== Class Sum Symbol Table =====
 operator	()	void
 main	()	void
@@ -17,68 +16,68 @@ x		boolean
 y		boolean
 
 Program
-..Id(Sum)
+..Identifier(Sum)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(operator)
+......Identifier(operator)
 ......MethodParams
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(a)
+........Identifier(a)
 ......VarDecl
 ........Int
-........Id(b)
+........Identifier(b)
 ......VarDecl
 ........Int
-........Id(c)
+........Identifier(c)
 ......VarDecl
 ........Double
-........Id(d)
+........Identifier(d)
 ......VarDecl
 ........Double
-........Id(e)
+........Identifier(e)
 ......VarDecl
 ........Bool
-........Id(x)
+........Identifier(x)
 ......VarDecl
 ........Bool
-........Id(y)
+........Identifier(y)
 ......If
 ........Eq - boolean
-..........Id(x) - boolean
-..........Id(y) - boolean
+..........Identifier(x) - boolean
+..........Identifier(y) - boolean
 ........If
 ..........Eq - boolean
-............Id(a) - int
-............Id(b) - int
+............Identifier(a) - int
+............Identifier(b) - int
 ..........If
 ............Eq - boolean
-..............Id(d) - double
-..............Id(b) - int
+..............Identifier(d) - double
+..............Identifier(b) - int
 ............Assign - boolean
-..............Id(x) - boolean
+..............Identifier(x) - boolean
 ..............Or - boolean
 ................Le - boolean
 ..................Mul - double
-....................Id(d) - double
-....................Id(e) - double
-..................Rshift
-....................Id(a)
-....................Id(c)
+....................Identifier(d) - double
+....................Identifier(e) - double
+..................Rshift - int
+....................Identifier(a) - int
+....................Identifier(c) - int
 ................Eq - boolean
-..................Id(x) - boolean
+..................Identifier(x) - boolean
 ..................Not - boolean
-....................Id(y) - boolean
+....................Identifier(y) - boolean
 ............Block
 ..........Block
 ........Block
 ......Call - void
-........Id(operator) - ()
+........Identifier(operator) - ()

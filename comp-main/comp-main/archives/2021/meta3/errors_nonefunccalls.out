@@ -1,0 +1,48 @@
+Line 8, column 3: Cannot find symbol g(int,none)
+===== Global Symbol Table =====
+f	()	none
+g	(int,int)	none
+main	()	none
+
+===== Function f() Symbol Table =====
+return		none
+
+===== Function g(int,int) Symbol Table =====
+return		none
+a		int	param
+b		int	param
+
+===== Function main() Symbol Table =====
+return		none
+
+Program
+..FuncDecl
+....FuncHeader
+......Identifier(f)
+......FuncParams
+....FuncBody
+..FuncDecl
+....FuncHeader
+......Identifier(g)
+......FuncParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+........ParamDecl
+..........Int
+..........Identifier(b)
+....FuncBody
+..FuncDecl
+....FuncHeader
+......Identifier(main)
+......FuncParams
+....FuncBody
+......Call
+........Identifier(g) - (int,int)
+........Natural(1) - int
+........Natural(1) - int
+......Call - undef
+........Identifier(g) - undef
+........Natural(1) - int
+........Call
+..........Identifier(f) - ()

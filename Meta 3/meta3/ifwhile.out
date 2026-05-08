@@ -12,61 +12,61 @@ t		boolean
 f		boolean
 
 Program
-..Id(ifwhile)
+..Identifier(ifwhile)
 ..FieldDecl
 ....Bool
-....Id(b)
+....Identifier(b)
 ..FieldDecl
 ....Int
-....Id(i)
+....Identifier(i)
 ..FieldDecl
 ....Double
-....Id(d)
+....Identifier(d)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Bool
-........Id(bl)
+........Identifier(bl)
 ......VarDecl
 ........Bool
-........Id(t)
+........Identifier(t)
 ......VarDecl
 ........Bool
-........Id(f)
+........Identifier(f)
 ......If
-........Id(t) - boolean
+........Identifier(t) - boolean
 ........Block
 ..........While
-............Id(b) - boolean
+............Identifier(b) - boolean
 ............While
 ..............BoolLit(true) - boolean
 ..............Block
 ................Print
-..................Id(i) - int
+..................Identifier(i) - int
 ................Print
-..................Id(b) - boolean
+..................Identifier(b) - boolean
 ................Print
-..................Id(d) - double
+..................Identifier(d) - double
 ..........Print
 ............StrLit("Gotcha!") - String
 ..........While
 ............BoolLit(true) - boolean
 ............Block
 ..............If
-................Id(f) - boolean
+................Identifier(f) - boolean
 ................Block
 ................Block
 ..................While
-....................Id(f) - boolean
+....................Identifier(f) - boolean
 ....................Print
-......................Id(d) - double
+......................Identifier(d) - double
 ..................Print
 ....................StrLit("Twice!") - String
 ..............Print
@@ -75,4 +75,4 @@ Program
 ......While
 ........BoolLit(false) - boolean
 ........Print
-..........Id(b) - boolean
+..........Identifier(b) - boolean

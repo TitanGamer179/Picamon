@@ -1,4 +1,0 @@
-Line 5, col 20: Cannot find symbol factorial
-Line 5, col 18: Operator * cannot be applied to types int, undef
-Line 5, col 18: Incompatible type undef in return statement
-Line 10, col 3: Cannot find symbol factorial

@@ -16,46 +16,46 @@ i		int
 d		double
 
 Program
-..Id(ClassTeste)
+..Identifier(ClassTeste)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Bool
-........Id(b)
+........Identifier(b)
 ......VarDecl
 ........Int
-........Id(i)
+........Identifier(i)
 ......VarDecl
 ........Double
-........Id(d)
+........Identifier(d)
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Length - int
-..........Id(i) - int
+..........Identifier(i) - int
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Length - int
-..........Id(b) - boolean
+..........Identifier(b) - boolean
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Length - int
-..........Id(d) - double
+..........Identifier(d) - double
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Length - int
-..........Id(args) - String[]
+..........Identifier(args) - String[]
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Length - int
-..........Id(undef) - undef
+..........Identifier(undef) - undef
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........Length - int
-..........Id(i) - int
+..........Identifier(i) - int

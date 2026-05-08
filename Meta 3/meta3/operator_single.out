@@ -34,104 +34,104 @@ a		double	param
 b		int	param
 
 Program
-..Id(operator_single)
+..Identifier(operator_single)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(i)
+........Identifier(i)
 ......VarDecl
 ........Double
-........Id(d)
+........Identifier(d)
 ......VarDecl
 ........Bool
-........Id(b)
+........Identifier(b)
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........BoolLit(false) - boolean
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Plus - int
-..........DecLit(5) - int
+..........Natural(5) - int
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Plus - double
-..........RealLit(2.0) - double
+..........Decimal(2.0) - double
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Plus - int
-..........DecLit(1) - int
+..........Natural(1) - int
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Plus - double
-..........RealLit(2.0) - double
+..........Decimal(2.0) - double
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........Plus - undef
 ..........BoolLit(false) - boolean
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........Plus - undef
 ..........BoolLit(true) - boolean
 ......VarDecl
 ........Int
-........Id(tamanho)
+........Identifier(tamanho)
 ......Assign - int
-........Id(tamanho) - int
+........Identifier(tamanho) - int
 ........Length - int
-..........Id(args) - String[]
+..........Identifier(args) - String[]
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Length - int
-..........Id(i) - int
+..........Identifier(i) - int
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Length - int
-..........Id(d) - double
+..........Identifier(d) - double
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Not - boolean
-..........Id(i) - int
+..........Identifier(i) - int
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Not - boolean
-..........Id(d) - double
+..........Identifier(d) - double
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........Not - boolean
-..........Id(b) - boolean
+..........Identifier(b) - boolean
 ......Call - undef
-........Id(f) - undef
-........DecLit(1) - int
-........DecLit(1) - int
+........Identifier(f) - undef
+........Natural(1) - int
+........Natural(1) - int
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(f)
+......Identifier(f)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(a)
+..........Identifier(a)
 ........ParamDecl
 ..........Double
-..........Id(b)
+..........Identifier(b)
 ....MethodBody
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(f)
+......Identifier(f)
 ......MethodParams
 ........ParamDecl
 ..........Double
-..........Id(a)
+..........Identifier(a)
 ........ParamDecl
 ..........Int
-..........Id(b)
+..........Identifier(b)
 ....MethodBody

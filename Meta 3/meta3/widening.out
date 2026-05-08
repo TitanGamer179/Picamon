@@ -40,162 +40,162 @@ a		int	param
 b		int	param
 
 Program
-..Id(Narrow)
+..Identifier(Narrow)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(i)
+........Identifier(i)
 ......VarDecl
 ........Double
-........Id(d)
+........Identifier(d)
 ......VarDecl
 ........Bool
-........Id(b)
+........Identifier(b)
 ......Assign - double
-........Id(d) - double
-........RealLit(1.1) - double
+........Identifier(d) - double
+........Decimal(1.1) - double
 ......Assign - double
-........Id(d) - double
-........DecLit(1) - int
+........Identifier(d) - double
+........Natural(1) - int
 ......Assign - double
-........Id(d) - double
-........Id(i) - int
+........Identifier(d) - double
+........Identifier(i) - int
 ......Assign - double
-........Id(d) - double
-........Id(b) - boolean
+........Identifier(d) - double
+........Identifier(b) - boolean
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Mul - int
-..........Id(i) - int
-..........DecLit(1) - int
+..........Identifier(i) - int
+..........Natural(1) - int
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Mul - double
-..........Id(i) - int
-..........RealLit(1.1) - double
+..........Identifier(i) - int
+..........Decimal(1.1) - double
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Mul - double
-..........Id(i) - int
-..........Id(d) - double
+..........Identifier(i) - int
+..........Identifier(d) - double
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Mul - undef
-..........Id(i) - int
-..........Id(b) - boolean
+..........Identifier(i) - int
+..........Identifier(b) - boolean
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Call - int
-..........Id(fun_dd) - (double,double)
-..........DecLit(1) - int
-..........DecLit(2) - int
+..........Identifier(fun_dd) - (double,double)
+..........Natural(1) - int
+..........Natural(2) - int
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Call - int
-..........Id(fun_dd) - (double,double)
-..........RealLit(3.0) - double
-..........DecLit(4) - int
+..........Identifier(fun_dd) - (double,double)
+..........Decimal(3.0) - double
+..........Natural(4) - int
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Call - int
-..........Id(fun_dd) - (double,double)
-..........RealLit(5.0) - double
-..........RealLit(6.0) - double
+..........Identifier(fun_dd) - (double,double)
+..........Decimal(5.0) - double
+..........Decimal(6.0) - double
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Call - int
-..........Id(fun_di) - (double,int)
-..........DecLit(1) - int
-..........DecLit(1) - int
+..........Identifier(fun_di) - (double,int)
+..........Natural(1) - int
+..........Natural(1) - int
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Call - int
-..........Id(fun_di) - (double,int)
-..........RealLit(1.0) - double
-..........DecLit(1) - int
+..........Identifier(fun_di) - (double,int)
+..........Decimal(1.0) - double
+..........Natural(1) - int
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Call - undef
-..........Id(fun_di) - undef
-..........DecLit(1) - int
-..........RealLit(1.0) - double
+..........Identifier(fun_di) - undef
+..........Natural(1) - int
+..........Decimal(1.0) - double
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Call - undef
-..........Id(fun_di) - undef
-..........RealLit(1.0) - double
-..........RealLit(1.0) - double
+..........Identifier(fun_di) - undef
+..........Decimal(1.0) - double
+..........Decimal(1.0) - double
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Call - int
-..........Id(fun_ii) - (int,int)
-..........DecLit(1) - int
-..........DecLit(1) - int
+..........Identifier(fun_ii) - (int,int)
+..........Natural(1) - int
+..........Natural(1) - int
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Call - undef
-..........Id(fun_ii) - undef
-..........RealLit(1.0) - double
-..........DecLit(1) - int
+..........Identifier(fun_ii) - undef
+..........Decimal(1.0) - double
+..........Natural(1) - int
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Call - undef
-..........Id(fun_ii) - undef
-..........DecLit(1) - int
-..........RealLit(1.0) - double
+..........Identifier(fun_ii) - undef
+..........Natural(1) - int
+..........Decimal(1.0) - double
 ......Assign - double
-........Id(d) - double
+........Identifier(d) - double
 ........Call - undef
-..........Id(fun_ii) - undef
-..........RealLit(1.0) - double
-..........RealLit(1.0) - double
+..........Identifier(fun_ii) - undef
+..........Decimal(1.0) - double
+..........Decimal(1.0) - double
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Id(fun_dd)
+......Identifier(fun_dd)
 ......MethodParams
 ........ParamDecl
 ..........Double
-..........Id(a)
+..........Identifier(a)
 ........ParamDecl
 ..........Double
-..........Id(b)
+..........Identifier(b)
 ....MethodBody
 ......Return
-........DecLit(1) - int
+........Natural(1) - int
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Id(fun_di)
+......Identifier(fun_di)
 ......MethodParams
 ........ParamDecl
 ..........Double
-..........Id(a)
+..........Identifier(a)
 ........ParamDecl
 ..........Int
-..........Id(b)
+..........Identifier(b)
 ....MethodBody
 ......Return
-........DecLit(1) - int
+........Natural(1) - int
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Id(fun_ii)
+......Identifier(fun_ii)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(a)
+..........Identifier(a)
 ........ParamDecl
 ..........Int
-..........Id(b)
+..........Identifier(b)
 ....MethodBody
 ......Return
-........DecLit(1) - int
+........Natural(1) - int

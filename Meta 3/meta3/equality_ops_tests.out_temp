@@ -1,6 +1,0 @@
-Line 21, col 15: Operator == cannot be applied to types int, boolean
-Line 22, col 15: Operator == cannot be applied to types double, boolean
-Line 35, col 15: Operator != cannot be applied to types int, boolean
-Line 36, col 15: Operator != cannot be applied to types double, boolean
-Line 38, col 18: Operator == cannot be applied to types String[], String[]
-Line 39, col 18: Operator != cannot be applied to types String[], int

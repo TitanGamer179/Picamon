@@ -18,50 +18,50 @@ args		String[]	param
 d		int
 
 Program
-..Id(teste)
+..Identifier(teste)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(xd)
+......Identifier(xd)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(d)
+........Identifier(d)
 ......Print
-........Id(args) - String[]
-......Print
-........Length - int
-..........Id(d) - int
+........Identifier(args) - String[]
 ......Print
 ........Length - int
-..........Id(args) - String[]
+..........Identifier(d) - int
+......Print
+........Length - int
+..........Identifier(args) - String[]
 ......Print
 ........ParseArgs - int
-..........Id(args) - String[]
-..........RealLit(2.0) - double
+..........Identifier(args) - String[]
+..........Decimal(2.0) - double
 ......Print
 ........ParseArgs - int
-..........Id(args) - String[]
-..........DecLit(2) - int
+..........Identifier(args) - String[]
+..........Natural(2) - int
 ......Print
 ........ParseArgs - int
-..........Id(args) - String[]
-..........Id(e) - undef
+..........Identifier(args) - String[]
+..........Identifier(e) - undef
 ......Return
-........Id(args) - String[]
+........Identifier(args) - String[]
 ......Return
 ........ParseArgs - int
-..........Id(args) - String[]
-..........RealLit(2.0) - double
+..........Identifier(args) - String[]
+..........Decimal(2.0) - double
 ......Return
 ........Call - void
-..........Id(xd) - (String[])
-..........Id(args) - String[]
+..........Identifier(xd) - (String[])
+..........Identifier(args) - String[]
 ......Return
-........Id(d) - int
+........Identifier(d) - int
 ......Return
-........RealLit(2.0) - double
+........Decimal(2.0) - double

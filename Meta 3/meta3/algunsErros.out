@@ -72,68 +72,68 @@ b		boolean
 c		double
 
 Program
-..Id(Alguns_Erros)
+..Identifier(Alguns_Erros)
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Id(main1)
+......Identifier(main1)
 ......MethodParams
 ....MethodBody
 ......Return
 ..MethodDecl
 ....MethodHeader
 ......Double
-......Id(main2)
+......Identifier(main2)
 ......MethodParams
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(a)
+........Identifier(a)
 ......Return
-........Id(a) - int
+........Identifier(a) - int
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Id(main3)
+......Identifier(main3)
 ......MethodParams
 ....MethodBody
 ......VarDecl
 ........Double
-........Id(a)
+........Identifier(a)
 ......Return
-........Id(a) - double
+........Identifier(a) - double
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Id(cenas)
+......Identifier(cenas)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......Call - int
-........Id(cenas) - (String[])
-........Id(args) - String[]
+........Identifier(cenas) - (String[])
+........Identifier(args) - String[]
 ......VarDecl
 ........Int
-........Id(x)
+........Identifier(x)
 ......Assign - int
-........Id(x) - int
+........Identifier(x) - int
 ........Length - int
-..........Id(x) - int
+..........Identifier(x) - int
 ......Assign - int
-........Id(x) - int
+........Identifier(x) - int
 ........ParseArgs - int
-..........Id(args) - String[]
-..........DecLit(0) - int
+..........Identifier(args) - String[]
+..........Natural(0) - int
 ......Assign - int
-........Id(x) - int
+........Identifier(x) - int
 ........ParseArgs - int
-..........Id(x) - int
-..........DecLit(0) - int
+..........Identifier(x) - int
+..........Natural(0) - int
 ......If
 ........Add - undef
-..........DecLit(2) - int
+..........Natural(2) - int
 ..........Mul - undef
 ............BoolLit(true) - boolean
 ............BoolLit(true) - boolean
@@ -141,103 +141,103 @@ Program
 ........Block
 ......VarDecl
 ........Int
-........Id(a)
+........Identifier(a)
 ......Assign - int
-........Id(a) - int
+........Identifier(a) - int
 ........Add - undef
-..........Id(b) - undef
+..........Identifier(b) - undef
 ..........BoolLit(true) - boolean
 ......Assign - int
-........Id(a) - int
+........Identifier(a) - int
 ........Add - undef
-..........DecLit(1) - int
-..........Id(b) - undef
+..........Natural(1) - int
+..........Identifier(b) - undef
 ......Assign - int
-........Id(a) - int
+........Identifier(a) - int
 ........Add - undef
-..........Id(b) - undef
-..........DecLit(1) - int
+..........Identifier(b) - undef
+..........Natural(1) - int
 ......Assign - int
-........Id(a) - int
+........Identifier(a) - int
 ........Mul - undef
-..........Id(b) - undef
-..........Id(c) - undef
+..........Identifier(b) - undef
+..........Identifier(c) - undef
 ......VarDecl
 ........Double
-........Id(xd)
+........Identifier(xd)
 ......Assign - double
-........Id(xd) - double
-........Id(a) - int
+........Identifier(xd) - double
+........Identifier(a) - int
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(i)
+........Identifier(i)
 ......VarDecl
 ........Int
-........Id(i2)
+........Identifier(i2)
 ......VarDecl
 ........Double
-........Id(d)
+........Identifier(d)
 ......VarDecl
 ........Bool
-........Id(b)
+........Identifier(b)
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Assign - double
-..........Id(d) - double
-..........Id(b) - boolean
+..........Identifier(d) - double
+..........Identifier(b) - boolean
 ......Assign - int
-........Id(i) - int
-........DecLit(123123122121) - int
+........Identifier(i) - int
+........Natural(123123122121) - int
 ......VarDecl
 ........Int
-........Id(x)
+........Identifier(x)
 ......Assign - int
-........Id(i) - int
+........Identifier(i) - int
 ........Assign - double
-..........Id(d) - double
-..........Id(b) - boolean
+..........Identifier(d) - double
+..........Identifier(b) - boolean
 ......Return
 ......Call - undef
-........Id(factorial) - undef
-........Id(i) - int
-........Id(i) - int
-........Id(i) - int
+........Identifier(factorial) - undef
+........Identifier(i) - int
+........Identifier(i) - int
+........Identifier(i) - int
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(ola)
+......Identifier(ola)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(a)
+........Identifier(a)
 ......VarDecl
 ........Bool
-........Id(b)
+........Identifier(b)
 ......VarDecl
 ........Double
-........Id(c)
+........Identifier(c)
 ......Return
-........Id(a) - int
+........Identifier(a) - int
 ......Return
-........Id(b) - boolean
+........Identifier(b) - boolean
 ......Return
-........Id(c) - double
+........Identifier(c) - double
 ......Return
-........Id(args) - String[]
+........Identifier(args) - String[]
 ......Return
 ........Call - void
-..........Id(ola) - (String[])
-..........Id(args) - String[]
+..........Identifier(ola) - (String[])
+..........Identifier(args) - String[]

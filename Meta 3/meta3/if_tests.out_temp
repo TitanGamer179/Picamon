@@ -1,4 +1,0 @@
-Line 5, col 13: Incompatible type int in if statement
-Line 6, col 13: Incompatible type double in if statement
-Line 7, col 13: Incompatible type String[] in if statement
-Line 8, col 14: Incompatible type int in if statement

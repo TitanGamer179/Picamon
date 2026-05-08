@@ -12,49 +12,49 @@ args		String[]	param
 argument		int
 
 Program
-..Id(Factorial)
+..Identifier(Factorial)
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Id(factorial)
+......Identifier(factorial)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(n)
+..........Identifier(n)
 ....MethodBody
 ......If
 ........Eq - boolean
-..........Id(n) - int
-..........DecLit(0) - int
+..........Identifier(n) - int
+..........Natural(0) - int
 ........Return
-..........DecLit(1) - int
+..........Natural(1) - int
 ........Block
 ......Return
 ........Mul - int
-..........Id(n) - int
+..........Identifier(n) - int
 ..........Call - int
-............Id(factorial) - (int)
+............Identifier(factorial) - (int)
 ............Sub - int
-..............Id(n) - int
-..............DecLit(1) - int
+..............Identifier(n) - int
+..............Natural(1) - int
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(argument)
+........Identifier(argument)
 ......Assign - int
-........Id(argument) - int
+........Identifier(argument) - int
 ........ParseArgs - int
-..........Id(args) - String[]
-..........DecLit(0) - int
+..........Identifier(args) - String[]
+..........Natural(0) - int
 ......Print
 ........Call - int
-..........Id(factorial) - (int)
-..........Id(argument) - int
+..........Identifier(factorial) - (int)
+..........Identifier(argument) - int

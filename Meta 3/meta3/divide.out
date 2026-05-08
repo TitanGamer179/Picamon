@@ -12,87 +12,87 @@ r		int
 check		boolean
 
 Program
-..Id(divide)
+..Identifier(divide)
 ..FieldDecl
 ....Int
-....Id(num)
+....Identifier(num)
 ..FieldDecl
 ....Int
-....Id(den)
+....Identifier(den)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(quo)
+........Identifier(quo)
 ......VarDecl
 ........Int
-........Id(q)
+........Identifier(q)
 ......VarDecl
 ........Int
-........Id(r)
+........Identifier(r)
 ......Assign - int
-........Id(num) - int
+........Identifier(num) - int
 ........ParseArgs - int
-..........Id(args) - String[]
-..........DecLit(0) - int
+..........Identifier(args) - String[]
+..........Natural(0) - int
 ......Assign - int
-........Id(den) - int
+........Identifier(den) - int
 ........ParseArgs - int
-..........Id(args) - String[]
-..........DecLit(1) - int
+..........Identifier(args) - String[]
+..........Natural(1) - int
 ......Assign - int
-........Id(q) - int
+........Identifier(q) - int
 ........Div - int
-..........Id(num) - int
-..........Id(den) - int
+..........Identifier(num) - int
+..........Identifier(den) - int
 ......Assign - int
-........Id(r) - int
+........Identifier(r) - int
 ........Mod - int
-..........Id(num) - int
-..........Id(den) - int
+..........Identifier(num) - int
+..........Identifier(den) - int
 ......Assign - int
-........Id(quo) - int
-........DecLit(0) - int
+........Identifier(quo) - int
+........Natural(0) - int
 ......While
 ........Le - boolean
-..........Id(den) - int
-..........Id(num) - int
+..........Identifier(den) - int
+..........Identifier(num) - int
 ........Block
 ..........Assign - int
-............Id(num) - int
+............Identifier(num) - int
 ............Sub - int
-..............Id(num) - int
-..............Id(den) - int
+..............Identifier(num) - int
+..............Identifier(den) - int
 ..........Assign - int
-............Id(quo) - int
+............Identifier(quo) - int
 ............Add - int
-..............Id(quo) - int
-..............DecLit(1) - int
+..............Identifier(quo) - int
+..............Natural(1) - int
 ......VarDecl
 ........Bool
-........Id(check)
+........Identifier(check)
 ......Assign - boolean
-........Id(check) - boolean
+........Identifier(check) - boolean
 ........And - boolean
 ..........Eq - boolean
-............Id(quo) - int
-............Id(q) - int
+............Identifier(quo) - int
+............Identifier(q) - int
 ..........Eq - boolean
-............Id(num) - int
-............Id(r) - int
+............Identifier(num) - int
+............Identifier(r) - int
 ......If
-........Id(check) - boolean
+........Identifier(check) - boolean
 ........Block
 ..........Print
-............Id(quo) - int
+............Identifier(quo) - int
 ..........Print
-............Id(num) - int
+............Identifier(num) - int
 ........Print
-..........Id(check) - boolean
+..........Identifier(check) - boolean

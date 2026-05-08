@@ -1,7 +1,0 @@
-Line 8, col 14: Operator .length cannot be applied to type int
-Line 9, col 14: Operator .length cannot be applied to type boolean
-Line 10, col 14: Operator .length cannot be applied to type double
-Line 12, col 13: Cannot find symbol undef
-Line 12, col 18: Operator .length cannot be applied to type undef
-Line 14, col 14: Operator .length cannot be applied to type int
-Line 14, col 11: Operator = cannot be applied to types boolean, int

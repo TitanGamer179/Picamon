@@ -1,0 +1,439 @@
+Line 4, column 39: Incompatible type int in return statement
+Line 10, column 9: Incompatible type int in return statement
+Line 21, column 6: Symbol a already defined
+Line 22, column 9: Incompatible type int in return statement
+Line 30, column 2: Cannot find symbol f0(int,int,int,float32)
+Line 31, column 26: Cannot find symbol f0(int,int,float32,float32)
+Line 31, column 24: Operator + cannot be applied to types float32, undef
+Line 31, column 4: Operator = cannot be applied to types float32, undef
+Line 32, column 6: Cannot find symbol func2(int,int,float32,float32)
+Line 32, column 4: Operator = cannot be applied to types int, undef
+Line 33, column 10: Operator strconv.Atoi cannot be applied to types int, float32
+Line 34, column 6: Cannot find symbol func2
+Line 34, column 4: Operator = cannot be applied to types int, undef
+Line 35, column 57: Operator + cannot be applied to types int, float32
+Line 35, column 61: Operator + cannot be applied to types undef, float32
+Line 35, column 9: Cannot find symbol func1(int,int,float32,undef)
+Line 35, column 7: Operator = cannot be applied to types float32, undef
+Line 37, column 34: Cannot find symbol func1(bool)
+Line 37, column 13: Operator strconv.Atoi cannot be applied to types int, undef
+Line 39, column 7: Operator = cannot be applied to types int, float32
+Line 40, column 12: Operator > cannot be applied to types bool, bool
+Line 43, column 12: Operator > cannot be applied to types int, float32
+Line 44, column 13: Operator strconv.Atoi cannot be applied to types float32, string
+Line 46, column 4: Operator = cannot be applied to types int, bool
+Line 50, column 11: Operator && cannot be applied to types float32, bool
+Line 55, column 8: Cannot find symbol func3()
+Line 55, column 6: Operator = cannot be applied to types int, undef
+Line 56, column 10: Operator >= cannot be applied to types bool, bool
+Line 58, column 9: Incompatible type float32 in for statement
+Line 69, column 20: Cannot find symbol func_(int,int,float32)
+Line 69, column 20: Incompatible type undef in fmt.Println statement
+Line 76, column 4: Cannot find symbol noWhereToBeFound
+Line 76, column 23: Cannot find symbol noWhereToBeFound(bool,int,bool)
+Line 76, column 21: Operator = cannot be applied to types undef, undef
+Line 28, column 9: Symbol h declared but never used
+===== Global Symbol Table =====
+func__	(int,float32)	none
+func1	(int,int,float32,float32)	float32
+func2	(string)	int
+func3	(bool)	int
+func4	(int,float32,bool)	float32
+main	()	none
+
+===== Function func__(int,float32) Symbol Table =====
+return		none
+a		int	param
+b		float32	param
+
+===== Function func1(int,int,float32,float32) Symbol Table =====
+return		float32
+a		int	param
+b		int	param
+c		float32	param
+d		float32	param
+integer		int
+
+===== Function func2(string) Symbol Table =====
+return		int
+a		string	param
+
+===== Function func3(bool) Symbol Table =====
+return		int
+a		bool	param
+
+===== Function func4(int,float32,bool) Symbol Table =====
+return		float32
+a		int	param
+b		float32	param
+c		bool	param
+
+===== Function main() Symbol Table =====
+return		none
+a		int
+b		int
+c		int
+d		float32
+e		float32
+f		float32
+g		string
+h		string
+i		string
+j		bool
+k		bool
+l		bool
+toBe		bool
+
+Program
+..FuncDecl
+....FuncHeader
+......Identifier(func__)
+......FuncParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+........ParamDecl
+..........Float32
+..........Identifier(b)
+....FuncBody
+......Return
+........Natural(1) - int
+..FuncDecl
+....FuncHeader
+......Identifier(func1)
+......Float32
+......FuncParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+........ParamDecl
+..........Int
+..........Identifier(b)
+........ParamDecl
+..........Float32
+..........Identifier(c)
+........ParamDecl
+..........Float32
+..........Identifier(d)
+....FuncBody
+......VarDecl
+........Int
+........Identifier(integer)
+......Return
+........Identifier(integer) - int
+..FuncDecl
+....FuncHeader
+......Identifier(func2)
+......Int
+......FuncParams
+........ParamDecl
+..........String
+..........Identifier(a)
+....FuncBody
+..FuncDecl
+....FuncHeader
+......Identifier(func3)
+......Int
+......FuncParams
+........ParamDecl
+..........Bool
+..........Identifier(a)
+....FuncBody
+......Return
+........Natural(1) - int
+..FuncDecl
+....FuncHeader
+......Identifier(func4)
+......Float32
+......FuncParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+........ParamDecl
+..........Float32
+..........Identifier(b)
+........ParamDecl
+..........Bool
+..........Identifier(c)
+....FuncBody
+......VarDecl
+........Float32
+........Identifier(a)
+......Return
+........Identifier(a) - int
+..FuncDecl
+....FuncHeader
+......Identifier(main)
+......FuncParams
+....FuncBody
+......VarDecl
+........Int
+........Identifier(a)
+......VarDecl
+........Int
+........Identifier(b)
+......VarDecl
+........Int
+........Identifier(c)
+......VarDecl
+........Float32
+........Identifier(d)
+......VarDecl
+........Float32
+........Identifier(e)
+......VarDecl
+........Float32
+........Identifier(f)
+......VarDecl
+........String
+........Identifier(g)
+......VarDecl
+........String
+........Identifier(h)
+......VarDecl
+........String
+........Identifier(i)
+......VarDecl
+........Bool
+........Identifier(j)
+......VarDecl
+........Bool
+........Identifier(k)
+......VarDecl
+........Bool
+........Identifier(l)
+......VarDecl
+........Bool
+........Identifier(toBe)
+......Call - undef
+........Identifier(f0) - undef
+........Identifier(a) - int
+........Identifier(b) - int
+........Identifier(c) - int
+........Identifier(d) - float32
+......Assign - float32
+........Identifier(d) - float32
+........Add - undef
+..........Call - float32
+............Identifier(func1) - (int,int,float32,float32)
+............Identifier(a) - int
+............Identifier(b) - int
+............Identifier(d) - float32
+............Identifier(e) - float32
+..........Call - undef
+............Identifier(f0) - undef
+............Identifier(a) - int
+............Natural(1) - int
+............Identifier(d) - float32
+............Decimal(1.0) - float32
+......Assign - int
+........Identifier(a) - int
+........Call - undef
+..........Identifier(func2) - undef
+..........Natural(1) - int
+..........Natural(1) - int
+..........Decimal(1.0) - float32
+..........Decimal(1.0) - float32
+......ParseArgs - int
+........Identifier(a) - int
+........Call - float32
+..........Identifier(func1) - (int,int,float32,float32)
+..........Identifier(a) - int
+..........Natural(123) - int
+..........Decimal(.1e1) - float32
+..........Identifier(f) - float32
+......Assign - int
+........Identifier(a) - int
+........Identifier(func2) - undef
+......Assign - float32
+........Identifier(f) - float32
+........Call - undef
+..........Identifier(func1) - undef
+..........Call - int
+............Identifier(func2) - (string)
+............Identifier(g) - string
+..........Add - int
+............Add - int
+..............Identifier(a) - int
+..............Identifier(b) - int
+............Identifier(c) - int
+..........Call - float32
+............Identifier(func1) - (int,int,float32,float32)
+............Identifier(a) - int
+............Identifier(b) - int
+............Identifier(d) - float32
+............Identifier(e) - float32
+..........Add - undef
+............Add - undef
+..............Identifier(c) - int
+..............Identifier(e) - float32
+............Identifier(f) - float32
+......Print
+........Call - float32
+..........Identifier(func1) - (int,int,float32,float32)
+..........Call - int
+............Identifier(func2) - (string)
+............Identifier(g) - string
+..........Add - int
+............Add - int
+..............Identifier(a) - int
+..............Identifier(b) - int
+............Identifier(c) - int
+..........Call - float32
+............Identifier(func1) - (int,int,float32,float32)
+............Identifier(a) - int
+............Identifier(b) - int
+............Identifier(d) - float32
+............Identifier(e) - float32
+..........Add - float32
+............Add - float32
+..............Identifier(d) - float32
+..............Identifier(e) - float32
+............Identifier(f) - float32
+......ParseArgs - int
+........Identifier(a) - int
+........Call - undef
+..........Identifier(func1) - undef
+..........Ge - bool
+............Identifier(a) - int
+............Identifier(b) - int
+......Assign - float32
+........Identifier(f) - float32
+........Decimal(1.1) - float32
+......Assign - int
+........Identifier(a) - int
+........Decimal(1.0) - float32
+......Call - int
+........Identifier(func3) - (bool)
+........Gt - bool
+..........Identifier(j) - bool
+..........Identifier(k) - bool
+......Call - int
+........Identifier(func3) - (bool)
+........Eq - bool
+..........Identifier(l) - bool
+..........Identifier(j) - bool
+......Print
+........Or - bool
+..........Identifier(j) - bool
+..........And - bool
+............Identifier(k) - bool
+............Identifier(l) - bool
+......Call - int
+........Identifier(func3) - (bool)
+........Gt - bool
+..........Identifier(a) - int
+..........Identifier(f) - float32
+......ParseArgs - int
+........Identifier(f) - float32
+........Identifier(i) - string
+......Call - int
+........Identifier(func3) - (bool)
+........Ge - bool
+..........Identifier(a) - int
+..........Identifier(c) - int
+......Assign - int
+........Identifier(a) - int
+........Eq - bool
+..........Natural(12) - int
+..........Natural(32) - int
+......Print
+........StrLit("((What a mess)) ") - string
+......Assign - bool
+........Identifier(j) - bool
+........Eq - bool
+..........Natural(12) - int
+..........Natural(32) - int
+......For
+........Block
+..........Call - int
+............Identifier(func3) - (bool)
+............And - bool
+..............Identifier(f) - float32
+..............Identifier(l) - bool
+..........Assign - int
+............Identifier(a) - int
+............Add - int
+..............Identifier(b) - int
+..............Identifier(c) - int
+..........For
+............Eq - bool
+..............Identifier(a) - int
+..............Identifier(c) - int
+............Block
+..............Call - int
+................Identifier(func3) - (bool)
+................Or - bool
+..................Identifier(j) - bool
+..................Not - bool
+....................Identifier(l) - bool
+..............Assign - float32
+................Identifier(d) - float32
+................Add - float32
+..................Identifier(e) - float32
+..................Identifier(f) - float32
+..............Assign - int
+................Identifier(a) - int
+................Call - undef
+..................Identifier(func3) - undef
+..............For
+................Ge - bool
+..................Identifier(j) - bool
+..................Identifier(l) - bool
+................Block
+..................ParseArgs - int
+....................Identifier(a) - int
+....................Call - int
+......................Identifier(func3) - (bool)
+......................Ge - bool
+........................Identifier(a) - int
+........................Identifier(b) - int
+..................For
+....................Identifier(f) - float32
+....................Block
+......................If
+........................Identifier(l) - bool
+........................Block
+..........................Assign - float32
+............................Identifier(d) - float32
+............................Identifier(f) - float32
+........................Block
+..........................Assign - int
+............................Identifier(a) - int
+............................Identifier(a) - int
+..................For
+....................Or - bool
+......................Identifier(toBe) - bool
+......................Not - bool
+........................Identifier(toBe) - bool
+....................Block
+......................If
+........................Identifier(toBe) - bool
+........................Block
+........................Block
+..........................If
+............................Not - bool
+..............................Identifier(toBe) - bool
+............................Block
+..............................Print
+................................Call - undef
+..................................Identifier(func_) - undef
+..................................Identifier(a) - int
+..................................Identifier(c) - int
+..................................Identifier(e) - float32
+............................Block
+..............................Assign - bool
+................................Identifier(toBe) - bool
+................................Not - bool
+..................................Identifier(toBe) - bool
+..............Assign - undef
+................Identifier(noWhereToBeFound) - undef
+................Call - undef
+..................Identifier(noWhereToBeFound) - undef
+..................Eq - bool
+....................Identifier(a) - int
+....................Identifier(b) - int
+..................Identifier(c) - int
+..................Ge - bool
+....................Identifier(d) - float32
+....................Identifier(f) - float32

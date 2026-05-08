@@ -1,5 +1,3 @@
-Line 8, col 17: Operator * cannot be applied to types none, double
-Line 8, col 10: Operator = cannot be applied to types double, undef
 Line 16, col 9: Cannot find symbol operators()
 ===== Class Factorial Symbol Table =====
 operators	(int)	int
@@ -20,62 +18,62 @@ return		void
 args		String[]	param
 
 Program
-..Id(Factorial)
+..Identifier(Factorial)
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Id(operators)
+......Identifier(operators)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(n)
+..........Identifier(n)
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(x)
+........Identifier(x)
 ......VarDecl
 ........Int
-........Id(b)
+........Identifier(b)
 ......VarDecl
 ........Int
-........Id(a)
+........Identifier(a)
 ......VarDecl
 ........Double
-........Id(y)
+........Identifier(y)
 ......VarDecl
 ........Bool
-........Id(z)
+........Identifier(z)
 ......VarDecl
 ........Bool
-........Id(t)
+........Identifier(t)
 ......If
 ........And - boolean
 ..........Eq - boolean
-............Id(x) - int
-............Id(b) - int
+............Identifier(x) - int
+............Identifier(b) - int
 ..........Eq - boolean
-............Id(z) - boolean
-............Id(t) - boolean
+............Identifier(z) - boolean
+............Identifier(t) - boolean
 ........Assign - double
-..........Id(y) - double
-..........Mul - undef
-............Lshift
-..............Id(a)
-..............Id(b)
-............RealLit(1.0) - double
+..........Identifier(y) - double
+..........Mul - double
+............Lshift - int
+..............Identifier(a) - int
+..............Identifier(b) - int
+............Decimal(1.0) - double
 ........Assign - double
-..........Id(y) - double
+..........Identifier(y) - double
 ..........Mod - double
-............Id(a) - int
-............Id(y) - double
+............Identifier(a) - int
+............Identifier(y) - double
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......Call - undef
-........Id(operators) - undef
+........Identifier(operators) - undef

@@ -1,6 +1,13 @@
-Line 27, col 11: Operator = cannot be applied to types int, boolean
+Line 21, col 18: Operator ^ cannot be applied to types boolean, boolean
+Line 21, col 11: Operator = cannot be applied to types boolean, int
+Line 22, col 19: Operator ^ cannot be applied to types boolean, boolean
+Line 22, col 11: Operator = cannot be applied to types boolean, int
+Line 23, col 18: Operator ^ cannot be applied to types boolean, boolean
+Line 23, col 11: Operator = cannot be applied to types boolean, int
+Line 24, col 19: Operator ^ cannot be applied to types boolean, boolean
+Line 24, col 11: Operator = cannot be applied to types boolean, int
+Line 27, col 18: Operator ^ cannot be applied to types boolean, boolean
 Line 28, col 18: Operator ^ cannot be applied to types double, double
-Line 28, col 11: Operator = cannot be applied to types int, undef
 ===== Class ClassTeste Symbol Table =====
 main	(String[])	void
 
@@ -12,116 +19,116 @@ i		int
 d		double
 
 Program
-..Id(ClassTeste)
+..Identifier(ClassTeste)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Bool
-........Id(b)
+........Identifier(b)
 ......VarDecl
 ........Int
-........Id(i)
+........Identifier(i)
 ......VarDecl
 ........Double
-........Id(d)
+........Identifier(d)
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........And - boolean
 ..........BoolLit(true) - boolean
 ..........BoolLit(true) - boolean
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........And - boolean
 ..........Not - boolean
 ............BoolLit(true) - boolean
 ..........BoolLit(true) - boolean
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........And - boolean
 ..........BoolLit(true) - boolean
 ..........Not - boolean
 ............BoolLit(true) - boolean
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........And - boolean
 ..........Not - boolean
 ............BoolLit(true) - boolean
 ..........Not - boolean
 ............BoolLit(true) - boolean
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........Or - boolean
 ..........BoolLit(true) - boolean
 ..........BoolLit(true) - boolean
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........Or - boolean
 ..........Not - boolean
 ............BoolLit(true) - boolean
 ..........BoolLit(true) - boolean
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........Or - boolean
 ..........BoolLit(true) - boolean
 ..........Not - boolean
 ............BoolLit(true) - boolean
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........Or - boolean
 ..........Not - boolean
 ............BoolLit(true) - boolean
 ..........Not - boolean
 ............BoolLit(true) - boolean
 ......Assign - boolean
-........Id(b) - boolean
-........Xor - boolean
-..........BoolLit(true) - boolean
-..........BoolLit(true) - boolean
-......Assign - boolean
-........Id(b) - boolean
-........Xor - boolean
-..........Not - boolean
-............BoolLit(true) - boolean
-..........BoolLit(true) - boolean
-......Assign - boolean
-........Id(b) - boolean
-........Xor - boolean
-..........BoolLit(true) - boolean
-..........Not - boolean
-............BoolLit(true) - boolean
-......Assign - boolean
-........Id(b) - boolean
-........Xor - boolean
-..........Not - boolean
-............BoolLit(true) - boolean
-..........Not - boolean
-............BoolLit(true) - boolean
-......Assign - int
-........Id(i) - int
+........Identifier(b) - boolean
 ........Xor - int
-..........DecLit(10) - int
-..........DecLit(10) - int
+..........BoolLit(true) - boolean
+..........BoolLit(true) - boolean
+......Assign - boolean
+........Identifier(b) - boolean
+........Xor - int
+..........Not - boolean
+............BoolLit(true) - boolean
+..........BoolLit(true) - boolean
+......Assign - boolean
+........Identifier(b) - boolean
+........Xor - int
+..........BoolLit(true) - boolean
+..........Not - boolean
+............BoolLit(true) - boolean
+......Assign - boolean
+........Identifier(b) - boolean
+........Xor - int
+..........Not - boolean
+............BoolLit(true) - boolean
+..........Not - boolean
+............BoolLit(true) - boolean
 ......Assign - int
-........Id(i) - int
-........Xor - boolean
+........Identifier(i) - int
+........Xor - int
+..........Natural(10) - int
+..........Natural(10) - int
+......Assign - int
+........Identifier(i) - int
+........Xor - int
 ..........BoolLit(true) - boolean
 ..........BoolLit(true) - boolean
 ......Assign - int
-........Id(i) - int
-........Xor - undef
-..........RealLit(10.0) - double
-..........RealLit(10.0) - double
+........Identifier(i) - int
+........Xor - int
+..........Decimal(10.0) - double
+..........Decimal(10.0) - double
 ......Assign - boolean
-........Id(b) - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
+........Identifier(b) - boolean
 ......Assign - boolean
-........Id(b) - boolean
+........Identifier(b) - boolean
 ........Not - boolean
-..........Id(b) - boolean
+..........Identifier(b) - boolean

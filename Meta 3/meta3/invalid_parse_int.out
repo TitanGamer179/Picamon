@@ -32,58 +32,58 @@ i		int
 d		double
 
 Program
-..Id(ClassTeste)
+..Identifier(ClassTeste)
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......VarDecl
 ........Bool
-........Id(b)
+........Identifier(b)
 ......VarDecl
 ........Int
-........Id(i)
+........Identifier(i)
 ......VarDecl
 ........Double
-........Id(d)
+........Identifier(d)
 ......ParseArgs - int
-........Id(undef) - undef
-........Id(undef) - undef
+........Identifier(undef) - undef
+........Identifier(undef) - undef
 ......ParseArgs - int
-........Id(undef) - undef
+........Identifier(undef) - undef
 ........Lshift - int
-..........DecLit(1) - int
-..........DecLit(1) - int
+..........Natural(1) - int
+..........Natural(1) - int
 ......ParseArgs - int
-........Id(undef) - undef
-........DecLit(0) - int
+........Identifier(undef) - undef
+........Natural(0) - int
 ......ParseArgs - int
-........Id(undef) - undef
-........Id(i) - int
+........Identifier(undef) - undef
+........Identifier(i) - int
 ......ParseArgs - int
-........Id(undef) - undef
+........Identifier(undef) - undef
 ........Length - int
-..........Id(args) - String[]
+..........Identifier(args) - String[]
 ......ParseArgs - int
-........Id(undef) - undef
-........RealLit(0.0) - double
+........Identifier(undef) - undef
+........Decimal(0.0) - double
 ......ParseArgs - int
-........Id(undef) - undef
-........Id(d) - double
+........Identifier(undef) - undef
+........Identifier(d) - double
 ......ParseArgs - int
-........Id(undef) - undef
+........Identifier(undef) - undef
 ........BoolLit(true) - boolean
 ......ParseArgs - int
-........Id(undef) - undef
-........Id(b) - boolean
+........Identifier(undef) - undef
+........Identifier(b) - boolean
 ......ParseArgs - int
-........Id(undef) - undef
-........Id(args) - String[]
+........Identifier(undef) - undef
+........Identifier(args) - String[]
 ......ParseArgs - int
-........Id(args) - String[]
-........Id(undef) - undef
+........Identifier(args) - String[]
+........Identifier(undef) - undef

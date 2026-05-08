@@ -1,4 +1,3 @@
-Line 5, col 9: Operator = cannot be applied to types int, none
 Line 12, col 9: Cannot find symbol operators()
 ===== Class Factorial Symbol Table =====
 operators	(int)	int
@@ -17,53 +16,53 @@ return		void
 args		String[]	param
 
 Program
-..Id(Factorial)
+..Identifier(Factorial)
 ..MethodDecl
 ....MethodHeader
 ......Int
-......Id(operators)
+......Identifier(operators)
 ......MethodParams
 ........ParamDecl
 ..........Int
-..........Id(n)
+..........Identifier(n)
 ....MethodBody
 ......VarDecl
 ........Int
-........Id(x)
+........Identifier(x)
 ......VarDecl
 ........Int
-........Id(b)
+........Identifier(b)
 ......VarDecl
 ........Int
-........Id(a)
+........Identifier(a)
 ......VarDecl
 ........Double
-........Id(y)
+........Identifier(y)
 ......Assign - int
-........Id(x) - int
-........Lshift
-..........Id(b)
-..........Id(a)
+........Identifier(x) - int
+........Lshift - int
+..........Identifier(b) - int
+..........Identifier(a) - int
 ......Assign - int
-........Id(b) - int
+........Identifier(b) - int
 ........Mul - int
-..........Id(x) - int
-..........Id(a) - int
+..........Identifier(x) - int
+..........Identifier(a) - int
 ......Assign - double
-........Id(y) - double
+........Identifier(y) - double
 ........Mul - double
-..........Id(x) - int
+..........Identifier(x) - int
 ..........Add - double
-............RealLit(1.0) - double
-............Id(b) - int
+............Decimal(1.0) - double
+............Identifier(b) - int
 ..MethodDecl
 ....MethodHeader
 ......Void
-......Id(main)
+......Identifier(main)
 ......MethodParams
 ........ParamDecl
 ..........StringArray
-..........Id(args)
+..........Identifier(args)
 ....MethodBody
 ......Call - undef
-........Id(operators) - undef
+........Identifier(operators) - undef

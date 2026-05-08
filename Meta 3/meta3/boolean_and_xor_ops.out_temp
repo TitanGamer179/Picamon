@@ -1,3 +1,0 @@
-Line 27, col 11: Operator = cannot be applied to types int, boolean
-Line 28, col 18: Operator ^ cannot be applied to types double, double
-Line 28, col 11: Operator = cannot be applied to types int, undef
