@@ -169,7 +169,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 668 "jucompiler.y"
+#line 667 "jucompiler.y"
 
     struct {
         char* str;
