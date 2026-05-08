@@ -1,0 +1,91 @@
+===== Class OkExprPrecedence Symbol Table =====
+calc	(int,int,int)	int
+main	(String[])	void
+
+===== Method calc(int,int,int) Symbol Table =====
+return		int
+a		int	param
+b		int	param
+c		int	param
+r		int
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+x		int
+
+Program
+..Identifier(OkExprPrecedence)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(calc)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+........ParamDecl
+..........Int
+..........Identifier(b)
+........ParamDecl
+..........Int
+..........Identifier(c)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(r)
+......Assign - int
+........Identifier(r) - int
+........Lshift - int
+..........Add - int
+............Identifier(a) - int
+............Mul - int
+..............Identifier(b) - int
+..............Identifier(c) - int
+..........Natural(1) - int
+......Assign - int
+........Identifier(r) - int
+........Xor - int
+..........Identifier(r) - int
+..........Mod - int
+............Sub - int
+..............Identifier(a) - int
+..............Identifier(b) - int
+............Identifier(c) - int
+......Return
+........Identifier(r) - int
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(x)
+......Assign - int
+........Identifier(x) - int
+........Natural(1) - int
+......While
+........And - boolean
+..........Not - boolean
+............Eq - boolean
+..............Identifier(x) - int
+..............Natural(5) - int
+..........Lt - boolean
+............Identifier(x) - int
+............Natural(10) - int
+........Assign - int
+..........Identifier(x) - int
+..........Add - int
+............Identifier(x) - int
+............Natural(1) - int
+......Print
+........Call - int
+..........Identifier(calc) - (int,int,int)
+..........Identifier(x) - int
+..........Natural(2) - int
+..........Natural(3) - int

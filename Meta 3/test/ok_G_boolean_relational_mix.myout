@@ -1,0 +1,68 @@
+===== Class OkGBooleanRelationalMix Symbol Table =====
+test	(int,int)	boolean
+main	(String[])	void
+
+===== Method test(int,int) Symbol Table =====
+return		boolean
+a		int	param
+b		int	param
+r		boolean
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+x		boolean
+
+Program
+..Identifier(OkGBooleanRelationalMix)
+..MethodDecl
+....MethodHeader
+......Bool
+......Identifier(test)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+........ParamDecl
+..........Int
+..........Identifier(b)
+....MethodBody
+......VarDecl
+........Bool
+........Identifier(r)
+......Assign - boolean
+........Identifier(r) - boolean
+........Or - boolean
+..........And - boolean
+............Lt - boolean
+..............Identifier(a) - int
+..............Identifier(b) - int
+............Not - boolean
+..............Eq - boolean
+................Identifier(a) - int
+................Natural(0) - int
+..........Ge - boolean
+............Identifier(b) - int
+............Natural(10) - int
+......Return
+........Identifier(r) - boolean
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Bool
+........Identifier(x)
+......Assign - boolean
+........Identifier(x) - boolean
+........Call - boolean
+..........Identifier(test) - (int,int)
+..........Natural(2) - int
+..........Natural(11) - int
+......Print
+........Identifier(x) - boolean

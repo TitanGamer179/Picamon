@@ -1,0 +1,91 @@
+Line 3, col 9: Cannot find symbol miss(int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int)
+===== Class StressLongMissingSignature Symbol Table =====
+main	(String[])	void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+
+Program
+..Identifier(StressLongMissingSignature)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......Call - undef
+........Identifier(miss) - undef
+........Natural(1) - int
+........Natural(2) - int
+........Natural(3) - int
+........Natural(4) - int
+........Natural(5) - int
+........Natural(6) - int
+........Natural(7) - int
+........Natural(8) - int
+........Natural(9) - int
+........Natural(10) - int
+........Natural(11) - int
+........Natural(12) - int
+........Natural(13) - int
+........Natural(14) - int
+........Natural(15) - int
+........Natural(16) - int
+........Natural(17) - int
+........Natural(18) - int
+........Natural(19) - int
+........Natural(20) - int
+........Natural(21) - int
+........Natural(22) - int
+........Natural(23) - int
+........Natural(24) - int
+........Natural(25) - int
+........Natural(26) - int
+........Natural(27) - int
+........Natural(28) - int
+........Natural(29) - int
+........Natural(30) - int
+........Natural(31) - int
+........Natural(32) - int
+........Natural(33) - int
+........Natural(34) - int
+........Natural(35) - int
+........Natural(36) - int
+........Natural(37) - int
+........Natural(38) - int
+........Natural(39) - int
+........Natural(40) - int
+........Natural(41) - int
+........Natural(42) - int
+........Natural(43) - int
+........Natural(44) - int
+........Natural(45) - int
+........Natural(46) - int
+........Natural(47) - int
+........Natural(48) - int
+........Natural(49) - int
+........Natural(50) - int
+........Natural(51) - int
+........Natural(52) - int
+........Natural(53) - int
+........Natural(54) - int
+........Natural(55) - int
+........Natural(56) - int
+........Natural(57) - int
+........Natural(58) - int
+........Natural(59) - int
+........Natural(60) - int
+........Natural(61) - int
+........Natural(62) - int
+........Natural(63) - int
+........Natural(64) - int
+........Natural(65) - int
+........Natural(66) - int
+........Natural(67) - int
+........Natural(68) - int
+........Natural(69) - int
+........Natural(70) - int

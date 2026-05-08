@@ -1,0 +1,682 @@
+Line 155, col 13: Reference to method pick(int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int) is ambiguous
+Line 155, col 11: Operator = cannot be applied to types int, undef
+===== Class StressLongAmbiguousCompatible Symbol Table =====
+pick	(double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,int)	int
+pick	(int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,double)	int
+main	(String[])	void
+
+===== Method pick(double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,double,int) Symbol Table =====
+return		int
+p1		double	param
+p2		double	param
+p3		double	param
+p4		double	param
+p5		double	param
+p6		double	param
+p7		double	param
+p8		double	param
+p9		double	param
+p10		double	param
+p11		double	param
+p12		double	param
+p13		double	param
+p14		double	param
+p15		double	param
+p16		double	param
+p17		double	param
+p18		double	param
+p19		double	param
+p20		double	param
+p21		double	param
+p22		double	param
+p23		double	param
+p24		double	param
+p25		double	param
+p26		double	param
+p27		double	param
+p28		double	param
+p29		double	param
+p30		double	param
+p31		double	param
+p32		double	param
+p33		double	param
+p34		double	param
+p35		double	param
+p36		double	param
+p37		double	param
+p38		double	param
+p39		double	param
+p40		double	param
+p41		double	param
+p42		double	param
+p43		double	param
+p44		double	param
+p45		double	param
+p46		double	param
+p47		double	param
+p48		double	param
+p49		double	param
+p50		double	param
+p51		double	param
+p52		double	param
+p53		double	param
+p54		double	param
+p55		double	param
+p56		double	param
+p57		double	param
+p58		double	param
+p59		double	param
+p60		double	param
+p61		double	param
+p62		double	param
+p63		double	param
+p64		double	param
+p65		double	param
+p66		double	param
+p67		double	param
+p68		double	param
+p69		double	param
+p70		int	param
+
+===== Method pick(int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,int,double) Symbol Table =====
+return		int
+p1		int	param
+p2		int	param
+p3		int	param
+p4		int	param
+p5		int	param
+p6		int	param
+p7		int	param
+p8		int	param
+p9		int	param
+p10		int	param
+p11		int	param
+p12		int	param
+p13		int	param
+p14		int	param
+p15		int	param
+p16		int	param
+p17		int	param
+p18		int	param
+p19		int	param
+p20		int	param
+p21		int	param
+p22		int	param
+p23		int	param
+p24		int	param
+p25		int	param
+p26		int	param
+p27		int	param
+p28		int	param
+p29		int	param
+p30		int	param
+p31		int	param
+p32		int	param
+p33		int	param
+p34		int	param
+p35		int	param
+p36		int	param
+p37		int	param
+p38		int	param
+p39		int	param
+p40		int	param
+p41		int	param
+p42		int	param
+p43		int	param
+p44		int	param
+p45		int	param
+p46		int	param
+p47		int	param
+p48		int	param
+p49		int	param
+p50		int	param
+p51		int	param
+p52		int	param
+p53		int	param
+p54		int	param
+p55		int	param
+p56		int	param
+p57		int	param
+p58		int	param
+p59		int	param
+p60		int	param
+p61		int	param
+p62		int	param
+p63		int	param
+p64		int	param
+p65		int	param
+p66		int	param
+p67		int	param
+p68		int	param
+p69		int	param
+p70		double	param
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+x		int
+
+Program
+..Identifier(StressLongAmbiguousCompatible)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(pick)
+......MethodParams
+........ParamDecl
+..........Double
+..........Identifier(p1)
+........ParamDecl
+..........Double
+..........Identifier(p2)
+........ParamDecl
+..........Double
+..........Identifier(p3)
+........ParamDecl
+..........Double
+..........Identifier(p4)
+........ParamDecl
+..........Double
+..........Identifier(p5)
+........ParamDecl
+..........Double
+..........Identifier(p6)
+........ParamDecl
+..........Double
+..........Identifier(p7)
+........ParamDecl
+..........Double
+..........Identifier(p8)
+........ParamDecl
+..........Double
+..........Identifier(p9)
+........ParamDecl
+..........Double
+..........Identifier(p10)
+........ParamDecl
+..........Double
+..........Identifier(p11)
+........ParamDecl
+..........Double
+..........Identifier(p12)
+........ParamDecl
+..........Double
+..........Identifier(p13)
+........ParamDecl
+..........Double
+..........Identifier(p14)
+........ParamDecl
+..........Double
+..........Identifier(p15)
+........ParamDecl
+..........Double
+..........Identifier(p16)
+........ParamDecl
+..........Double
+..........Identifier(p17)
+........ParamDecl
+..........Double
+..........Identifier(p18)
+........ParamDecl
+..........Double
+..........Identifier(p19)
+........ParamDecl
+..........Double
+..........Identifier(p20)
+........ParamDecl
+..........Double
+..........Identifier(p21)
+........ParamDecl
+..........Double
+..........Identifier(p22)
+........ParamDecl
+..........Double
+..........Identifier(p23)
+........ParamDecl
+..........Double
+..........Identifier(p24)
+........ParamDecl
+..........Double
+..........Identifier(p25)
+........ParamDecl
+..........Double
+..........Identifier(p26)
+........ParamDecl
+..........Double
+..........Identifier(p27)
+........ParamDecl
+..........Double
+..........Identifier(p28)
+........ParamDecl
+..........Double
+..........Identifier(p29)
+........ParamDecl
+..........Double
+..........Identifier(p30)
+........ParamDecl
+..........Double
+..........Identifier(p31)
+........ParamDecl
+..........Double
+..........Identifier(p32)
+........ParamDecl
+..........Double
+..........Identifier(p33)
+........ParamDecl
+..........Double
+..........Identifier(p34)
+........ParamDecl
+..........Double
+..........Identifier(p35)
+........ParamDecl
+..........Double
+..........Identifier(p36)
+........ParamDecl
+..........Double
+..........Identifier(p37)
+........ParamDecl
+..........Double
+..........Identifier(p38)
+........ParamDecl
+..........Double
+..........Identifier(p39)
+........ParamDecl
+..........Double
+..........Identifier(p40)
+........ParamDecl
+..........Double
+..........Identifier(p41)
+........ParamDecl
+..........Double
+..........Identifier(p42)
+........ParamDecl
+..........Double
+..........Identifier(p43)
+........ParamDecl
+..........Double
+..........Identifier(p44)
+........ParamDecl
+..........Double
+..........Identifier(p45)
+........ParamDecl
+..........Double
+..........Identifier(p46)
+........ParamDecl
+..........Double
+..........Identifier(p47)
+........ParamDecl
+..........Double
+..........Identifier(p48)
+........ParamDecl
+..........Double
+..........Identifier(p49)
+........ParamDecl
+..........Double
+..........Identifier(p50)
+........ParamDecl
+..........Double
+..........Identifier(p51)
+........ParamDecl
+..........Double
+..........Identifier(p52)
+........ParamDecl
+..........Double
+..........Identifier(p53)
+........ParamDecl
+..........Double
+..........Identifier(p54)
+........ParamDecl
+..........Double
+..........Identifier(p55)
+........ParamDecl
+..........Double
+..........Identifier(p56)
+........ParamDecl
+..........Double
+..........Identifier(p57)
+........ParamDecl
+..........Double
+..........Identifier(p58)
+........ParamDecl
+..........Double
+..........Identifier(p59)
+........ParamDecl
+..........Double
+..........Identifier(p60)
+........ParamDecl
+..........Double
+..........Identifier(p61)
+........ParamDecl
+..........Double
+..........Identifier(p62)
+........ParamDecl
+..........Double
+..........Identifier(p63)
+........ParamDecl
+..........Double
+..........Identifier(p64)
+........ParamDecl
+..........Double
+..........Identifier(p65)
+........ParamDecl
+..........Double
+..........Identifier(p66)
+........ParamDecl
+..........Double
+..........Identifier(p67)
+........ParamDecl
+..........Double
+..........Identifier(p68)
+........ParamDecl
+..........Double
+..........Identifier(p69)
+........ParamDecl
+..........Int
+..........Identifier(p70)
+....MethodBody
+......Return
+........Natural(1) - int
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(pick)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(p1)
+........ParamDecl
+..........Int
+..........Identifier(p2)
+........ParamDecl
+..........Int
+..........Identifier(p3)
+........ParamDecl
+..........Int
+..........Identifier(p4)
+........ParamDecl
+..........Int
+..........Identifier(p5)
+........ParamDecl
+..........Int
+..........Identifier(p6)
+........ParamDecl
+..........Int
+..........Identifier(p7)
+........ParamDecl
+..........Int
+..........Identifier(p8)
+........ParamDecl
+..........Int
+..........Identifier(p9)
+........ParamDecl
+..........Int
+..........Identifier(p10)
+........ParamDecl
+..........Int
+..........Identifier(p11)
+........ParamDecl
+..........Int
+..........Identifier(p12)
+........ParamDecl
+..........Int
+..........Identifier(p13)
+........ParamDecl
+..........Int
+..........Identifier(p14)
+........ParamDecl
+..........Int
+..........Identifier(p15)
+........ParamDecl
+..........Int
+..........Identifier(p16)
+........ParamDecl
+..........Int
+..........Identifier(p17)
+........ParamDecl
+..........Int
+..........Identifier(p18)
+........ParamDecl
+..........Int
+..........Identifier(p19)
+........ParamDecl
+..........Int
+..........Identifier(p20)
+........ParamDecl
+..........Int
+..........Identifier(p21)
+........ParamDecl
+..........Int
+..........Identifier(p22)
+........ParamDecl
+..........Int
+..........Identifier(p23)
+........ParamDecl
+..........Int
+..........Identifier(p24)
+........ParamDecl
+..........Int
+..........Identifier(p25)
+........ParamDecl
+..........Int
+..........Identifier(p26)
+........ParamDecl
+..........Int
+..........Identifier(p27)
+........ParamDecl
+..........Int
+..........Identifier(p28)
+........ParamDecl
+..........Int
+..........Identifier(p29)
+........ParamDecl
+..........Int
+..........Identifier(p30)
+........ParamDecl
+..........Int
+..........Identifier(p31)
+........ParamDecl
+..........Int
+..........Identifier(p32)
+........ParamDecl
+..........Int
+..........Identifier(p33)
+........ParamDecl
+..........Int
+..........Identifier(p34)
+........ParamDecl
+..........Int
+..........Identifier(p35)
+........ParamDecl
+..........Int
+..........Identifier(p36)
+........ParamDecl
+..........Int
+..........Identifier(p37)
+........ParamDecl
+..........Int
+..........Identifier(p38)
+........ParamDecl
+..........Int
+..........Identifier(p39)
+........ParamDecl
+..........Int
+..........Identifier(p40)
+........ParamDecl
+..........Int
+..........Identifier(p41)
+........ParamDecl
+..........Int
+..........Identifier(p42)
+........ParamDecl
+..........Int
+..........Identifier(p43)
+........ParamDecl
+..........Int
+..........Identifier(p44)
+........ParamDecl
+..........Int
+..........Identifier(p45)
+........ParamDecl
+..........Int
+..........Identifier(p46)
+........ParamDecl
+..........Int
+..........Identifier(p47)
+........ParamDecl
+..........Int
+..........Identifier(p48)
+........ParamDecl
+..........Int
+..........Identifier(p49)
+........ParamDecl
+..........Int
+..........Identifier(p50)
+........ParamDecl
+..........Int
+..........Identifier(p51)
+........ParamDecl
+..........Int
+..........Identifier(p52)
+........ParamDecl
+..........Int
+..........Identifier(p53)
+........ParamDecl
+..........Int
+..........Identifier(p54)
+........ParamDecl
+..........Int
+..........Identifier(p55)
+........ParamDecl
+..........Int
+..........Identifier(p56)
+........ParamDecl
+..........Int
+..........Identifier(p57)
+........ParamDecl
+..........Int
+..........Identifier(p58)
+........ParamDecl
+..........Int
+..........Identifier(p59)
+........ParamDecl
+..........Int
+..........Identifier(p60)
+........ParamDecl
+..........Int
+..........Identifier(p61)
+........ParamDecl
+..........Int
+..........Identifier(p62)
+........ParamDecl
+..........Int
+..........Identifier(p63)
+........ParamDecl
+..........Int
+..........Identifier(p64)
+........ParamDecl
+..........Int
+..........Identifier(p65)
+........ParamDecl
+..........Int
+..........Identifier(p66)
+........ParamDecl
+..........Int
+..........Identifier(p67)
+........ParamDecl
+..........Int
+..........Identifier(p68)
+........ParamDecl
+..........Int
+..........Identifier(p69)
+........ParamDecl
+..........Double
+..........Identifier(p70)
+....MethodBody
+......Return
+........Natural(2) - int
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(x)
+......Assign - int
+........Identifier(x) - int
+........Call - undef
+..........Identifier(pick) - undef
+..........Natural(1) - int
+..........Natural(2) - int
+..........Natural(3) - int
+..........Natural(4) - int
+..........Natural(5) - int
+..........Natural(6) - int
+..........Natural(7) - int
+..........Natural(8) - int
+..........Natural(9) - int
+..........Natural(10) - int
+..........Natural(11) - int
+..........Natural(12) - int
+..........Natural(13) - int
+..........Natural(14) - int
+..........Natural(15) - int
+..........Natural(16) - int
+..........Natural(17) - int
+..........Natural(18) - int
+..........Natural(19) - int
+..........Natural(20) - int
+..........Natural(21) - int
+..........Natural(22) - int
+..........Natural(23) - int
+..........Natural(24) - int
+..........Natural(25) - int
+..........Natural(26) - int
+..........Natural(27) - int
+..........Natural(28) - int
+..........Natural(29) - int
+..........Natural(30) - int
+..........Natural(31) - int
+..........Natural(32) - int
+..........Natural(33) - int
+..........Natural(34) - int
+..........Natural(35) - int
+..........Natural(36) - int
+..........Natural(37) - int
+..........Natural(38) - int
+..........Natural(39) - int
+..........Natural(40) - int
+..........Natural(41) - int
+..........Natural(42) - int
+..........Natural(43) - int
+..........Natural(44) - int
+..........Natural(45) - int
+..........Natural(46) - int
+..........Natural(47) - int
+..........Natural(48) - int
+..........Natural(49) - int
+..........Natural(50) - int
+..........Natural(51) - int
+..........Natural(52) - int
+..........Natural(53) - int
+..........Natural(54) - int
+..........Natural(55) - int
+..........Natural(56) - int
+..........Natural(57) - int
+..........Natural(58) - int
+..........Natural(59) - int
+..........Natural(60) - int
+..........Natural(61) - int
+..........Natural(62) - int
+..........Natural(63) - int
+..........Natural(64) - int
+..........Natural(65) - int
+..........Natural(66) - int
+..........Natural(67) - int
+..........Natural(68) - int
+..........Natural(69) - int
+..........Natural(70) - int

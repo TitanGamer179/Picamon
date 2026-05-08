@@ -1,0 +1,100 @@
+===== Class B3OkMethodHeadersVaried Symbol Table =====
+f	(int,int)	int
+g	(double)	double
+h	(boolean)	boolean
+boot	(String[])	void
+main	(String[])	void
+
+===== Method f(int,int) Symbol Table =====
+return		int
+a		int	param
+b		int	param
+
+===== Method g(double) Symbol Table =====
+return		double
+x		double	param
+
+===== Method h(boolean) Symbol Table =====
+return		boolean
+x		boolean	param
+
+===== Method boot(String[]) Symbol Table =====
+return		void
+argv		String[]	param
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+n		int
+
+Program
+..Identifier(B3OkMethodHeadersVaried)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(f)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+........ParamDecl
+..........Int
+..........Identifier(b)
+....MethodBody
+......Return
+........Add - int
+..........Identifier(a) - int
+..........Identifier(b) - int
+..MethodDecl
+....MethodHeader
+......Double
+......Identifier(g)
+......MethodParams
+........ParamDecl
+..........Double
+..........Identifier(x)
+....MethodBody
+......Return
+........Add - double
+..........Identifier(x) - double
+..........Identifier(x) - double
+..MethodDecl
+....MethodHeader
+......Bool
+......Identifier(h)
+......MethodParams
+........ParamDecl
+..........Bool
+..........Identifier(x)
+....MethodBody
+......Return
+........Identifier(x) - boolean
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(boot)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(argv)
+....MethodBody
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(n)
+......Assign - int
+........Identifier(n) - int
+........Natural(1) - int
+......Print
+........Call - int
+..........Identifier(f) - (int,int)
+..........Identifier(n) - int
+..........Natural(2) - int

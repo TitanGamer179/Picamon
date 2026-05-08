@@ -1,0 +1,107 @@
+Line 4, col 20: Operator >> cannot be applied to types double, double
+Line 4, col 8: Operator = cannot be applied to types int, undef
+Line 5, col 16: Symbol a already defined
+Line 13, col 9: Cannot find symbol a
+Line 13, col 9: Incompatible type undef in if statement
+Line 14, col 12: Cannot find symbol b
+Line 14, col 12: Incompatible type undef in while statement
+Line 15, col 9: Cannot find symbol a
+Line 19, col 7: Cannot find symbol p
+Line 19, col 9: Operator = cannot be applied to types undef, int
+Line 15, col 9: Incompatible type undef in if statement
+===== Class Main Symbol Table =====
+test1	(int,double)	int
+test2	()	int
+test3	(String[])	int
+
+===== Method test1(int,double) Symbol Table =====
+return		int
+a		int	param
+c		double	param
+k		int
+d		int
+
+===== Method test2() Symbol Table =====
+return		int
+
+===== Method test3(String[]) Symbol Table =====
+return		int
+args		String[]	param
+
+Program
+..Identifier(Main)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(test1)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+........ParamDecl
+..........Double
+..........Identifier(c)
+....MethodBody
+......Assign - int
+........Identifier(a) - int
+........Rshift - undef
+..........Add - double
+............Identifier(c) - double
+............Mul - int
+..............Natural(3) - int
+..............Natural(8) - int
+..........Add - double
+............Sub - int
+..............Natural(4) - int
+..............Natural(2) - int
+............Mod - double
+..............Mod - double
+................Add - double
+..................Natural(5) - int
+..................Identifier(c) - double
+................Natural(10) - int
+..............Natural(3) - int
+......VarDecl
+........Int
+........Identifier(k)
+......VarDecl
+........Int
+........Identifier(d)
+......VarDecl
+........Int
+........Identifier(a)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(test2)
+......MethodParams
+....MethodBody
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(test3)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......If
+........Identifier(a) - undef
+........Block
+........Block
+......While
+........Identifier(b) - undef
+........Block
+......If
+........Identifier(a) - undef
+........Block
+........Assign - undef
+..........Identifier(p) - undef
+..........Call - int
+............Identifier(test1) - (int,double)
+............ParseArgs - int
+..............Identifier(args) - String[]
+..............Natural(0) - int
+............ParseArgs - int
+..............Identifier(args) - String[]
+..............Natural(1) - int

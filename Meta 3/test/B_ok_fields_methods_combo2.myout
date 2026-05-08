@@ -1,0 +1,83 @@
+===== Class BOkFieldsMethodsCombo2 Symbol Table =====
+a		int
+b		int
+c		int
+rate		double
+ready		boolean
+sum	(int,int)	int
+ping	()	void
+main	(String[])	void
+
+===== Method sum(int,int) Symbol Table =====
+return		int
+x		int	param
+y		int	param
+
+===== Method ping() Symbol Table =====
+return		void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+n		int
+
+Program
+..Identifier(BOkFieldsMethodsCombo2)
+..FieldDecl
+....Int
+....Identifier(a)
+..FieldDecl
+....Int
+....Identifier(b)
+..FieldDecl
+....Int
+....Identifier(c)
+..FieldDecl
+....Double
+....Identifier(rate)
+..FieldDecl
+....Bool
+....Identifier(ready)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(sum)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(x)
+........ParamDecl
+..........Int
+..........Identifier(y)
+....MethodBody
+......Return
+........Add - int
+..........Identifier(x) - int
+..........Identifier(y) - int
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(ping)
+......MethodParams
+....MethodBody
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(n)
+......Assign - int
+........Identifier(n) - int
+........Natural(0) - int
+......If
+........Eq - boolean
+..........Identifier(n) - int
+..........Natural(0) - int
+........Block
+........Block

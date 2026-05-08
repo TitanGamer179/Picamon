@@ -1,0 +1,55 @@
+Line 3, col 9: Cannot find symbol a
+Line 3, col 13: Cannot find symbol b
+Line 3, col 17: Cannot find symbol c
+Line 3, col 19: Operator + cannot be applied to types undef, int
+Line 3, col 15: Operator = cannot be applied to types undef, undef
+Line 3, col 11: Operator = cannot be applied to types undef, undef
+Line 5, col 13: Cannot find symbol a
+Line 5, col 17: Cannot find symbol b
+Line 5, col 19: Operator + cannot be applied to types undef, int
+Line 5, col 15: Operator = cannot be applied to types undef, undef
+Line 5, col 15: Incompatible type undef in if statement
+Line 8, col 26: Cannot find symbol c
+Line 8, col 30: Cannot find symbol d
+Line 8, col 32: Operator + cannot be applied to types undef, int
+Line 8, col 28: Operator = cannot be applied to types undef, undef
+Line 8, col 28: Incompatible type undef in System.out.print statement
+===== Class mooshak_H_assignment_undef_chain Symbol Table =====
+main	(String[])	void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+
+Program
+..Identifier(mooshak_H_assignment_undef_chain)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......Assign - undef
+........Identifier(a) - undef
+........Assign - undef
+..........Identifier(b) - undef
+..........Add - undef
+............Identifier(c) - undef
+............Natural(1) - int
+......If
+........Assign - undef
+..........Identifier(a) - undef
+..........Add - undef
+............Identifier(b) - undef
+............Natural(1) - int
+........Block
+........Block
+......Print
+........Assign - undef
+..........Identifier(c) - undef
+..........Add - undef
+............Identifier(d) - undef
+............Natural(1) - int

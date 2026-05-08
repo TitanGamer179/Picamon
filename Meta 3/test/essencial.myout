@@ -1,0 +1,14 @@
+===== Class Teste Symbol Table =====
+main	()	void
+
+===== Method main() Symbol Table =====
+return		void
+
+Program
+..Identifier(Teste)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+....MethodBody

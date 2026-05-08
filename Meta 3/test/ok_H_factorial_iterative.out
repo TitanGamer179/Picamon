@@ -1,0 +1,69 @@
+===== Class OkHFactorialIterative Symbol Table =====
+factorial	(int)	int
+main	(String[])	void
+
+===== Method factorial(int) Symbol Table =====
+return		int
+n		int	param
+r		int
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+n		int
+
+Program
+..Identifier(OkHFactorialIterative)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(factorial)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(n)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(r)
+......Assign - int
+........Identifier(r) - int
+........Natural(1) - int
+......While
+........Gt - boolean
+..........Identifier(n) - int
+..........Natural(1) - int
+........Block
+..........Assign - int
+............Identifier(r) - int
+............Mul - int
+..............Identifier(r) - int
+..............Identifier(n) - int
+..........Assign - int
+............Identifier(n) - int
+............Sub - int
+..............Identifier(n) - int
+..............Natural(1) - int
+......Return
+........Identifier(r) - int
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(n)
+......Assign - int
+........Identifier(n) - int
+........ParseArgs - int
+..........Identifier(args) - String[]
+..........Natural(0) - int
+......Print
+........Call - int
+..........Identifier(factorial) - (int)
+..........Identifier(n) - int

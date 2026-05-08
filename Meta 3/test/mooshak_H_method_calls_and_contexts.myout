@@ -1,0 +1,82 @@
+Line 11, col 20: Cannot find symbol miss(int)
+Line 11, col 16: Cannot find symbol one(undef)
+Line 11, col 16: Incompatible type undef in while statement
+Line 14, col 31: Cannot find symbol one(boolean)
+Line 14, col 26: Cannot find symbol flag(undef)
+Line 14, col 26: Incompatible type undef in System.out.print statement
+Line 15, col 23: Cannot find symbol miss3(int)
+Line 15, col 19: Cannot find symbol one(undef)
+Line 15, col 13: Cannot find symbol miss2(undef)
+Line 15, col 9: Cannot find symbol one(undef)
+===== Class mooshak_H_method_calls_and_contexts Symbol Table =====
+one	(int)	int
+flag	(boolean)	boolean
+main	(String[])	void
+
+===== Method one(int) Symbol Table =====
+return		int
+x		int	param
+
+===== Method flag(boolean) Symbol Table =====
+return		boolean
+x		boolean	param
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+
+Program
+..Identifier(mooshak_H_method_calls_and_contexts)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(one)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(x)
+....MethodBody
+......Return
+........Identifier(x) - int
+..MethodDecl
+....MethodHeader
+......Bool
+......Identifier(flag)
+......MethodParams
+........ParamDecl
+..........Bool
+..........Identifier(x)
+....MethodBody
+......Return
+........Identifier(x) - boolean
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......While
+........Call - undef
+..........Identifier(one) - undef
+..........Call - undef
+............Identifier(miss) - undef
+............Natural(1) - int
+........Block
+......Print
+........Call - undef
+..........Identifier(flag) - undef
+..........Call - undef
+............Identifier(one) - undef
+............BoolLit(true) - boolean
+......Call - undef
+........Identifier(one) - undef
+........Call - undef
+..........Identifier(miss2) - undef
+..........Call - undef
+............Identifier(one) - undef
+............Call - undef
+..............Identifier(miss3) - undef
+..............Natural(1) - int

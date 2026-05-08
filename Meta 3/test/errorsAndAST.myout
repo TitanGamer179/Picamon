@@ -1,0 +1,111 @@
+Line 8, col 5: unterminated string literal
+Line 9, col 8: Cannot find symbol A
+Line 12, col 16: Cannot find symbol x
+Line 13, col 21: Incompatible type int in if statement
+Line 15, col 20: Cannot find symbol ABC
+Line 17, col 24: Cannot find symbol x
+Line 17, col 25: Operator = cannot be applied to types undef, int
+Line 15, col 20: Incompatible type undef in if statement
+Line 12, col 16: Incompatible type undef in if statement
+Line 10, col 12: Incompatible type int in if statement
+Line 9, col 8: Incompatible type undef in if statement
+Line 19, col 12: Cannot find symbol tiago_to
+Line 19, col 24: Cannot find symbol manolos_simpaticos
+Line 19, col 21: Operator == cannot be applied to types undef, undef
+Line 23, col 11: Cannot find symbol a
+Line 24, col 16: Cannot find symbol b
+Line 25, col 20: Cannot find symbol espero
+Line 26, col 24: Cannot find symbol isto
+Line 27, col 28: Cannot find symbol funcione
+Line 28, col 32: Cannot find symbol bem
+Line 28, col 32: Incompatible type undef in while statement
+Line 27, col 28: Incompatible type undef in while statement
+Line 26, col 24: Incompatible type undef in while statement
+Line 25, col 20: Incompatible type undef in while statement
+Line 24, col 16: Incompatible type undef in while statement
+Line 23, col 11: Incompatible type undef in while statement
+Line 38, col 8: Cannot find symbol tiago_to
+Line 38, col 8: Incompatible type undef in if statement
+Line 47, col 17: Cannot find symbol ABC
+Line 47, col 17: Incompatible type undef in if statement
+===== Class errorsAndAST Symbol Table =====
+main	(String[])	void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+
+Program
+..Identifier(errorsAndAST)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......If
+........Identifier(A) - undef
+........If
+..........Natural(0) - int
+..........Print
+............Natural(0) - int
+..........If
+............Identifier(x) - undef
+............If
+..............Natural(1) - int
+..............Block
+..............Block
+............If
+..............Identifier(ABC) - undef
+..............Block
+..............Assign - undef
+................Identifier(x) - undef
+................Natural(1) - int
+........Block
+......While
+........Eq - boolean
+..........Identifier(tiago_to) - undef
+..........Identifier(manolos_simpaticos) - undef
+........Print
+..........StrLit("Impossivel sair daqui eheh") - String
+......While
+........Identifier(a) - undef
+........While
+..........Identifier(b) - undef
+..........While
+............Identifier(espero) - undef
+............While
+..............Identifier(isto) - undef
+..............While
+................Identifier(funcione) - undef
+................While
+..................Identifier(bem) - undef
+..................Print
+....................StrLit("RUMO AOS 800!!") - String
+......If
+........Identifier(tiago_to) - undef
+........Block
+........Block
+......If
+........BoolLit(true) - boolean
+........If
+..........BoolLit(true) - boolean
+..........If
+............BoolLit(false) - boolean
+............Block
+............Block
+..........If
+............Identifier(ABC) - undef
+............Block
+............Block
+........Block
+......If
+........BoolLit(false) - boolean
+........Block
+........If
+..........BoolLit(false) - boolean
+..........Block
+..........Block

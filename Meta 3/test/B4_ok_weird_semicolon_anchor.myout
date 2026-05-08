@@ -1,0 +1,51 @@
+===== Class B4OkWeirdSemicolonAnchor Symbol Table =====
+x		int
+y		int
+id	(int)	int
+main	(String[])	void
+
+===== Method id(int) Symbol Table =====
+return		int
+a		int	param
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+n		int
+
+Program
+..Identifier(B4OkWeirdSemicolonAnchor)
+..FieldDecl
+....Int
+....Identifier(x)
+..FieldDecl
+....Int
+....Identifier(y)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(id)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+....MethodBody
+......Return
+........Identifier(a) - int
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(n)
+......Assign - int
+........Identifier(n) - int
+........Call - int
+..........Identifier(id) - (int)
+..........Natural(1) - int

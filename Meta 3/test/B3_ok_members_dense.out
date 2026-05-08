@@ -1,0 +1,95 @@
+===== Class B3OkMembersDense Symbol Table =====
+a		int
+b		int
+c		int
+d		double
+ready		boolean
+inc	(int)	int
+add	(int,int)	int
+main	(String[])	void
+
+===== Method inc(int) Symbol Table =====
+return		int
+x		int	param
+
+===== Method add(int,int) Symbol Table =====
+return		int
+x		int	param
+y		int	param
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+n		int
+
+Program
+..Identifier(B3OkMembersDense)
+..FieldDecl
+....Int
+....Identifier(a)
+..FieldDecl
+....Int
+....Identifier(b)
+..FieldDecl
+....Int
+....Identifier(c)
+..FieldDecl
+....Double
+....Identifier(d)
+..FieldDecl
+....Bool
+....Identifier(ready)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(inc)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(x)
+....MethodBody
+......Return
+........Add - int
+..........Identifier(x) - int
+..........Natural(1) - int
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(add)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(x)
+........ParamDecl
+..........Int
+..........Identifier(y)
+....MethodBody
+......Return
+........Add - int
+..........Identifier(x) - int
+..........Identifier(y) - int
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(n)
+......Assign - int
+........Identifier(n) - int
+........Natural(0) - int
+......Assign - int
+........Identifier(n) - int
+........Call - int
+..........Identifier(add) - (int,int)
+..........Call - int
+............Identifier(inc) - (int)
+............Identifier(n) - int
+..........Natural(2) - int
+......Print
+........Identifier(n) - int

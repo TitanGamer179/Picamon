@@ -1,0 +1,34 @@
+===== Class AstFEmptyNestedBlocks Symbol Table =====
+main	(String[])	void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+a		int
+
+Program
+..Identifier(AstFEmptyNestedBlocks)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(a)
+......Assign - int
+........Identifier(a) - int
+........Natural(0) - int
+......Block
+........Assign - int
+..........Identifier(a) - int
+..........Natural(1) - int
+........Assign - int
+..........Identifier(a) - int
+..........Add - int
+............Identifier(a) - int
+............Natural(1) - int

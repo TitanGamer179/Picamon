@@ -1,0 +1,25 @@
+Line 4, col 15: illegal character (@)
+===== Class LexIllegalChar Symbol Table =====
+main	(String[])	void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+a		int
+
+Program
+..Identifier(LexIllegalChar)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(a)
+......Print
+........Identifier(a) - int

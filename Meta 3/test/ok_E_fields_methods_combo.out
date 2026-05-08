@@ -1,0 +1,92 @@
+===== Class OkEFieldsMethodsCombo Symbol Table =====
+x		int
+y		int
+z		int
+rate		double
+ready		boolean
+add	(int,int)	int
+twice	(double)	double
+main	(String[])	void
+
+===== Method add(int,int) Symbol Table =====
+return		int
+a		int	param
+b		int	param
+
+===== Method twice(double) Symbol Table =====
+return		double
+d		double	param
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+n		int
+
+Program
+..Identifier(OkEFieldsMethodsCombo)
+..FieldDecl
+....Int
+....Identifier(x)
+..FieldDecl
+....Int
+....Identifier(y)
+..FieldDecl
+....Int
+....Identifier(z)
+..FieldDecl
+....Double
+....Identifier(rate)
+..FieldDecl
+....Bool
+....Identifier(ready)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(add)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+........ParamDecl
+..........Int
+..........Identifier(b)
+....MethodBody
+......Return
+........Add - int
+..........Identifier(a) - int
+..........Identifier(b) - int
+..MethodDecl
+....MethodHeader
+......Double
+......Identifier(twice)
+......MethodParams
+........ParamDecl
+..........Double
+..........Identifier(d)
+....MethodBody
+......Return
+........Add - double
+..........Identifier(d) - double
+..........Identifier(d) - double
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(n)
+......Assign - int
+........Identifier(n) - int
+........ParseArgs - int
+..........Identifier(args) - String[]
+..........Natural(0) - int
+......Print
+........Call - int
+..........Identifier(add) - (int,int)
+..........Identifier(n) - int
+..........Natural(1) - int

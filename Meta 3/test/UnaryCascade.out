@@ -1,0 +1,61 @@
+Line 5, col 17: Operator ! cannot be applied to type int
+Line 5, col 15: Operator - cannot be applied to type boolean
+Line 5, col 13: Operator + cannot be applied to type undef
+Line 5, col 11: Operator = cannot be applied to types int, undef
+Line 7, col 21: Operator + cannot be applied to types int, boolean
+Line 7, col 11: Operator = cannot be applied to types int, undef
+Line 9, col 11: Operator = cannot be applied to types int, boolean
+===== Class UnaryCascade Symbol Table =====
+main	(String[])	void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+a		int
+b		int
+c		int
+
+Program
+..Identifier(UnaryCascade)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(a)
+......VarDecl
+........Int
+........Identifier(b)
+......VarDecl
+........Int
+........Identifier(c)
+......Assign - int
+........Identifier(a) - int
+........Plus - undef
+..........Minus - undef
+............Not - boolean
+..............Minus - int
+................Plus - int
+..................Identifier(b) - int
+......Assign - int
+........Identifier(b) - int
+........Add - undef
+..........Mul - int
+............Minus - int
+..............Natural(2) - int
+............Minus - int
+..............Natural(3) - int
+..........Not - boolean
+............BoolLit(true) - boolean
+......Assign - int
+........Identifier(c) - int
+........Not - boolean
+..........Not - boolean
+............Not - boolean
+..............BoolLit(false) - boolean

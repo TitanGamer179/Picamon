@@ -1,0 +1,60 @@
+===== Class Factorial Symbol Table =====
+covid19	(int,boolean)	int
+main	(String[])	void
+
+===== Method covid19(int,boolean) Symbol Table =====
+return		int
+n		int	param
+hgshag		boolean	param
+oi		int
+okds		int
+oti		int
+rrr		int
+wtf		boolean
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+argument		int
+
+Program
+..Identifier(Factorial)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(covid19)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(n)
+........ParamDecl
+..........Bool
+..........Identifier(hgshag)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(oi)
+......VarDecl
+........Int
+........Identifier(okds)
+......VarDecl
+........Int
+........Identifier(oti)
+......VarDecl
+........Int
+........Identifier(rrr)
+......VarDecl
+........Bool
+........Identifier(wtf)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(argument)

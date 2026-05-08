@@ -1,0 +1,83 @@
+===== Class OkFieldsMethods Symbol Table =====
+a		int
+b		int
+c		double
+flag		boolean
+sum	(int,int)	int
+main	(String[])	void
+
+===== Method sum(int,int) Symbol Table =====
+return		int
+x		int	param
+y		int	param
+z		int
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+n		int
+
+Program
+..Identifier(OkFieldsMethods)
+..FieldDecl
+....Int
+....Identifier(a)
+..FieldDecl
+....Int
+....Identifier(b)
+..FieldDecl
+....Double
+....Identifier(c)
+..FieldDecl
+....Bool
+....Identifier(flag)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(sum)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(x)
+........ParamDecl
+..........Int
+..........Identifier(y)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(z)
+......Assign - int
+........Identifier(z) - int
+........Add - int
+..........Identifier(x) - int
+..........Identifier(y) - int
+......Return
+........Identifier(z) - int
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(n)
+......Assign - int
+........Identifier(n) - int
+........ParseArgs - int
+..........Identifier(args) - String[]
+..........Natural(0) - int
+......If
+........Gt - boolean
+..........Identifier(n) - int
+..........Natural(0) - int
+........Print
+..........Call - int
+............Identifier(sum) - (int,int)
+............Identifier(n) - int
+............Natural(1) - int
+........Print
+..........StrLit("zero_or_negative") - String

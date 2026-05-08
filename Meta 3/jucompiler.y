@@ -297,20 +297,19 @@ void annotate_ast(Node *node, SymTable *current_env) {
                 Node *id_node = header->child->sibling;
                 char *params_str = build_param_types(id_node->sibling);
                 
-                // 1. Verifica se o método é _
+                int is_duplicate = 0;
                 if (strcmp(id_node->value, "_") == 0) {
                     printf("Line %d, col %d: Symbol _ is reserved\n", id_node->line, id_node->col);
-                }
-
-                // 2. Verifica se é método duplicado (nome e parâmetros idênticos)
-                int is_duplicate = 0;
-                Symbol *s_curr = global_table->symbols;
-                while (s_curr) {
-                    if (strcmp(s_curr->name, id_node->value) == 0 && s_curr->param_types && strcmp(s_curr->param_types, params_str) == 0) {
-                        is_duplicate = 1;
-                        break;
+                    is_duplicate = 1; 
+                } else {
+                    Symbol *s_curr = global_table->symbols;
+                    while (s_curr) {
+                        if (strcmp(s_curr->name, id_node->value) == 0 && s_curr->param_types && strcmp(s_curr->param_types, params_str) == 0) {
+                            is_duplicate = 1;
+                            break;
+                        }
+                        s_curr = s_curr->next;
                     }
-                    s_curr = s_curr->next;
                 }
 
                 SymTable *method_table = NULL;
@@ -328,19 +327,23 @@ void annotate_ast(Node *node, SymTable *current_env) {
                 // 3. Inserir return e parâmetros na tabela
                 insert_symbol(method_table, "return", get_juc_type(header->child->type), NULL, 0, id_node->line, id_node->col);
                 
-                Node *params = id_node->sibling->child;
-                while (params) {
-                    if (strcmp(params->child->sibling->value, "_") == 0) {
-                        printf("Line %d, col %d: Symbol _ is reserved\n", params->child->sibling->line, params->child->sibling->col);
-                    } else {
-                        insert_symbol(method_table, params->child->sibling->value, get_juc_type(params->child->type), NULL, 1, params->child->sibling->line, params->child->sibling->col);
+                if (strcmp(id_node->value, "_") != 0) { // IGNORA PARAMETROS DE METODOS RESERVADOS
+                    Node *params = id_node->sibling->child;
+                    while (params) {
+                        if (strcmp(params->child->sibling->value, "_") == 0) {
+                            printf("Line %d, col %d: Symbol _ is reserved\n", params->child->sibling->line, params->child->sibling->col);
+                        } else {
+                            insert_symbol(method_table, params->child->sibling->value, get_juc_type(params->child->type), NULL, 1, params->child->sibling->line, params->child->sibling->col);
+                        }
+                        params = params->sibling;
                     }
-                    params = params->sibling;
                 }
 
                 // 4. Só NO FIM imprime o erro do método duplicado e liberta a TMP
                 if (is_duplicate) {
-                    printf("Line %d, col %d: Symbol %s(%s) already defined\n", id_node->line, id_node->col, id_node->value, params_str);
+                    if (strcmp(id_node->value, "_") != 0) { // <-- NÃO IMPRIME ALREADY DEFINED PARA O _
+                        printf("Line %d, col %d: Symbol %s(%s) already defined\n", id_node->line, id_node->col, id_node->value, params_str);
+                    }
                     Symbol *cs = method_table->symbols;
                     while (cs) {
                         Symbol *next = cs->next;
@@ -449,21 +452,44 @@ void annotate_ast(Node *node, SymTable *current_env) {
         
         if (!valid) printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->line, node->col, get_op_str(node->type), t1, t2);
         node->anot_type = strdup(res);
-    } else if (strcmp(node->type, "And") == 0 || strcmp(node->type, "Or") == 0 || strcmp(node->type, "Xor") == 0) {
+    } else if (strcmp(node->type, "And") == 0 || strcmp(node->type, "Or") == 0) {
         Node *c1 = node->child;
         Node *c2 = c1 ? c1->sibling : NULL;
         char *t1 = (c1 && c1->anot_type) ? c1->anot_type : "none";
         char *t2 = (c2 && c2->anot_type) ? c2->anot_type : "none";
         int valid = 0;
-        char *res = "boolean";
-        if (strcmp(t1, "boolean") == 0 && strcmp(t2, "boolean") == 0) { valid = 1; res = "boolean"; }
-        else if (strcmp(node->type, "Xor") == 0 && strcmp(t1, "int") == 0 && strcmp(t2, "int") == 0) { valid = 1; res = "int"; }
+        if (strcmp(t1, "boolean") == 0 && strcmp(t2, "boolean") == 0) { 
+            valid = 1; 
+        }
         if (!valid) {
-            if (strcmp(node->type, "Xor") == 0) res = "undef"; 
-            else res = "boolean"; 
             printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->line, node->col, get_op_str(node->type), t1, t2);
         }
-        node->anot_type = strdup(res);
+        node->anot_type = strdup("boolean");
+    } else if (strcmp(node->type, "Xor") == 0) {
+        Node *c1 = node->child;
+        Node *c2 = c1 ? c1->sibling : NULL;
+        char *t1 = (c1 && c1->anot_type) ? c1->anot_type : "none";
+        char *t2 = (c2 && c2->anot_type) ? c2->anot_type : "none";
+        if ((strcmp(t1, "int") == 0 && strcmp(t2, "int") == 0)) {
+            node->anot_type = strdup("int");
+        } else if (strcmp(t1, "boolean") == 0 && strcmp(t2, "boolean") == 0) {
+            node->anot_type = strdup("boolean");
+        } else {
+            printf("Line %d, col %d: Operator ^ cannot be applied to types %s, %s\n", node->line, node->col, t1, t2);
+            node->anot_type = strdup("undef");
+        }
+    } else if (strcmp(node->type, "Lshift") == 0 || strcmp(node->type, "Rshift") == 0) {
+        Node *c1 = node->child;
+        Node *c2 = c1 ? c1->sibling : NULL;
+        char *t1 = (c1 && c1->anot_type) ? c1->anot_type : "none";
+        char *t2 = (c2 && c2->anot_type) ? c2->anot_type : "none";
+        
+        if (strcmp(t1, "int") != 0 || strcmp(t2, "int") != 0) {
+            printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->line, node->col, strcmp(node->type, "Lshift") == 0 ? "<<" : ">>", t1, t2);
+            node->anot_type = strdup("undef");
+        } else {
+            node->anot_type = strdup("int");
+        }
     } else if (strcmp(node->type, "Eq") == 0 || strcmp(node->type, "Ne") == 0 || strcmp(node->type, "Lt") == 0 || strcmp(node->type, "Gt") == 0 || strcmp(node->type, "Le") == 0 || strcmp(node->type, "Ge") == 0) {
         Node *c1 = node->child;
         Node *c2 = c1 ? c1->sibling : NULL;
@@ -616,15 +642,6 @@ void annotate_ast(Node *node, SymTable *current_env) {
             int ec = node->child ? node->child->col : node->col;
             printf("Line %d, col %d: Incompatible type %s in %s statement\n", el, ec, t1, strcmp(node->type, "If") == 0 ? "if" : "while");
         }
-    } else if (strcmp(node->type, "Lshift") == 0 || strcmp(node->type, "Rshift") == 0) {
-        Node *c1 = node->child;
-        Node *c2 = c1 ? c1->sibling : NULL;
-        char *t1 = (c1 && c1->anot_type) ? c1->anot_type : "none";
-        char *t2 = (c2 && c2->anot_type) ? c2->anot_type : "none";
-        if (strcmp(t1, "int") != 0 || strcmp(t2, "int") != 0) {
-            printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->line, node->col, strcmp(node->type, "Lshift") == 0 ? "<<" : ">>", t1, t2);
-        }
-        node->anot_type = strdup("int");
     }
 }
 
@@ -664,7 +681,7 @@ void print_tables() {
 %type <node> OptFormalParams FormalParams FormalParamsRest MethodBody 
 %type <node> StatementAndVarDeclList VarDecl IdList StatementList Statement 
 %type <node> OptExpr ExprOrStrlit MethodInvocation OptExprList ExprList 
-%type <node> ParseArgs Expr OptDotLength
+%type <node> ParseArgs Expr
 %type <token> AnyId
 
 %nonassoc IF_WITHOUT_ELSE
@@ -685,7 +702,6 @@ void print_tables() {
 %%
 
 AnyId: IDENTIFIER { $$ = $1; }
-     | RESERVED { $$ = $1; }
      ;
 
 Program : CLASS AnyId LBRACE ProgramElements RBRACE {
@@ -904,14 +920,14 @@ ParseArgs : PARSEINT LPAR AnyId LSQ Expr RSQ RPAR {
           | PARSEINT LPAR error RPAR { $$ = NULL; }
           ;
 
-Expr : Expr ASSIGN Expr {
-         if ($1 && strcmp($1->type, "Identifier") != 0) {
-             printf("Line %d, col %d: syntax error: =\n", $2.line, $2.col);
-             syntax_errors_count++;
-         }
-         $$ = create_node("Assign", NULL, $2.line, $2.col);
-         add_child($$, $1);
-         add_child($$, $3);
+Expr : Expr ASSIGN Expr { 
+          if ($1 && strcmp($1->type, "Identifier") != 0) {
+              printf("Line %d, col %d: syntax error: =\n", $2.line, $2.col);
+              syntax_errors_count++;
+          }
+          $$ = create_node("Assign", NULL, $2.line, $2.col);
+          add_child($$, $1);
+          add_child($$, $3);
      }
      | Expr PLUS Expr   { $$ = create_node("Add", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
      | Expr MINUS Expr  { $$ = create_node("Sub", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
@@ -924,34 +940,24 @@ Expr : Expr ASSIGN Expr {
      | Expr LSHIFT Expr { $$ = create_node("Lshift", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
      | Expr RSHIFT Expr { $$ = create_node("Rshift", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
      | Expr EQ Expr     { $$ = create_node("Eq", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr GE Expr     { $$ = create_node("Ge", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr GT Expr     { $$ = create_node("Gt", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr LE Expr     { $$ = create_node("Le", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr LT Expr     { $$ = create_node("Lt", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
      | Expr NE Expr     { $$ = create_node("Ne", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | MINUS Expr %prec UNARY_MINUS { $$ = create_node("Minus", NULL, $1.line, $1.col); add_child($$, $2); }
+     | Expr LT Expr     { $$ = create_node("Lt", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | Expr LE Expr     { $$ = create_node("Le", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | Expr GT Expr     { $$ = create_node("Gt", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | Expr GE Expr     { $$ = create_node("Ge", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
      | PLUS Expr %prec UNARY_PLUS   { $$ = create_node("Plus", NULL, $1.line, $1.col); add_child($$, $2); }
+     | MINUS Expr %prec UNARY_MINUS { $$ = create_node("Minus", NULL, $1.line, $1.col); add_child($$, $2); }
      | NOT Expr         { $$ = create_node("Not", NULL, $1.line, $1.col); add_child($$, $2); }
-     | LPAR Expr RPAR  { $$ = $2; }
-     | LPAR error RPAR  { $$ = NULL; }
      | MethodInvocation { $$ = $1; }
      | ParseArgs        { $$ = $1; }
-     | AnyId OptDotLength {
-         if ($2) {
-             $$ = create_node("Length", NULL, $2->line, $2->col);
-             add_child($$, create_node("Identifier", $1.str, $1.line, $1.col));
-         } else {
-             $$ = create_node("Identifier", $1.str, $1.line, $1.col);
-         }
-     }
+     | AnyId            { $$ = create_node("Identifier", $1.str, $1.line, $1.col); }
      | NATURAL          { $$ = create_node("Natural", $1.str, $1.line, $1.col); }
      | DECIMAL          { $$ = create_node("Decimal", $1.str, $1.line, $1.col); }
      | BOOLLIT          { $$ = create_node("BoolLit", $1.str, $1.line, $1.col); }
+     | AnyId DOTLENGTH  { $$ = create_node("Length", NULL, $2.line, $2.col); add_child($$, create_node("Identifier", $1.str, $1.line, $1.col)); }
+     | LPAR Expr RPAR   { $$ = $2; }
+     | LPAR error RPAR  { $$ = NULL; }
      ;
-
-OptDotLength : { $$ = NULL; }
-             | DOTLENGTH { $$ = create_node("DotLength", NULL, $1.line, $1.col); }
-             ;
 %%
 void yyerror(char *s) {
     syntax_errors_count++;

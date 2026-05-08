@@ -1,0 +1,34 @@
+Line 3, col 11: Cannot find symbol i
+Line 3, col 13: Operator = cannot be applied to types undef, int
+Line 4, col 13: Cannot find symbol j
+Line 4, col 15: Operator = cannot be applied to types undef, double
+Line 5, col 13: Cannot find symbol k
+Line 5, col 15: Operator = cannot be applied to types undef, boolean
+===== Class assign_error Symbol Table =====
+main	(String[])	void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+
+Program
+..Identifier(assign_error)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......Block
+........Assign - undef
+..........Identifier(i) - undef
+..........Natural(1) - int
+........Assign - undef
+..........Identifier(j) - undef
+..........Decimal(1.0) - double
+........Assign - undef
+..........Identifier(k) - undef
+..........BoolLit(true) - boolean

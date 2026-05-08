@@ -1,0 +1,48 @@
+Line 5, col 9: Cannot find symbol a
+Line 5, col 10: Operator = cannot be applied to types undef, int
+Line 5, col 14: Cannot find symbol b
+Line 5, col 15: Operator = cannot be applied to types undef, int
+Line 5, col 19: Cannot find symbol c
+Line 5, col 20: Operator = cannot be applied to types undef, int
+Line 7, col 5: Cannot find symbol X
+Line 7, col 7: Number 1000000000000000000000 out of bounds
+Line 7, col 6: Operator = cannot be applied to types undef, int
+Line 9, col 6: Cannot find symbol a
+Line 9, col 7: Operator = cannot be applied to types undef, int
+Line 10, col 5: Cannot find symbol b
+Line 10, col 6: Operator = cannot be applied to types undef, int
+===== Class Factorial Symbol Table =====
+Factorial	()	int
+
+===== Method Factorial() Symbol Table =====
+return		int
+
+Program
+..Identifier(Factorial)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(Factorial)
+......MethodParams
+....MethodBody
+......Block
+........Assign - undef
+..........Identifier(a) - undef
+..........Natural(2) - int
+........Block
+..........Assign - undef
+............Identifier(b) - undef
+............Natural(3) - int
+..........Assign - undef
+............Identifier(c) - undef
+............Natural(1) - int
+......Assign - undef
+........Identifier(X) - undef
+........Natural(1000000000000000000000) - int
+......Block
+........Assign - undef
+..........Identifier(a) - undef
+..........Natural(1) - int
+........Assign - undef
+..........Identifier(b) - undef
+..........Natural(2) - int

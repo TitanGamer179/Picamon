@@ -1,0 +1,62 @@
+===== Class C2OkIfElseWhileCombo Symbol Table =====
+id	(int)	int
+main	(String[])	void
+
+===== Method id(int) Symbol Table =====
+return		int
+x		int	param
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+a		int
+
+Program
+..Identifier(C2OkIfElseWhileCombo)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(id)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(x)
+....MethodBody
+......Return
+........Identifier(x) - int
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(a)
+......Assign - int
+........Identifier(a) - int
+........Natural(0) - int
+......While
+........Lt - boolean
+..........Identifier(a) - int
+..........Natural(4) - int
+........If
+..........Eq - boolean
+............Identifier(a) - int
+............Natural(2) - int
+..........Assign - int
+............Identifier(a) - int
+............Call - int
+..............Identifier(id) - (int)
+..............Add - int
+................Identifier(a) - int
+................Natural(2) - int
+..........Assign - int
+............Identifier(a) - int
+............Add - int
+..............Identifier(a) - int
+..............Natural(1) - int
+......Return

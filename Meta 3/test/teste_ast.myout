@@ -1,0 +1,168 @@
+Line 14, col 15: Operator = cannot be applied to types int, double
+Line 17, col 22: Incompatible type double in return statement
+Line 26, col 27: Operator >> cannot be applied to types double, int
+Line 26, col 19: Operator = cannot be applied to types double, undef
+Line 33, col 9: Cannot find symbol tamanho
+Line 33, col 20: Operator .length cannot be applied to type int
+Line 33, col 17: Operator = cannot be applied to types undef, int
+Line 34, col 20: Operator == cannot be applied to types boolean, int
+Line 35, col 13: Operator Integer.parseInt cannot be applied to types int, int
+Line 36, col 13: Operator Integer.parseInt cannot be applied to types int, int
+Line 37, col 32: Operator ! cannot be applied to type int
+Line 37, col 13: Operator Integer.parseInt cannot be applied to types int, boolean
+Line 40, col 16: Cannot find symbol cg
+Line 40, col 24: Cannot find symbol meta2
+Line 40, col 19: Cannot find symbol comp(undef)
+Line 40, col 31: Cannot find symbol iia
+Line 40, col 35: Cannot find symbol lpa
+Line 40, col 39: Cannot find symbol si
+Line 40, col 42: Cannot find symbol scc
+Line 40, col 9: Cannot find symbol passar(undef,undef,undef,undef,undef,undef)
+===== Class Teste Symbol Table =====
+a		int
+b		int
+c		int
+preco		double
+vivo		boolean
+getNumero	()	int
+estaVivo	()	boolean
+main	(String[])	void
+
+===== Method getNumero() Symbol Table =====
+return		int
+
+===== Method estaVivo() Symbol Table =====
+return		boolean
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+
+Program
+..Identifier(Teste)
+..FieldDecl
+....Int
+....Identifier(a)
+..FieldDecl
+....Int
+....Identifier(b)
+..FieldDecl
+....Int
+....Identifier(c)
+..FieldDecl
+....Double
+....Identifier(preco)
+..FieldDecl
+....Bool
+....Identifier(vivo)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(getNumero)
+......MethodParams
+....MethodBody
+......While
+........Lt - boolean
+..........Identifier(preco) - double
+..........Natural(100000) - int
+........Block
+..........Assign - double
+............Identifier(preco) - double
+............Add - int
+..............Add - int
+................Identifier(a) - int
+................Identifier(b) - int
+..............Identifier(c) - int
+..........Assign - int
+............Identifier(a) - int
+............Add - int
+..............Identifier(a) - int
+..............Natural(1) - int
+..........Assign - int
+............Identifier(b) - int
+............Add - double
+..............Identifier(b) - int
+..............Decimal(1.5) - double
+..........Assign - int
+............Identifier(c) - int
+............Add - int
+..............Identifier(c) - int
+..............Natural(10) - int
+......Return
+........Div - double
+..........Identifier(preco) - double
+..........Natural(10) - int
+..MethodDecl
+....MethodHeader
+......Bool
+......Identifier(estaVivo)
+......MethodParams
+....MethodBody
+......If
+........And - boolean
+..........Eq - boolean
+............Identifier(vivo) - boolean
+............BoolLit(true) - boolean
+..........Ne - boolean
+............Identifier(preco) - double
+............Natural(0) - int
+........Print
+..........StrLit("we out here") - String
+........Block
+..........Assign - double
+............Identifier(preco) - double
+............Call - int
+..............Identifier(getNumero) - ()
+..........Assign - double
+............Identifier(preco) - double
+............Rshift - undef
+..............Identifier(preco) - double
+..............Natural(2) - int
+..........Print
+............StrLit("dat boi dead") - String
+......Return
+........Identifier(vivo) - boolean
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......Assign - undef
+........Identifier(tamanho) - undef
+........Length - int
+..........Identifier(a) - int
+......If
+........Eq - boolean
+..........Eq - boolean
+............Identifier(a) - int
+............Identifier(b) - int
+..........Identifier(c) - int
+........Block
+..........ParseArgs - int
+............Identifier(a) - int
+............Xor - int
+..............Identifier(a) - int
+..............Identifier(a) - int
+..........ParseArgs - int
+............Identifier(b) - int
+............Minus - int
+..............Identifier(b) - int
+..........ParseArgs - int
+............Identifier(c) - int
+............Not - boolean
+..............Identifier(c) - int
+........Block
+......Call - undef
+........Identifier(passar) - undef
+........Identifier(cg) - undef
+........Call - undef
+..........Identifier(comp) - undef
+..........Identifier(meta2) - undef
+........Identifier(iia) - undef
+........Identifier(lpa) - undef
+........Identifier(si) - undef
+........Identifier(scc) - undef

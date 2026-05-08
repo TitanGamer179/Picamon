@@ -1,0 +1,52 @@
+===== Class OkHArgsSum Symbol Table =====
+main	(String[])	void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+i		int
+sum		int
+
+Program
+..Identifier(OkHArgsSum)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(i)
+......VarDecl
+........Int
+........Identifier(sum)
+......Assign - int
+........Identifier(i) - int
+........Natural(0) - int
+......Assign - int
+........Identifier(sum) - int
+........Natural(0) - int
+......While
+........Lt - boolean
+..........Identifier(i) - int
+..........Length - int
+............Identifier(args) - String[]
+........Block
+..........Assign - int
+............Identifier(sum) - int
+............Add - int
+..............Identifier(sum) - int
+..............ParseArgs - int
+................Identifier(args) - String[]
+................Identifier(i) - int
+..........Assign - int
+............Identifier(i) - int
+............Add - int
+..............Identifier(i) - int
+..............Natural(1) - int
+......Print
+........Identifier(sum) - int

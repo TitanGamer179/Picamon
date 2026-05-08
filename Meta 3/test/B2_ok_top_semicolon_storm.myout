@@ -1,0 +1,22 @@
+===== Class B2OkTopSemicolonStorm Symbol Table =====
+x		int
+main	(String[])	void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+
+Program
+..Identifier(B2OkTopSemicolonStorm)
+..FieldDecl
+....Int
+....Identifier(x)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody

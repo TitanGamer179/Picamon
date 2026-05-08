@@ -1,0 +1,10 @@
+class CErrWhileMissingRpar2 {
+    public static void main(String[] args) {
+        int a;
+        a = 0;
+
+        while (a < 10 {
+            a = a + 1;
+        }
+    }
+}

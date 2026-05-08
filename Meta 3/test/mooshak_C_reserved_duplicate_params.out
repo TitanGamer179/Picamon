@@ -1,0 +1,65 @@
+Line 2, col 38: Symbol a already defined
+Line 6, col 23: Symbol foo(int,int) already defined
+Line 10, col 23: Symbol _ is reserved
+===== Class mooshak_C_reserved_duplicate_params Symbol Table =====
+foo	(int,int)	int
+main	(String[])	void
+
+===== Method foo(int,int) Symbol Table =====
+return		int
+a		int	param
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+
+Program
+..Identifier(mooshak_C_reserved_duplicate_params)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(foo)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+........ParamDecl
+..........Int
+..........Identifier(a)
+....MethodBody
+......Return
+........Identifier(a) - int
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(foo)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(x)
+........ParamDecl
+..........Int
+..........Identifier(y)
+....MethodBody
+......Return
+........Identifier(x)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(_)
+......MethodParams
+........ParamDecl
+..........Double
+..........Identifier(x)
+....MethodBody
+......Return
+........Natural(1)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody

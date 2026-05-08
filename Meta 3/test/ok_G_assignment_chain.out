@@ -1,0 +1,50 @@
+===== Class OkGAssignmentChain Symbol Table =====
+main	(String[])	void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+a		int
+b		int
+c		int
+
+Program
+..Identifier(OkGAssignmentChain)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(a)
+......VarDecl
+........Int
+........Identifier(b)
+......VarDecl
+........Int
+........Identifier(c)
+......Assign - int
+........Identifier(a) - int
+........Assign - int
+..........Identifier(b) - int
+..........Assign - int
+............Identifier(c) - int
+............Natural(3) - int
+......Assign - int
+........Identifier(a) - int
+........Sub - int
+..........Add - int
+............Identifier(a) - int
+............Mul - int
+..............Identifier(b) - int
+..............Identifier(c) - int
+..........Div - int
+............Identifier(a) - int
+............Natural(1) - int
+......Print
+........Identifier(a) - int

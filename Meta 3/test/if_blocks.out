@@ -1,0 +1,74 @@
+Line 3, col 6: Cannot find symbol x
+Line 3, col 7: Operator == cannot be applied to types undef, int
+Line 4, col 6: Cannot find symbol x
+Line 4, col 7: Operator == cannot be applied to types undef, int
+Line 5, col 6: Cannot find symbol x
+Line 5, col 7: Operator == cannot be applied to types undef, int
+Line 5, col 12: Cannot find symbol statement()
+Line 6, col 6: Cannot find symbol x
+Line 6, col 7: Operator == cannot be applied to types undef, int
+Line 6, col 12: Cannot find symbol statement1()
+Line 6, col 25: Cannot find symbol statement2()
+Line 7, col 6: Cannot find symbol x
+Line 7, col 7: Operator == cannot be applied to types undef, int
+Line 7, col 12: Cannot find symbol statement3()
+Line 7, col 25: Cannot find symbol statement4()
+Line 7, col 44: Cannot find symbol statement5()
+Line 7, col 57: Cannot find symbol statement6()
+===== Class program Symbol Table =====
+main	()	void
+
+===== Method main() Symbol Table =====
+return		void
+
+Program
+..Identifier(program)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+....MethodBody
+......If
+........Eq - boolean
+..........Identifier(x) - undef
+..........Natural(1) - int
+........Block
+........Block
+......If
+........Eq - boolean
+..........Identifier(x) - undef
+..........Natural(1) - int
+........Block
+........Block
+......If
+........Eq - boolean
+..........Identifier(x) - undef
+..........Natural(1) - int
+........Call - undef
+..........Identifier(statement) - undef
+........Block
+......If
+........Eq - boolean
+..........Identifier(x) - undef
+..........Natural(1) - int
+........Block
+..........Call - undef
+............Identifier(statement1) - undef
+..........Call - undef
+............Identifier(statement2) - undef
+........Block
+......If
+........Eq - boolean
+..........Identifier(x) - undef
+..........Natural(1) - int
+........Block
+..........Call - undef
+............Identifier(statement3) - undef
+..........Call - undef
+............Identifier(statement4) - undef
+........Block
+..........Call - undef
+............Identifier(statement5) - undef
+..........Call - undef
+............Identifier(statement6) - undef

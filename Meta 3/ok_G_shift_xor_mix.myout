@@ -1,0 +1,77 @@
+Line 5, col 20: illegal character (&)
+Line 5, col 15: Operator + cannot be applied to types int, none
+Line 5, col 11: Operator = cannot be applied to types int, undef
+===== Class OkGShiftXorMix Symbol Table =====
+calc	(int,int)	int
+main	(String[])	void
+
+===== Method calc(int,int) Symbol Table =====
+return		int
+a		int	param
+b		int	param
+r		int
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+x		int
+y		int
+
+Program
+..Identifier(OkGShiftXorMix)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(calc)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+........ParamDecl
+..........Int
+..........Identifier(b)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(r)
+......Assign - int
+........Identifier(r) - int
+........Xor - int
+..........Lshift - int
+............Identifier(a) - int
+............Natural(2) - int
+..........Rshift - int
+............Identifier(b) - int
+............Natural(1) - int
+......Assign - int
+........Identifier(r) - int
+........Add - undef
+..........Identifier(r) - int
+......Return
+........Identifier(r) - int
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(x)
+......VarDecl
+........Int
+........Identifier(y)
+......Assign - int
+........Identifier(x) - int
+........Natural(8) - int
+......Assign - int
+........Identifier(y) - int
+........Natural(3) - int
+......Print
+........Call - int
+..........Identifier(calc) - (int,int)
+..........Identifier(x) - int
+..........Identifier(y) - int

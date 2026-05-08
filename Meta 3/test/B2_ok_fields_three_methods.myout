@@ -1,0 +1,96 @@
+===== Class B2OkFieldsThreeMethods Symbol Table =====
+a		int
+b		int
+d		double
+ok		boolean
+add	(int,int)	int
+ping	()	void
+twice	(double)	double
+main	(String[])	void
+
+===== Method add(int,int) Symbol Table =====
+return		int
+x		int	param
+y		int	param
+
+===== Method ping() Symbol Table =====
+return		void
+
+===== Method twice(double) Symbol Table =====
+return		double
+x		double	param
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+n		int
+
+Program
+..Identifier(B2OkFieldsThreeMethods)
+..FieldDecl
+....Int
+....Identifier(a)
+..FieldDecl
+....Int
+....Identifier(b)
+..FieldDecl
+....Double
+....Identifier(d)
+..FieldDecl
+....Bool
+....Identifier(ok)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(add)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(x)
+........ParamDecl
+..........Int
+..........Identifier(y)
+....MethodBody
+......Return
+........Add - int
+..........Identifier(x) - int
+..........Identifier(y) - int
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(ping)
+......MethodParams
+....MethodBody
+..MethodDecl
+....MethodHeader
+......Double
+......Identifier(twice)
+......MethodParams
+........ParamDecl
+..........Double
+..........Identifier(x)
+....MethodBody
+......Return
+........Add - double
+..........Identifier(x) - double
+..........Identifier(x) - double
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(n)
+......Assign - int
+........Identifier(n) - int
+........Natural(0) - int
+......Print
+........Call - int
+..........Identifier(add) - (int,int)
+..........Identifier(n) - int
+..........Natural(1) - int

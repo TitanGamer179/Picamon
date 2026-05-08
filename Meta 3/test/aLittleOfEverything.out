@@ -1,0 +1,181 @@
+Line 37, col 3: unterminated string literal
+Line 46, col 1: unterminated comment
+Line 9, col 6: Incompatible type String[] in if statement
+Line 17, col 9: Symbol b already defined
+Line 18, col 13: Cannot find symbol c
+Line 18, col 15: Operator = cannot be applied to types undef, int
+===== Class newClass Symbol Table =====
+i		int
+b		boolean
+main	(String[])	int
+pI		int
+a	(int,int)	void
+test	()	void
+sum	(int,int)	int
+
+===== Method main(String[]) Symbol Table =====
+return		int
+args		String[]	param
+b		boolean
+i1		int
+a		int
+j		int
+k		int
+
+===== Method a(int,int) Symbol Table =====
+return		void
+a		int	param
+b		int	param
+
+===== Method test() Symbol Table =====
+return		void
+finalI		int
+
+===== Method sum(int,int) Symbol Table =====
+return		int
+k		int	param
+j		int	param
+
+Program
+..Identifier(newClass)
+..FieldDecl
+....Int
+....Identifier(i)
+..FieldDecl
+....Bool
+....Identifier(b)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Bool
+........Identifier(b)
+......VarDecl
+........Int
+........Identifier(i1)
+......If
+........Identifier(args) - String[]
+........If
+..........Eq - boolean
+............ParseArgs - int
+..............Identifier(args) - String[]
+..............Natural(0) - int
+............Natural(1) - int
+..........Print
+............StrLit("The first argument is one") - String
+..........Print
+............StrLit("The value is something!") - String
+........Block
+......If
+........Identifier(b) - boolean
+........If
+..........Eq - boolean
+............Identifier(i1) - int
+............Natural(10) - int
+..........Block
+..........Print
+............StrLit("Within the second else") - String
+........Block
+......VarDecl
+........Int
+........Identifier(a)
+......VarDecl
+........Int
+........Identifier(b)
+......VarDecl
+........Int
+........Identifier(j)
+......VarDecl
+........Int
+........Identifier(k)
+......Block
+........Assign - int
+..........Identifier(a) - int
+..........Natural(3) - int
+........Block
+..........Assign - undef
+............Identifier(c) - undef
+............Natural(4) - int
+..........Assign - int
+............Identifier(j) - int
+............Add - int
+..............Natural(3) - int
+..............Natural(1) - int
+......While
+........BoolLit(true) - boolean
+........While
+..........BoolLit(false) - boolean
+..........Assign - int
+............Identifier(k) - int
+............Add - int
+..............Natural(3) - int
+..............Mul - int
+................Natural(10) - int
+................Natural(3) - int
+......Call - void
+........Identifier(test) - ()
+......Return
+........Natural(0) - int
+..FieldDecl
+....Int
+....Identifier(pI)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(a)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+........ParamDecl
+..........Int
+..........Identifier(b)
+....MethodBody
+......Print
+........StrLit("Arguments: a -> ") - String
+......Print
+........Identifier(a) - int
+......Print
+........StrLit("b is: ") - String
+......Print
+........Identifier(b) - int
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(test)
+......MethodParams
+....MethodBody
+......Call - void
+........Identifier(a) - (int,int)
+........Natural(2) - int
+........Natural(3) - int
+......VarDecl
+........Int
+........Identifier(finalI)
+......Assign - int
+........Identifier(finalI) - int
+........Add - int
+..........Natural(2) - int
+..........Natural(3) - int
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(sum)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(k)
+........ParamDecl
+..........Int
+..........Identifier(j)
+....MethodBody
+......Return
+........Add - int
+..........Identifier(k) - int
+..........Identifier(j) - int

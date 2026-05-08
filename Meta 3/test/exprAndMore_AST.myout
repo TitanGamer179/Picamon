@@ -1,0 +1,521 @@
+Line 5, col 5: Cannot find symbol alo
+Line 5, col 13: Operator .length cannot be applied to type int
+Line 5, col 9: Operator = cannot be applied to types undef, int
+Line 6, col 5: Cannot find symbol ola
+Line 6, col 24: Cannot find symbol d
+Line 6, col 25: Operator + cannot be applied to types undef, int
+Line 6, col 28: Operator * cannot be applied to types undef, int
+Line 6, col 21: Operator + cannot be applied to types int, undef
+Line 6, col 9: Operator = cannot be applied to types undef, undef
+Line 7, col 95: Cannot find symbol x()
+Line 7, col 93: Cannot find symbol x(undef)
+Line 7, col 91: Cannot find symbol x(undef)
+Line 7, col 89: Cannot find symbol x(undef)
+Line 7, col 87: Cannot find symbol x(undef)
+Line 7, col 85: Cannot find symbol x(undef)
+Line 7, col 83: Cannot find symbol x(undef)
+Line 7, col 81: Cannot find symbol x(undef)
+Line 7, col 79: Cannot find symbol x(undef)
+Line 7, col 77: Cannot find symbol x(undef)
+Line 7, col 75: Cannot find symbol x(undef)
+Line 7, col 73: Cannot find symbol x(undef)
+Line 7, col 71: Cannot find symbol x(undef)
+Line 7, col 69: Cannot find symbol x(undef)
+Line 7, col 67: Cannot find symbol x(undef)
+Line 7, col 65: Cannot find symbol x(undef)
+Line 7, col 63: Cannot find symbol x(undef)
+Line 7, col 61: Cannot find symbol x(undef)
+Line 7, col 59: Cannot find symbol x(undef)
+Line 7, col 57: Cannot find symbol x(undef)
+Line 7, col 55: Cannot find symbol x(undef)
+Line 7, col 53: Cannot find symbol x(undef)
+Line 7, col 51: Cannot find symbol x(undef)
+Line 7, col 49: Cannot find symbol x(undef)
+Line 7, col 47: Cannot find symbol x(undef)
+Line 7, col 45: Cannot find symbol x(undef)
+Line 7, col 43: Cannot find symbol x(undef)
+Line 7, col 41: Cannot find symbol x(undef)
+Line 7, col 39: Cannot find symbol x(undef)
+Line 7, col 37: Cannot find symbol x(undef)
+Line 7, col 35: Cannot find symbol x(undef)
+Line 7, col 33: Cannot find symbol x(undef)
+Line 7, col 31: Cannot find symbol x(undef)
+Line 7, col 29: Cannot find symbol x(undef)
+Line 7, col 27: Cannot find symbol x(undef)
+Line 7, col 25: Cannot find symbol x(undef)
+Line 7, col 23: Cannot find symbol x(undef)
+Line 7, col 21: Cannot find symbol x(undef)
+Line 7, col 19: Cannot find symbol x(undef)
+Line 7, col 17: Cannot find symbol x(undef)
+Line 7, col 15: Cannot find symbol x(undef)
+Line 7, col 13: Cannot find symbol x(undef)
+Line 7, col 11: Cannot find symbol x(undef)
+Line 7, col 5: Cannot find symbol call(undef)
+Line 8, col 17: Cannot find symbol d
+Line 8, col 16: Operator + cannot be applied to types int, undef
+Line 8, col 19: Cannot find symbol x
+Line 8, col 18: Operator + cannot be applied to types undef, undef
+Line 8, col 21: Cannot find symbol x
+Line 8, col 20: Operator + cannot be applied to types undef, undef
+Line 8, col 23: Cannot find symbol x
+Line 8, col 22: Operator + cannot be applied to types undef, undef
+Line 8, col 25: Cannot find symbol x
+Line 8, col 24: Operator + cannot be applied to types undef, undef
+Line 8, col 27: Cannot find symbol x
+Line 8, col 26: Operator + cannot be applied to types undef, undef
+Line 8, col 26: Incompatible type undef in while statement
+Line 9, col 8: Cannot find symbol t
+Line 9, col 9: Operator == cannot be applied to types undef, int
+Line 10, col 26: Operator && cannot be applied to types double, int
+Line 10, col 19: Operator || cannot be applied to types int, boolean
+Line 10, col 8: Operator = cannot be applied to types int, boolean
+Line 12, col 11: Cannot find symbol x
+Line 12, col 12: Operator = cannot be applied to types undef, int
+Line 12, col 12: Incompatible type undef in while statement
+Line 13, col 96: Cannot find symbol x()
+Line 13, col 94: Cannot find symbol x(undef)
+Line 13, col 92: Cannot find symbol x(undef)
+Line 13, col 90: Cannot find symbol x(undef)
+Line 13, col 88: Cannot find symbol x(undef)
+Line 13, col 86: Cannot find symbol x(undef)
+Line 13, col 84: Cannot find symbol x(undef)
+Line 13, col 82: Cannot find symbol x(undef)
+Line 13, col 80: Cannot find symbol x(undef)
+Line 13, col 78: Cannot find symbol x(undef)
+Line 13, col 76: Cannot find symbol x(undef)
+Line 13, col 74: Cannot find symbol x(undef)
+Line 13, col 72: Cannot find symbol x(undef)
+Line 13, col 70: Cannot find symbol x(undef)
+Line 13, col 68: Cannot find symbol x(undef)
+Line 13, col 66: Cannot find symbol x(undef)
+Line 13, col 64: Cannot find symbol x(undef)
+Line 13, col 62: Cannot find symbol x(undef)
+Line 13, col 60: Cannot find symbol x(undef)
+Line 13, col 58: Cannot find symbol x(undef)
+Line 13, col 56: Cannot find symbol x(undef)
+Line 13, col 54: Cannot find symbol x(undef)
+Line 13, col 52: Cannot find symbol x(undef)
+Line 13, col 50: Cannot find symbol x(undef)
+Line 13, col 48: Cannot find symbol x(undef)
+Line 13, col 46: Cannot find symbol x(undef)
+Line 13, col 44: Cannot find symbol x(undef)
+Line 13, col 42: Cannot find symbol x(undef)
+Line 13, col 40: Cannot find symbol x(undef)
+Line 13, col 38: Cannot find symbol x(undef)
+Line 13, col 36: Cannot find symbol x(undef)
+Line 13, col 34: Cannot find symbol x(undef)
+Line 13, col 32: Cannot find symbol x(undef)
+Line 13, col 30: Cannot find symbol x(undef)
+Line 13, col 28: Cannot find symbol x(undef)
+Line 13, col 26: Cannot find symbol x(undef)
+Line 13, col 24: Cannot find symbol x(undef)
+Line 13, col 22: Cannot find symbol x(undef)
+Line 13, col 20: Cannot find symbol x(undef)
+Line 13, col 18: Cannot find symbol x(undef)
+Line 13, col 16: Cannot find symbol x(undef)
+Line 13, col 14: Cannot find symbol x(undef)
+Line 13, col 12: Cannot find symbol x(undef)
+Line 13, col 5: Cannot find symbol call2(undef)
+Line 14, col 38: Cannot find symbol x()
+Line 14, col 36: Cannot find symbol x(undef)
+Line 14, col 34: Cannot find symbol x(undef)
+Line 14, col 32: Cannot find symbol x(undef)
+Line 14, col 30: Cannot find symbol x(undef)
+Line 14, col 28: Cannot find symbol x(undef)
+Line 14, col 26: Cannot find symbol x(undef)
+Line 14, col 24: Cannot find symbol x(undef)
+Line 14, col 22: Cannot find symbol x(undef)
+Line 14, col 20: Cannot find symbol x(undef)
+Line 14, col 18: Cannot find symbol x(undef)
+Line 14, col 16: Cannot find symbol x(undef)
+Line 14, col 14: Cannot find symbol x(undef)
+Line 14, col 12: Cannot find symbol x(undef)
+Line 14, col 12: Incompatible type undef in while statement
+Line 15, col 5: Cannot find symbol i
+Line 15, col 6: Operator = cannot be applied to types undef, int
+Line 20, col 8: Cannot find symbol x
+Line 21, col 12: Cannot find symbol x
+Line 22, col 16: Cannot find symbol x
+Line 23, col 20: Cannot find symbol x
+Line 24, col 24: Cannot find symbol x
+Line 25, col 28: Cannot find symbol x
+Line 26, col 32: Cannot find symbol x
+Line 27, col 36: Cannot find symbol x
+Line 28, col 40: Cannot find symbol x
+Line 29, col 44: Cannot find symbol x
+Line 29, col 44: Incompatible type undef in if statement
+Line 28, col 40: Incompatible type undef in if statement
+Line 27, col 36: Incompatible type undef in if statement
+Line 26, col 32: Incompatible type undef in if statement
+Line 25, col 28: Incompatible type undef in if statement
+Line 24, col 24: Incompatible type undef in if statement
+Line 23, col 20: Incompatible type undef in if statement
+Line 22, col 16: Incompatible type undef in if statement
+Line 21, col 12: Incompatible type undef in if statement
+Line 20, col 8: Incompatible type undef in if statement
+Line 40, col 4: Cannot find symbol x
+Line 40, col 6: Operator = cannot be applied to types undef, boolean
+Line 41, col 22: Cannot find symbol xD
+Line 41, col 21: Operator - cannot be applied to type undef
+Line 41, col 26: Cannot find symbol $t
+Line 41, col 25: Operator - cannot be applied to type undef
+Line 41, col 24: Operator * cannot be applied to types undef, undef
+Line 41, col 24: Incompatible type undef in System.out.print statement
+===== Class xd Symbol Table =====
+main	()	void
+
+===== Method main() Symbol Table =====
+return		void
+a		int
+b		int
+c		int
+
+Program
+..Identifier(xd)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+....MethodBody
+......VarDecl
+........Int
+........Identifier(a)
+......VarDecl
+........Int
+........Identifier(b)
+......VarDecl
+........Int
+........Identifier(c)
+......Assign - undef
+........Identifier(alo) - undef
+........Minus - int
+..........Length - int
+............Identifier(a) - int
+......Assign - undef
+........Identifier(ola) - undef
+........Add - undef
+..........Add - int
+............Identifier(b) - int
+............Identifier(c) - int
+..........Mul - undef
+............Add - undef
+..............Identifier(d) - undef
+..............Natural(2) - int
+............Natural(25) - int
+......Call - undef
+........Identifier(call) - undef
+........Call - undef
+..........Identifier(x) - undef
+..........Call - undef
+............Identifier(x) - undef
+............Call - undef
+..............Identifier(x) - undef
+..............Call - undef
+................Identifier(x) - undef
+................Call - undef
+..................Identifier(x) - undef
+..................Call - undef
+....................Identifier(x) - undef
+....................Call - undef
+......................Identifier(x) - undef
+......................Call - undef
+........................Identifier(x) - undef
+........................Call - undef
+..........................Identifier(x) - undef
+..........................Call - undef
+............................Identifier(x) - undef
+............................Call - undef
+..............................Identifier(x) - undef
+..............................Call - undef
+................................Identifier(x) - undef
+................................Call - undef
+..................................Identifier(x) - undef
+..................................Call - undef
+....................................Identifier(x) - undef
+....................................Call - undef
+......................................Identifier(x) - undef
+......................................Call - undef
+........................................Identifier(x) - undef
+........................................Call - undef
+..........................................Identifier(x) - undef
+..........................................Call - undef
+............................................Identifier(x) - undef
+............................................Call - undef
+..............................................Identifier(x) - undef
+..............................................Call - undef
+................................................Identifier(x) - undef
+................................................Call - undef
+..................................................Identifier(x) - undef
+..................................................Call - undef
+....................................................Identifier(x) - undef
+....................................................Call - undef
+......................................................Identifier(x) - undef
+......................................................Call - undef
+........................................................Identifier(x) - undef
+........................................................Call - undef
+..........................................................Identifier(x) - undef
+..........................................................Call - undef
+............................................................Identifier(x) - undef
+............................................................Call - undef
+..............................................................Identifier(x) - undef
+..............................................................Call - undef
+................................................................Identifier(x) - undef
+................................................................Call - undef
+..................................................................Identifier(x) - undef
+..................................................................Call - undef
+....................................................................Identifier(x) - undef
+....................................................................Call - undef
+......................................................................Identifier(x) - undef
+......................................................................Call - undef
+........................................................................Identifier(x) - undef
+........................................................................Call - undef
+..........................................................................Identifier(x) - undef
+..........................................................................Call - undef
+............................................................................Identifier(x) - undef
+............................................................................Call - undef
+..............................................................................Identifier(x) - undef
+..............................................................................Call - undef
+................................................................................Identifier(x) - undef
+................................................................................Call - undef
+..................................................................................Identifier(x) - undef
+..................................................................................Call - undef
+....................................................................................Identifier(x) - undef
+....................................................................................Call - undef
+......................................................................................Identifier(x) - undef
+......................................................................................Call - undef
+........................................................................................Identifier(x) - undef
+........................................................................................Call - undef
+..........................................................................................Identifier(x) - undef
+..........................................................................................Call - undef
+............................................................................................Identifier(x) - undef
+............................................................................................Call - undef
+..............................................................................................Identifier(x) - undef
+......While
+........Add - undef
+..........Add - undef
+............Add - undef
+..............Add - undef
+................Add - undef
+..................Add - undef
+....................Add - int
+......................Add - int
+........................Identifier(a) - int
+........................Identifier(b) - int
+......................Identifier(c) - int
+....................Identifier(d) - undef
+..................Identifier(x) - undef
+................Identifier(x) - undef
+..............Identifier(x) - undef
+............Identifier(x) - undef
+..........Identifier(x) - undef
+........Block
+......If
+........Eq - boolean
+..........Identifier(t) - undef
+..........Add - int
+............Natural(3) - int
+............Natural(3) - int
+........Assign - int
+..........Identifier(a) - int
+..........Or - boolean
+............Mul - int
+..............Natural(555) - int
+..............Natural(1000) - int
+............And - boolean
+..............Decimal(4E2) - double
+..............Add - int
+................Natural(0) - int
+................Identifier(a) - int
+........Block
+......While
+........Assign - undef
+..........Identifier(x) - undef
+..........Natural(3) - int
+........Block
+......Call - undef
+........Identifier(call2) - undef
+........Call - undef
+..........Identifier(x) - undef
+..........Call - undef
+............Identifier(x) - undef
+............Call - undef
+..............Identifier(x) - undef
+..............Call - undef
+................Identifier(x) - undef
+................Call - undef
+..................Identifier(x) - undef
+..................Call - undef
+....................Identifier(x) - undef
+....................Call - undef
+......................Identifier(x) - undef
+......................Call - undef
+........................Identifier(x) - undef
+........................Call - undef
+..........................Identifier(x) - undef
+..........................Call - undef
+............................Identifier(x) - undef
+............................Call - undef
+..............................Identifier(x) - undef
+..............................Call - undef
+................................Identifier(x) - undef
+................................Call - undef
+..................................Identifier(x) - undef
+..................................Call - undef
+....................................Identifier(x) - undef
+....................................Call - undef
+......................................Identifier(x) - undef
+......................................Call - undef
+........................................Identifier(x) - undef
+........................................Call - undef
+..........................................Identifier(x) - undef
+..........................................Call - undef
+............................................Identifier(x) - undef
+............................................Call - undef
+..............................................Identifier(x) - undef
+..............................................Call - undef
+................................................Identifier(x) - undef
+................................................Call - undef
+..................................................Identifier(x) - undef
+..................................................Call - undef
+....................................................Identifier(x) - undef
+....................................................Call - undef
+......................................................Identifier(x) - undef
+......................................................Call - undef
+........................................................Identifier(x) - undef
+........................................................Call - undef
+..........................................................Identifier(x) - undef
+..........................................................Call - undef
+............................................................Identifier(x) - undef
+............................................................Call - undef
+..............................................................Identifier(x) - undef
+..............................................................Call - undef
+................................................................Identifier(x) - undef
+................................................................Call - undef
+..................................................................Identifier(x) - undef
+..................................................................Call - undef
+....................................................................Identifier(x) - undef
+....................................................................Call - undef
+......................................................................Identifier(x) - undef
+......................................................................Call - undef
+........................................................................Identifier(x) - undef
+........................................................................Call - undef
+..........................................................................Identifier(x) - undef
+..........................................................................Call - undef
+............................................................................Identifier(x) - undef
+............................................................................Call - undef
+..............................................................................Identifier(x) - undef
+..............................................................................Call - undef
+................................................................................Identifier(x) - undef
+................................................................................Call - undef
+..................................................................................Identifier(x) - undef
+..................................................................................Call - undef
+....................................................................................Identifier(x) - undef
+....................................................................................Call - undef
+......................................................................................Identifier(x) - undef
+......................................................................................Call - undef
+........................................................................................Identifier(x) - undef
+........................................................................................Call - undef
+..........................................................................................Identifier(x) - undef
+..........................................................................................Call - undef
+............................................................................................Identifier(x) - undef
+............................................................................................Call - undef
+..............................................................................................Identifier(x) - undef
+......While
+........Call - undef
+..........Identifier(x) - undef
+..........Call - undef
+............Identifier(x) - undef
+............Call - undef
+..............Identifier(x) - undef
+..............Call - undef
+................Identifier(x) - undef
+................Call - undef
+..................Identifier(x) - undef
+..................Call - undef
+....................Identifier(x) - undef
+....................Call - undef
+......................Identifier(x) - undef
+......................Call - undef
+........................Identifier(x) - undef
+........................Call - undef
+..........................Identifier(x) - undef
+..........................Call - undef
+............................Identifier(x) - undef
+............................Call - undef
+..............................Identifier(x) - undef
+..............................Call - undef
+................................Identifier(x) - undef
+................................Call - undef
+..................................Identifier(x) - undef
+..................................Call - undef
+....................................Identifier(x) - undef
+........Block
+......Assign - undef
+........Identifier(i) - undef
+........Add - int
+..........Add - int
+............Add - int
+..............Add - int
+................Add - int
+..................Add - int
+....................Add - int
+......................Add - int
+........................Natural(2) - int
+........................Natural(2) - int
+......................Natural(2) - int
+....................Natural(2) - int
+..................Natural(2) - int
+................Natural(2) - int
+..............Natural(2) - int
+............Natural(2) - int
+..........Natural(2) - int
+......Block
+........Assign - int
+..........Identifier(a) - int
+..........Natural(1) - int
+........Assign - int
+..........Identifier(b) - int
+..........Natural(2) - int
+......If
+........Identifier(x) - undef
+........If
+..........Identifier(x) - undef
+..........If
+............Identifier(x) - undef
+............If
+..............Identifier(x) - undef
+..............If
+................Identifier(x) - undef
+................If
+..................Identifier(x) - undef
+..................If
+....................Identifier(x) - undef
+....................If
+......................Identifier(x) - undef
+......................If
+........................Identifier(x) - undef
+........................If
+..........................Identifier(x) - undef
+..........................Block
+..........................Block
+........................Block
+......................Block
+....................Block
+..................Block
+................Block
+..............Block
+............Block
+..........Block
+........Block
+......Assign - undef
+........Identifier(x) - undef
+........Or - boolean
+..........BoolLit(true) - boolean
+..........BoolLit(false) - boolean
+......Print
+........Mul - undef
+..........Minus - undef
+............Identifier(xD) - undef
+..........Minus - undef
+............Identifier($t) - undef

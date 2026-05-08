@@ -1,0 +1,171 @@
+Line 9, col 13: Cannot find symbol x1
+Line 9, col 13: Incompatible type undef in if statement
+Line 11, col 13: Cannot find symbol x2
+Line 11, col 13: Incompatible type undef in if statement
+Line 14, col 13: Cannot find symbol x3
+Line 19, col 14: Operator = cannot be applied to types boolean, int
+Line 14, col 13: Incompatible type undef in if statement
+Line 21, col 13: Cannot find symbol x4
+Line 21, col 13: Incompatible type undef in if statement
+Line 27, col 14: Operator .length cannot be applied to type int
+Line 29, col 11: Operator = cannot be applied to types double, boolean
+Line 30, col 9: Cannot find symbol c1
+Line 30, col 12: Operator = cannot be applied to types undef, boolean
+Line 31, col 11: Operator = cannot be applied to types boolean, double
+Line 32, col 26: Cannot find symbol abc
+Line 32, col 9: Operator Integer.parseInt cannot be applied to types undef, int
+Line 35, col 21: Cannot find symbol Zbording
+Line 35, col 42: Cannot find symbol Epossivel
+Line 35, col 30: Cannot find symbol passarAComp(undef)
+Line 35, col 64: Cannot find symbol ouChumbar
+Line 35, col 53: Cannot find symbol compPassar(undef)
+Line 35, col 95: Cannot find symbol ESoFazer
+Line 35, col 83: Cannot find symbol tambemSefaz(undef)
+Line 35, col 75: Cannot find symbol chumbar(undef)
+Line 35, col 9: Cannot find symbol passarAComp(undef,undef,undef,undef)
+===== Class Teste Symbol Table =====
+a		int
+b		int
+c		int
+d		int
+main	(int,double,boolean,int)	void
+
+===== Method main(int,double,boolean,int) Symbol Table =====
+return		void
+a		int	param
+c		double	param
+d		boolean	param
+h		int	param
+x		int
+y		int
+z		int
+k		int
+l		int
+m		int
+o		int
+p		int
+
+Program
+..Identifier(Teste)
+..FieldDecl
+....Int
+....Identifier(a)
+..FieldDecl
+....Int
+....Identifier(b)
+..FieldDecl
+....Int
+....Identifier(c)
+..FieldDecl
+....Int
+....Identifier(d)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(a)
+........ParamDecl
+..........Double
+..........Identifier(c)
+........ParamDecl
+..........Bool
+..........Identifier(d)
+........ParamDecl
+..........Int
+..........Identifier(h)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(x)
+......VarDecl
+........Int
+........Identifier(y)
+......VarDecl
+........Int
+........Identifier(z)
+......VarDecl
+........Int
+........Identifier(k)
+......VarDecl
+........Int
+........Identifier(l)
+......VarDecl
+........Int
+........Identifier(m)
+......VarDecl
+........Int
+........Identifier(o)
+......VarDecl
+........Int
+........Identifier(p)
+......If
+........Identifier(x1) - undef
+........Block
+........Block
+......If
+........Identifier(x2) - undef
+........Assign - int
+..........Identifier(a) - int
+..........Natural(1) - int
+........Block
+......If
+........Identifier(x3) - undef
+........Block
+..........Assign - int
+............Identifier(b) - int
+............Natural(2) - int
+..........Assign - double
+............Identifier(c) - double
+............Natural(3) - int
+........Assign - boolean
+..........Identifier(d) - boolean
+..........Natural(4) - int
+......If
+........Identifier(x4) - undef
+........Block
+........Block
+......If
+........BoolLit(true) - boolean
+........Block
+........If
+..........BoolLit(false) - boolean
+..........Block
+..........Block
+......Assign - int
+........Identifier(a) - int
+........Length - int
+..........Identifier(b) - int
+......Assign - int
+........Identifier(b) - int
+........Natural(1) - int
+......Assign - double
+........Identifier(c) - double
+........BoolLit(false) - boolean
+......Assign - undef
+........Identifier(c1) - undef
+........BoolLit(true) - boolean
+......Assign - boolean
+........Identifier(d) - boolean
+........Decimal(1.0) - double
+......ParseArgs - int
+........Identifier(abc) - undef
+........Assign - int
+..........Identifier(a) - int
+..........Natural(1) - int
+......Call - undef
+........Identifier(passarAComp) - undef
+........Identifier(Zbording) - undef
+........Call - undef
+..........Identifier(passarAComp) - undef
+..........Identifier(Epossivel) - undef
+........Call - undef
+..........Identifier(compPassar) - undef
+..........Identifier(ouChumbar) - undef
+........Call - undef
+..........Identifier(chumbar) - undef
+..........Call - undef
+............Identifier(tambemSefaz) - undef
+............Identifier(ESoFazer) - undef

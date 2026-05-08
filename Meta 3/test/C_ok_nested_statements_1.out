@@ -1,0 +1,48 @@
+===== Class COkNestedStatements1 Symbol Table =====
+main	(String[])	void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+a		int
+
+Program
+..Identifier(COkNestedStatements1)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(a)
+......Assign - int
+........Identifier(a) - int
+........Natural(0) - int
+......While
+........Lt - boolean
+..........Identifier(a) - int
+..........Natural(3) - int
+........If
+..........Eq - boolean
+............Identifier(a) - int
+............Natural(1) - int
+..........Assign - int
+............Identifier(a) - int
+............Add - int
+..............Identifier(a) - int
+..............Natural(2) - int
+..........Assign - int
+............Identifier(a) - int
+............Add - int
+..............Identifier(a) - int
+..............Natural(1) - int
+......Assign - int
+........Identifier(a) - int
+........Add - int
+..........Identifier(a) - int
+..........Natural(1) - int

@@ -1,0 +1,78 @@
+Line 6, col 27: Symbol pack(String[]) already defined
+===== Class mooshak_C_string_array_methods Symbol Table =====
+pack	(String[])	int
+pack	(int)	int
+pack	(double)	double
+main	(String[])	void
+
+===== Method pack(String[]) Symbol Table =====
+return		int
+values		String[]	param
+
+===== Method pack(int) Symbol Table =====
+return		int
+x		int	param
+
+===== Method pack(double) Symbol Table =====
+return		double
+x		double	param
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+
+Program
+..Identifier(mooshak_C_string_array_methods)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(pack)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(values)
+....MethodBody
+......Return
+........Natural(1) - int
+..MethodDecl
+....MethodHeader
+......Bool
+......Identifier(pack)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(other)
+....MethodBody
+......Return
+........BoolLit(true)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(pack)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(x)
+....MethodBody
+......Return
+........Identifier(x) - int
+..MethodDecl
+....MethodHeader
+......Double
+......Identifier(pack)
+......MethodParams
+........ParamDecl
+..........Double
+..........Identifier(x)
+....MethodBody
+......Return
+........Identifier(x) - double
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody

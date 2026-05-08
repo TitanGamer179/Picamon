@@ -1,0 +1,47 @@
+Line 2, col 29: Symbol _ is reserved
+Line 2, col 23: Symbol _ is reserved
+Line 6, col 39: Symbol x already defined
+Line 6, col 26: Symbol _ is reserved
+===== Class mooshak_C_reserved_method_param_errors Symbol Table =====
+main	(String[])	void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+
+Program
+..Identifier(mooshak_C_reserved_method_param_errors)
+..MethodDecl
+....MethodHeader
+......Int
+......Identifier(_)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(_)
+....MethodBody
+......Return
+........Natural(1)
+..MethodDecl
+....MethodHeader
+......Double
+......Identifier(_)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(x)
+........ParamDecl
+..........Int
+..........Identifier(x)
+....MethodBody
+......Return
+........Decimal(1.0)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody

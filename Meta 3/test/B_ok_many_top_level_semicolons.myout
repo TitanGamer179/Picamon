@@ -1,0 +1,22 @@
+===== Class BOkManyTopLevelSemicolons Symbol Table =====
+x		int
+main	(String[])	void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+
+Program
+..Identifier(BOkManyTopLevelSemicolons)
+..FieldDecl
+....Int
+....Identifier(x)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
