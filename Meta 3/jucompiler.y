@@ -329,10 +329,8 @@ void annotate_ast(Node *node, SymTable *current_env) {
         Node *header = node->child;
         Node *id_node = header->child->sibling;
         char *params_str = build_param_types(id_node->sibling);
-        
         char table_name[8192];
         snprintf(table_name, sizeof(table_name), "Method %s(%s)", id_node->value, params_str);
-        
         int redefined = 0;
         Symbol *s = global_table->symbols;
         while (s) {
@@ -344,13 +342,15 @@ void annotate_ast(Node *node, SymTable *current_env) {
             }
             s = s->next;
         }
-        
+        SymTable *method_table = NULL;
         if (!redefined) {
-            SymTable *method_table = all_tables;
+            method_table = all_tables;
             while (method_table) {
                 if (strcmp(method_table->name, table_name) == 0) break;
                 method_table = method_table->next;
             }
+        }
+        if (method_table) {
             if (node->child->sibling) annotate_ast(node->child->sibling, method_table);
         } else {
             SymTable tmp_env;
@@ -376,7 +376,10 @@ void annotate_ast(Node *node, SymTable *current_env) {
                 }
                 params = params->sibling;
             }
+            
             if (node->child->sibling) annotate_ast(node->child->sibling, &tmp_env);
+            
+            // Limpeza de memória
             Symbol *cs = tmp_env.symbols;
             while (cs) {
                 Symbol *next = cs->next;
@@ -618,7 +621,7 @@ void print_tables() {
         Symbol *s = t->symbols;
         while (s) {
             if (s->param_types) printf("%s\t(%s)\t%s\n", s->name, s->param_types, s->type);
-            else printf("%s\t\t%s%s\n", s->name, s->type, s->is_param ? "\tparam" : "");
+            else printf("%s\t\t%s%s\n", s->name, s->type, s->is_param ? "\tparam" : ""); // <- RESTAURADOS OS DOIS \t
             s = s->next;
         }
         printf("\n");
