@@ -136,14 +136,6 @@ Symbol* create_symbol(char *name, char *type, char *param_types, int is_param, i
 
 int insert_symbol(SymTable *table, char *name, char *type, char *param_types, int is_param, int line, int col) {
     if (!table) return 0;
-    char *res_words[] = {"++","--","null","Integer","System","abstract","assert","break","byte","case","catch","char","const","continue","default","do","enum","extends","final","finally","float","for","goto","implements","import","instanceof","interface","long","native","new","package","private","protected","short","strictfp","super","switch","synchronized","this","throw","throws","transient","try","volatile","_", NULL};
-    
-    for (int i=0; res_words[i]; i++) {
-        if (strcmp(name, res_words[i]) == 0) {
-            printf("Line %d, col %d: Symbol is reserved\n", line, col);
-            return 0;
-        }
-    }
     
     Symbol *curr = table->symbols;
     Symbol *prev = NULL;
@@ -239,6 +231,12 @@ void annotate_ast(Node *node, SymTable *current_env) {
     if (!node) return;
     
     if (strcmp(node->type, "Identifier") == 0) {
+        // 5. ADICIONAR AQUI VERIFICAÇÃO NO USO DO IDENTIFICADOR:
+        if (strcmp(node->value, "_") == 0) {
+            printf("Line %d, col %d: Symbol _ is reserved\n", node->line, node->col);
+            node->anot_type = strdup("undef");
+            return;
+        }
         char *type = lookup_variable_type(current_env, node->value);
         if (strcmp(type, "undef") == 0) printf("Line %d, col %d: Cannot find symbol %s\n", node->line, node->col, node->value);
         node->anot_type = strdup(type);
@@ -275,48 +273,98 @@ void annotate_ast(Node *node, SymTable *current_env) {
     } else if (strcmp(node->type, "VarDecl") == 0 || strcmp(node->type, "FieldDecl") == 0) {
         if (node->child && node->child->sibling) {
             Node *id_node = node->child->sibling;
-            insert_symbol(current_env, id_node->value, get_juc_type(node->child->type), NULL, 0, id_node->line, id_node->col);
+            // 6. ADICIONAR AQUI PARA VARIÁVEIS LOCAIS:
+            if (strcmp(id_node->value, "_") == 0) {
+                printf("Line %d, col %d: Symbol _ is reserved\n", id_node->line, id_node->col);
+            } else {
+                insert_symbol(current_env, id_node->value, get_juc_type(node->child->type), NULL, 0, id_node->line, id_node->col);
+            }
         }
         return;
     }
 
     if (strcmp(node->type, "Program") == 0) {
+        if (node->child && strcmp(node->child->value, "_") == 0) {
+            printf("Line %d, col %d: Symbol _ is reserved\n", node->child->line, node->child->col);
+        }
         global_table = create_table("Class", "Global");
         Node *child = node->child ? node->child->sibling : NULL;
         Node *temp = child;
+        
         while (temp) {
             if (strcmp(temp->type, "MethodDecl") == 0) {
                 Node *header = temp->child;
                 Node *id_node = header->child->sibling;
                 char *params_str = build_param_types(id_node->sibling);
-                char table_name[8192];
-                snprintf(table_name, sizeof(table_name), "Method %s(%s)", id_node->value, params_str);
-                int inserted = insert_symbol(global_table, id_node->value, get_juc_type(header->child->type), params_str, 0, id_node->line, id_node->col);
-                if (inserted) {
-                    SymTable *method_table = create_table(table_name, "Method");
-                    insert_symbol(method_table, "return", get_juc_type(header->child->type), NULL, 0, id_node->line, id_node->col);
-                    Node *params = id_node->sibling->child;
-                    while (params) {
-                        insert_symbol(method_table, params->child->sibling->value, get_juc_type(params->child->type), NULL, 1, params->child->sibling->line, params->child->sibling->col);
-                        params = params->sibling;
+                
+                // 1. Verifica se o método é _
+                if (strcmp(id_node->value, "_") == 0) {
+                    printf("Line %d, col %d: Symbol _ is reserved\n", id_node->line, id_node->col);
+                }
+
+                // 2. Verifica se é método duplicado (nome e parâmetros idênticos)
+                int is_duplicate = 0;
+                Symbol *s_curr = global_table->symbols;
+                while (s_curr) {
+                    if (strcmp(s_curr->name, id_node->value) == 0 && s_curr->param_types && strcmp(s_curr->param_types, params_str) == 0) {
+                        is_duplicate = 1;
+                        break;
                     }
+                    s_curr = s_curr->next;
+                }
+
+                SymTable *method_table = NULL;
+                if (!is_duplicate) {
+                    char table_name[8192];
+                    snprintf(table_name, sizeof(table_name), "Method %s(%s)", id_node->value, params_str);
+                    method_table = create_table(table_name, "Method");
+                    // Inserir na global_table IMEDIATAMENTE (tal como o código do teu amigo faz)
+                    insert_symbol(global_table, id_node->value, get_juc_type(header->child->type), params_str, 0, id_node->line, id_node->col);
                 } else {
-                    SymTable tmp;
-                    tmp.name = "TMP"; tmp.type = "Tmp"; tmp.symbols = NULL; tmp.next = NULL;
-                    tmp.symbols = create_symbol("return", get_juc_type(header->child->type), NULL, 0, id_node->line, id_node->col);
-                    Node *params = id_node->sibling->child;
-                    while (params) {
-                        insert_symbol(&tmp, params->child->sibling->value, get_juc_type(params->child->type), NULL, 1, params->child->sibling->line, params->child->sibling->col);
-                        params = params->sibling;
+                    method_table = (SymTable*)malloc(sizeof(SymTable));
+                    method_table->name = "TMP"; method_table->type = "Tmp"; method_table->symbols = NULL; method_table->next = NULL;
+                }
+                
+                // 3. Inserir return e parâmetros na tabela
+                insert_symbol(method_table, "return", get_juc_type(header->child->type), NULL, 0, id_node->line, id_node->col);
+                
+                Node *params = id_node->sibling->child;
+                while (params) {
+                    if (strcmp(params->child->sibling->value, "_") == 0) {
+                        printf("Line %d, col %d: Symbol _ is reserved\n", params->child->sibling->line, params->child->sibling->col);
+                    } else {
+                        insert_symbol(method_table, params->child->sibling->value, get_juc_type(params->child->type), NULL, 1, params->child->sibling->line, params->child->sibling->col);
                     }
+                    params = params->sibling;
+                }
+
+                // 4. Só NO FIM imprime o erro do método duplicado e liberta a TMP
+                if (is_duplicate) {
+                    printf("Line %d, col %d: Symbol %s(%s) already defined\n", id_node->line, id_node->col, id_node->value, params_str);
+                    Symbol *cs = method_table->symbols;
+                    while (cs) {
+                        Symbol *next = cs->next;
+                        if (cs->name) free(cs->name);
+                        if (cs->type) free(cs->type);
+                        if (cs->param_types) free(cs->param_types);
+                        free(cs);
+                        cs = next;
+                    }
+                    free(method_table);
                 }
                 free(params_str);
-            } else if (strcmp(temp->type, "FieldDecl") == 0) {
+
+            } else if (strcmp(temp->type, "FieldDecl") == 0) { 
                 Node *id_node = temp->child->sibling;
-                insert_symbol(global_table, id_node->value, get_juc_type(temp->child->type), NULL, 0, id_node->line, id_node->col);
+                if (strcmp(id_node->value, "_") == 0) {
+                    printf("Line %d, col %d: Symbol _ is reserved\n", id_node->line, id_node->col);
+                } else {
+                    insert_symbol(global_table, id_node->value, get_juc_type(temp->child->type), NULL, 0, id_node->line, id_node->col);
+                }
             }
             temp = temp->sibling;
         }
+        
         temp = child;
         while (temp) {
             if (strcmp(temp->type, "MethodDecl") == 0) annotate_ast(temp, global_table);
@@ -331,10 +379,12 @@ void annotate_ast(Node *node, SymTable *current_env) {
         char *params_str = build_param_types(id_node->sibling);
         char table_name[8192];
         snprintf(table_name, sizeof(table_name), "Method %s(%s)", id_node->value, params_str);
+        
         int redefined = 0;
         Symbol *s = global_table->symbols;
         while (s) {
             if (strcmp(s->name, id_node->value) == 0 && s->param_types && strcmp(s->param_types, params_str) == 0) {
+                // Descobre se este nó é o método duplicado e não o original
                 if (s->line < id_node->line || (s->line == id_node->line && s->col < id_node->col)) {
                     redefined = 1;
                     break;
@@ -342,62 +392,28 @@ void annotate_ast(Node *node, SymTable *current_env) {
             }
             s = s->next;
         }
-        SymTable *method_table = NULL;
-        if (!redefined) {
-            method_table = all_tables;
-            while (method_table) {
-                if (strcmp(method_table->name, table_name) == 0) break;
-                method_table = method_table->next;
-            }
-        }
-        if (method_table) {
-            if (node->child->sibling) annotate_ast(node->child->sibling, method_table);
-        } else {
-            SymTable tmp_env;
-            tmp_env.name = "TMP";
-            tmp_env.type = "Method";
-            tmp_env.symbols = NULL;
-            tmp_env.next = NULL;
-            tmp_env.symbols = create_symbol("return", get_juc_type(header->child->type), NULL, 0, id_node->line, id_node->col);
-            Node *params = id_node->sibling->child;
-            while (params) {
-                char *p_name = params->child->sibling->value;
-                int exists = 0;
-                Symbol *c = tmp_env.symbols;
-                while (c) {
-                    if (strcmp(c->name, p_name) == 0) { exists = 1; break; }
-                    c = c->next;
-                }
-                if (!exists) {
-                    Symbol *new_s = create_symbol(p_name, get_juc_type(params->child->type), NULL, 1, params->child->sibling->line, params->child->sibling->col);
-                    Symbol *last = tmp_env.symbols;
-                    while (last->next) last = last->next;
-                    last->next = new_s;
-                }
-                params = params->sibling;
-            }
-            
-            if (node->child->sibling) annotate_ast(node->child->sibling, &tmp_env);
-            
-            // Limpeza de memória
-            Symbol *cs = tmp_env.symbols;
-            while (cs) {
-                Symbol *next = cs->next;
-                if (cs->name) free(cs->name);
-                if (cs->type) free(cs->type);
-                if (cs->param_types) free(cs->param_types);
-                free(cs);
-                cs = next;
-            }
-        }
         free(params_str);
+        
+        if (redefined) return; // Salta o interior de métodos duplicados!
+
+        SymTable *method_table = all_tables;
+        while (method_table) {
+            if (strcmp(method_table->name, table_name) == 0) break;
+            method_table = method_table->next;
+        }
+        
+        if (method_table && node->child->sibling) {
+            annotate_ast(node->child->sibling, method_table);
+        }
         return;
     }
 
     Node *child = node->child;
     while (child) {
         if (strcmp(node->type, "Call") == 0 && child == node->child) {
-            // Skips Call identifier
+            if (strcmp(child->value, "_") == 0) {
+                printf("Line %d, col %d: Symbol _ is reserved\n", child->line, child->col);
+            }
         } else {
             annotate_ast(child, current_env);
         }
