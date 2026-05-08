@@ -137,16 +137,18 @@ Symbol* create_symbol(char *name, char *type, char *param_types, int is_param, i
 int insert_symbol(SymTable *table, char *name, char *type, char *param_types, int is_param, int line, int col) {
     if (!table) return 0;
     char *res_words[] = {"++","--","null","Integer","System","abstract","assert","break","byte","case","catch","char","const","continue","default","do","enum","extends","final","finally","float","for","goto","implements","import","instanceof","interface","long","native","new","package","private","protected","short","strictfp","super","switch","synchronized","this","throw","throws","transient","try","volatile","_", NULL};
+    
     for (int i=0; res_words[i]; i++) {
         if (strcmp(name, res_words[i]) == 0) {
-            printf("Line %d, col %d: Symbol %s is reserved\n", line, col, name);
+            printf("Line %d, col %d: Symbol is reserved\n", line, col);
             return 0;
         }
     }
+    
     Symbol *curr = table->symbols;
     Symbol *prev = NULL;
     while (curr) {
-        if (strcmp(curr->name, name) == 0) {
+        if (strcmp(curr->name, name) == 0) { 
             if ((!param_types && !curr->param_types) || (param_types && curr->param_types && strcmp(curr->param_types, param_types) == 0)) {
                 if (param_types)
                     printf("Line %d, col %d: Symbol %s(%s) already defined\n", line, col, name, param_types);
@@ -158,6 +160,7 @@ int insert_symbol(SymTable *table, char *name, char *type, char *param_types, in
         prev = curr;
         curr = curr->next;
     }
+    
     Symbol *new_s = create_symbol(name, type, param_types, is_param, line, col);
     if (!table->symbols) table->symbols = new_s;
     else prev->next = new_s;
@@ -188,9 +191,9 @@ char* get_juc_type(char *type) {
 int is_expression(char *type) {
     if (!type) return 0;
     char *exprs[] = {"Assign", "Or", "And", "Eq", "Ne", "Lt", "Gt", "Le", "Ge", 
-                     "Add", "Sub", "Mul", "Div", "Mod", "Xor", "Lshift", "Rshift",
-                     "Not", "Minus", "Plus", "Length", "Call", "ParseArgs", 
-                     "Identifier", "Natural", "Decimal", "BoolLit", NULL};
+                 "Add", "Sub", "Mul", "Div", "Mod", "Xor", "Lshift", "Rshift",
+                 "Not", "Minus", "Plus", "Length", "Call", "ParseArgs", 
+                 "Identifier", "Natural", "Decimal", "BoolLit", "StrLit", NULL};
     for (int i = 0; exprs[i] != NULL; i++) {
         if (strcmp(type, exprs[i]) == 0) return 1;
     }
@@ -288,35 +291,22 @@ void annotate_ast(Node *node, SymTable *current_env) {
                 char *params_str = build_param_types(id_node->sibling);
                 char table_name[8192];
                 snprintf(table_name, sizeof(table_name), "Method %s(%s)", id_node->value, params_str);
-
-                /* Check if this signature already exists (would be redefined) */
-                int will_redefine = 0;
-                Symbol *s = global_table->symbols;
-                while (s) {
-                    if (strcmp(s->name, id_node->value) == 0 && s->param_types && strcmp(s->param_types, params_str) == 0) {
-                        will_redefine = 1; break;
-                    }
-                    s = s->next;
-                }
-
-                if (will_redefine) {
-                    /* Check param duplicates FIRST (so their error prints before method error) */
-                    SymTable tmp; tmp.name="TMP"; tmp.type="Tmp"; tmp.symbols=NULL; tmp.next=NULL;
-                    Node *params = id_node->sibling->child;
-                    while (params) {
-                        insert_symbol(&tmp, params->child->sibling->value, get_juc_type(params->child->type), NULL, 1, params->child->sibling->line, params->child->sibling->col);
-                        params = params->sibling;
-                    }
-                    /* Then insert method (prints "already defined") */
-                    insert_symbol(global_table, id_node->value, get_juc_type(header->child->type), params_str, 0, id_node->line, id_node->col);
-                } else {
-                    /* New method: insert, then build method table with params */
-                    insert_symbol(global_table, id_node->value, get_juc_type(header->child->type), params_str, 0, id_node->line, id_node->col);
+                int inserted = insert_symbol(global_table, id_node->value, get_juc_type(header->child->type), params_str, 0, id_node->line, id_node->col);
+                if (inserted) {
                     SymTable *method_table = create_table(table_name, "Method");
                     insert_symbol(method_table, "return", get_juc_type(header->child->type), NULL, 0, id_node->line, id_node->col);
                     Node *params = id_node->sibling->child;
                     while (params) {
                         insert_symbol(method_table, params->child->sibling->value, get_juc_type(params->child->type), NULL, 1, params->child->sibling->line, params->child->sibling->col);
+                        params = params->sibling;
+                    }
+                } else {
+                    SymTable tmp;
+                    tmp.name = "TMP"; tmp.type = "Tmp"; tmp.symbols = NULL; tmp.next = NULL;
+                    tmp.symbols = create_symbol("return", get_juc_type(header->child->type), NULL, 0, id_node->line, id_node->col);
+                    Node *params = id_node->sibling->child;
+                    while (params) {
+                        insert_symbol(&tmp, params->child->sibling->value, get_juc_type(params->child->type), NULL, 1, params->child->sibling->line, params->child->sibling->col);
                         params = params->sibling;
                     }
                 }
@@ -362,6 +352,40 @@ void annotate_ast(Node *node, SymTable *current_env) {
                 method_table = method_table->next;
             }
             if (node->child->sibling) annotate_ast(node->child->sibling, method_table);
+        } else {
+            SymTable tmp_env;
+            tmp_env.name = "TMP";
+            tmp_env.type = "Method";
+            tmp_env.symbols = NULL;
+            tmp_env.next = NULL;
+            tmp_env.symbols = create_symbol("return", get_juc_type(header->child->type), NULL, 0, id_node->line, id_node->col);
+            Node *params = id_node->sibling->child;
+            while (params) {
+                char *p_name = params->child->sibling->value;
+                int exists = 0;
+                Symbol *c = tmp_env.symbols;
+                while (c) {
+                    if (strcmp(c->name, p_name) == 0) { exists = 1; break; }
+                    c = c->next;
+                }
+                if (!exists) {
+                    Symbol *new_s = create_symbol(p_name, get_juc_type(params->child->type), NULL, 1, params->child->sibling->line, params->child->sibling->col);
+                    Symbol *last = tmp_env.symbols;
+                    while (last->next) last = last->next;
+                    last->next = new_s;
+                }
+                params = params->sibling;
+            }
+            if (node->child->sibling) annotate_ast(node->child->sibling, &tmp_env);
+            Symbol *cs = tmp_env.symbols;
+            while (cs) {
+                Symbol *next = cs->next;
+                if (cs->name) free(cs->name);
+                if (cs->type) free(cs->type);
+                if (cs->param_types) free(cs->param_types);
+                free(cs);
+                cs = next;
+            }
         }
         free(params_str);
         return;
@@ -386,8 +410,7 @@ void annotate_ast(Node *node, SymTable *current_env) {
         if (strcmp(t1, "double") == 0 && (strcmp(t2, "double") == 0 || strcmp(t2, "int") == 0)) valid = 1;
         else if (strcmp(t1, "int") == 0 && strcmp(t2, "int") == 0) valid = 1;
         else if (strcmp(t1, "boolean") == 0 && strcmp(t2, "boolean") == 0) valid = 1;
-        
-        if (!valid && strcmp(t1, "undef") != 0) printf("Line %d, col %d: Operator = cannot be applied to types %s, %s\n", node->line, node->col, t1, t2);
+        if (!valid) printf("Line %d, col %d: Operator = cannot be applied to types %s, %s\n", node->line, node->col, t1, t2);
         node->anot_type = strdup(t1);
     } else if (strcmp(node->type, "Add") == 0 || strcmp(node->type, "Sub") == 0 || strcmp(node->type, "Mul") == 0 || strcmp(node->type, "Div") == 0 || strcmp(node->type, "Mod") == 0) {
         Node *c1 = node->child;
@@ -416,8 +439,11 @@ void annotate_ast(Node *node, SymTable *current_env) {
         char *res = "boolean";
         if (strcmp(t1, "boolean") == 0 && strcmp(t2, "boolean") == 0) { valid = 1; res = "boolean"; }
         else if (strcmp(node->type, "Xor") == 0 && strcmp(t1, "int") == 0 && strcmp(t2, "int") == 0) { valid = 1; res = "int"; }
-        else if (strcmp(node->type, "Xor") == 0) { res = "undef"; }
-        if (!valid) printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->line, node->col, get_op_str(node->type), t1, t2);
+        if (!valid) {
+            if (strcmp(node->type, "Xor") == 0) res = "undef"; 
+            else res = "boolean"; 
+            printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->line, node->col, get_op_str(node->type), t1, t2);
+        }
         node->anot_type = strdup(res);
     } else if (strcmp(node->type, "Eq") == 0 || strcmp(node->type, "Ne") == 0 || strcmp(node->type, "Lt") == 0 || strcmp(node->type, "Gt") == 0 || strcmp(node->type, "Le") == 0 || strcmp(node->type, "Ge") == 0) {
         Node *c1 = node->child;
@@ -429,7 +455,9 @@ void annotate_ast(Node *node, SymTable *current_env) {
             if (strcmp(t1, "boolean") == 0 && (strcmp(node->type, "Eq") != 0 && strcmp(node->type, "Ne") != 0)) valid = 0;
             else valid = 1;
         } else if ((strcmp(t1, "int") == 0 || strcmp(t1, "double") == 0) && (strcmp(t2, "int") == 0 || strcmp(t2, "double") == 0)) valid = 1;
-        if (!valid) printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->line, node->col, get_op_str(node->type), t1, t2);
+        if (!valid) {
+            printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->line, node->col, get_op_str(node->type), t1, t2);
+        }
         node->anot_type = strdup("boolean");
     } else if (strcmp(node->type, "Plus") == 0 || strcmp(node->type, "Minus") == 0) {
         char *t1 = (node->child && node->child->anot_type) ? node->child->anot_type : "none";
@@ -440,13 +468,17 @@ void annotate_ast(Node *node, SymTable *current_env) {
         }
     } else if (strcmp(node->type, "Not") == 0) {
         char *t1 = (node->child && node->child->anot_type) ? node->child->anot_type : "none";
+        
         if (strcmp(t1, "boolean") != 0) {
             printf("Line %d, col %d: Operator ! cannot be applied to type %s\n", node->line, node->col, t1);
         }
         node->anot_type = strdup("boolean");
     } else if (strcmp(node->type, "Length") == 0) {
         char *t1 = (node->child && node->child->anot_type) ? node->child->anot_type : "none";
-        if (strcmp(t1, "String[]") != 0) printf("Line %d, col %d: Operator .length cannot be applied to type %s\n", node->line, node->col, t1);
+        
+        if (strcmp(t1, "String[]") != 0) {
+            printf("Line %d, col %d: Operator .length cannot be applied to type %s\n", node->line, node->col, t1);
+        }
         node->anot_type = strdup("int");
     } else if (strcmp(node->type, "Call") == 0) {
         char *method_name = node->child->value;
@@ -527,7 +559,10 @@ void annotate_ast(Node *node, SymTable *current_env) {
         Node *c2 = c1 ? c1->sibling : NULL;
         char *t1 = (c1 && c1->anot_type) ? c1->anot_type : "none";
         char *t2 = (c2 && c2->anot_type) ? c2->anot_type : "none";
-        if (strcmp(t1, "String[]") != 0 || strcmp(t2, "int") != 0) printf("Line %d, col %d: Operator Integer.parseInt cannot be applied to types %s, %s\n", node->line, node->col, t1, t2);
+        
+        if (strcmp(t1, "String[]") != 0 || strcmp(t2, "int") != 0) {
+            printf("Line %d, col %d: Operator Integer.parseInt cannot be applied to types %s, %s\n", node->line, node->col, t1, t2);
+        }
         node->anot_type = strdup("int");
     } else if (strcmp(node->type, "Return") == 0) {
         char *expected = lookup_variable_type(current_env, "return");
@@ -570,7 +605,7 @@ void annotate_ast(Node *node, SymTable *current_env) {
         if (strcmp(t1, "int") != 0 || strcmp(t2, "int") != 0) {
             printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->line, node->col, strcmp(node->type, "Lshift") == 0 ? "<<" : ">>", t1, t2);
         }
-        node->anot_type = strdup((strcmp(t1, "int") == 0 && strcmp(t2, "int") == 0) ? "int" : "undef");
+        node->anot_type = strdup("int");
     }
 }
 
