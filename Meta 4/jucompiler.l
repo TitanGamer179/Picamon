@@ -47,7 +47,7 @@ EXPO   [eE][+-]?{NUMERO}
 "String"                { if (flag_lex) printf("STRING\n"); return STRING; }
 "void"                  { if (flag_lex) printf("VOID\n"); return VOID; }
 "while"                 { if (flag_lex) printf("WHILE\n"); return WHILE; }
-"true"|"false"          { if (flag_lex) printf("BOOLLIT(%s)\n", yytext); yylval.str = strdup(yytext); return BOOLLIT; }
+"true"|"false"          { if (flag_lex) printf("BOOLLIT(%s)\n", yytext); yylval.token.str = strdup(yytext); yylval.token.line = token_line; yylval.token.col = token_col; return BOOLLIT; }
 "&&"                    { if (flag_lex) printf("AND\n"); return AND; }
 "="                     { if (flag_lex) printf("ASSIGN\n"); return ASSIGN; }
 "*"                     { if (flag_lex) printf("STAR\n"); return STAR; }
@@ -78,19 +78,19 @@ EXPO   [eE][+-]?{NUMERO}
 
 {IDENTIFIER}({IDENTIFIER}|{NATURAL})* { 
     if (flag_lex) printf("IDENTIFIER(%s)\n", yytext);
-    yylval.str = strdup(yytext); 
+    yylval.token.str = strdup(yytext); yylval.token.line = token_line; yylval.token.col = token_col; 
     return IDENTIFIER;
 }
 
 0|([1-9]([_0-9]*[0-9])?) { 
     if (flag_lex) printf("NATURAL(%s)\n", yytext); 
-    yylval.str = strdup(yytext); 
+    yylval.token.str = strdup(yytext); yylval.token.line = token_line; yylval.token.col = token_col; 
     return NATURAL; 
 }
 
 ({NUMERO}\.{NUMERO}?{EXPO}?)|(\.{NUMERO}{EXPO}?)|({NUMERO}{EXPO}) { 
     if (flag_lex) printf("DECIMAL(%s)\n", yytext); 
-    yylval.str = strdup(yytext); 
+    yylval.token.str = strdup(yytext); yylval.token.line = token_line; yylval.token.col = token_col; 
     return DECIMAL; 
 }
 
@@ -112,7 +112,7 @@ EXPO   [eE][+-]?{NUMERO}
         if (flag_lex) printf("STRLIT(\"%s\")\n", str_buf);
         char full_str[65540]; 
         sprintf(full_str, "\"%s\"", str_buf);
-        yylval.str = strdup(full_str);
+        yylval.token.str = strdup(full_str); yylval.token.line = token_line; yylval.token.col = token_col;
         return STRLIT;
     }
 }
