@@ -297,64 +297,83 @@ void annotate_ast(Node *node, SymTable *current_env) {
                 Node *id_node = header->child->sibling;
                 char *params_str = build_param_types(id_node->sibling);
                 
-                int is_duplicate = 0;
-                if (strcmp(id_node->value, "_") == 0) {
-                    printf("Line %d, col %d: Symbol _ is reserved\n", id_node->line, id_node->col);
-                    is_duplicate = 1; 
-                } else {
-                    Symbol *s_curr = global_table->symbols;
-                    while (s_curr) {
-                        if (strcmp(s_curr->name, id_node->value) == 0 && s_curr->param_types && strcmp(s_curr->param_types, params_str) == 0) {
-                            is_duplicate = 1;
-                            break;
+                // 1. Check parameters FIRST (to match expected error order)
+                SymTable *method_table = (SymTable*)malloc(sizeof(SymTable));
+                method_table->name = strdup("TMP_PARAMS");
+                method_table->type = strdup("Tmp");
+                method_table->symbols = NULL;
+                method_table->next = NULL;
+
+                Node *params_list = id_node->sibling->child;
+                while (params_list) {
+                    Node *param_id = params_list->child->sibling;
+                    if (strcmp(param_id->value, "_") == 0) {
+                        printf("Line %d, col %d: Symbol _ is reserved\n", param_id->line, param_id->col);
+                    } else {
+                        // Check for duplicate in THIS method only
+                        Symbol *s_p = method_table->symbols;
+                        int p_dup = 0;
+                        while (s_p) {
+                            if (strcmp(s_p->name, param_id->value) == 0) {
+                                printf("Line %d, col %d: Symbol %s already defined\n", param_id->line, param_id->col, param_id->value);
+                                p_dup = 1;
+                                break;
+                            }
+                            s_p = s_p->next;
                         }
-                        s_curr = s_curr->next;
+                        if (!p_dup) {
+                            insert_symbol(method_table, param_id->value, get_juc_type(params_list->child->type), NULL, 1, param_id->line, param_id->col);
+                        }
                     }
+                    params_list = params_list->sibling;
                 }
 
-                SymTable *method_table = NULL;
-                if (!is_duplicate) {
+                // 2. Check method name
+                int is_reserved = (strcmp(id_node->value, "_") == 0);
+                if (is_reserved) {
+                    printf("Line %d, col %d: Symbol _ is reserved\n", id_node->line, id_node->col);
+                }
+
+                int is_duplicate = 0;
+                Symbol *s_curr = global_table->symbols;
+                while (s_curr) {
+                    if (strcmp(s_curr->name, id_node->value) == 0 && s_curr->param_types && strcmp(s_curr->param_types, params_str) == 0) {
+                        is_duplicate = 1;
+                        break;
+                    }
+                    s_curr = s_curr->next;
+                }
+
+                if (!is_reserved && !is_duplicate) {
                     char table_name[8192];
                     snprintf(table_name, sizeof(table_name), "Method %s(%s)", id_node->value, params_str);
-                    method_table = create_table(table_name, "Method");
-                    // Inserir na global_table IMEDIATAMENTE (tal como o código do teu amigo faz)
+                    SymTable *real_table = create_table(table_name, "Method");
                     insert_symbol(global_table, id_node->value, get_juc_type(header->child->type), params_str, 0, id_node->line, id_node->col);
-                } else {
-                    method_table = (SymTable*)malloc(sizeof(SymTable));
-                    method_table->name = "TMP"; method_table->type = "Tmp"; method_table->symbols = NULL; method_table->next = NULL;
+                    
+                    insert_symbol(real_table, "return", get_juc_type(header->child->type), NULL, 0, id_node->line, id_node->col);
+                    // Copy params from TMP to real_table
+                    Symbol *s_p = method_table->symbols;
+                    while (s_p) {
+                        insert_symbol(real_table, s_p->name, s_p->type, NULL, 1, s_p->line, s_p->col);
+                        s_p = s_p->next;
+                    }
+                } else if (!is_reserved && is_duplicate) {
+                    printf("Line %d, col %d: Symbol %s(%s) already defined\n", id_node->line, id_node->col, id_node->value, params_str);
                 }
                 
-                // 3. Inserir return e parâmetros na tabela
-                insert_symbol(method_table, "return", get_juc_type(header->child->type), NULL, 0, id_node->line, id_node->col);
-                
-                if (strcmp(id_node->value, "_") != 0) { // IGNORA PARAMETROS DE METODOS RESERVADOS
-                    Node *params = id_node->sibling->child;
-                    while (params) {
-                        if (strcmp(params->child->sibling->value, "_") == 0) {
-                            printf("Line %d, col %d: Symbol _ is reserved\n", params->child->sibling->line, params->child->sibling->col);
-                        } else {
-                            insert_symbol(method_table, params->child->sibling->value, get_juc_type(params->child->type), NULL, 1, params->child->sibling->line, params->child->sibling->col);
-                        }
-                        params = params->sibling;
-                    }
+                // Cleanup TMP_PARAMS
+                Symbol *cs = method_table->symbols;
+                while (cs) {
+                    Symbol *next = cs->next;
+                    if (cs->name) free(cs->name);
+                    if (cs->type) free(cs->type);
+                    if (cs->param_types) free(cs->param_types);
+                    free(cs);
+                    cs = next;
                 }
-
-                // 4. Só NO FIM imprime o erro do método duplicado e liberta a TMP
-                if (is_duplicate) {
-                    if (strcmp(id_node->value, "_") != 0) { // <-- NÃO IMPRIME ALREADY DEFINED PARA O _
-                        printf("Line %d, col %d: Symbol %s(%s) already defined\n", id_node->line, id_node->col, id_node->value, params_str);
-                    }
-                    Symbol *cs = method_table->symbols;
-                    while (cs) {
-                        Symbol *next = cs->next;
-                        if (cs->name) free(cs->name);
-                        if (cs->type) free(cs->type);
-                        if (cs->param_types) free(cs->param_types);
-                        free(cs);
-                        cs = next;
-                    }
-                    free(method_table);
-                }
+                free(method_table->name);
+                free(method_table->type);
+                free(method_table);
                 free(params_str);
 
             } else if (strcmp(temp->type, "FieldDecl") == 0) { 
@@ -681,7 +700,7 @@ void print_tables() {
 %type <node> OptFormalParams FormalParams FormalParamsRest MethodBody 
 %type <node> StatementAndVarDeclList VarDecl IdList StatementList Statement 
 %type <node> OptExpr ExprOrStrlit MethodInvocation OptExprList ExprList 
-%type <node> ParseArgs Expr
+%type <node> ParseArgs Expr ExprNotAssign
 %type <token> AnyId
 
 %nonassoc IF_WITHOUT_ELSE
@@ -869,13 +888,9 @@ Statement : LBRACE StatementList RBRACE {
           }
           | MethodInvocation SEMICOLON { $$ = $1; }
           | ParseArgs SEMICOLON { $$ = $1; }
-          | Expr ASSIGN Expr SEMICOLON { 
-              if ($1 && strcmp($1->type, "Identifier") != 0) {
-                  printf("Line %d, col %d: syntax error: =\n", $2.line, $2.col);
-                  syntax_errors_count++;
-              }
+          | AnyId ASSIGN Expr SEMICOLON { 
               $$ = create_node("Assign", NULL, $2.line, $2.col);
-              add_child($$, $1);
+              add_child($$, create_node("Identifier", $1.str, $1.line, $1.col));
               add_child($$, $3);
           }
           | PRINT LPAR ExprOrStrlit RPAR SEMICOLON {
@@ -920,43 +935,42 @@ ParseArgs : PARSEINT LPAR AnyId LSQ Expr RSQ RPAR {
           | PARSEINT LPAR error RPAR { $$ = NULL; }
           ;
 
-Expr : Expr ASSIGN Expr { 
-          if ($1 && strcmp($1->type, "Identifier") != 0) {
-              printf("Line %d, col %d: syntax error: =\n", $2.line, $2.col);
-              syntax_errors_count++;
-          }
+Expr : AnyId ASSIGN Expr { 
           $$ = create_node("Assign", NULL, $2.line, $2.col);
-          add_child($$, $1);
+          add_child($$, create_node("Identifier", $1.str, $1.line, $1.col));
           add_child($$, $3);
      }
-     | Expr PLUS Expr   { $$ = create_node("Add", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr MINUS Expr  { $$ = create_node("Sub", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr STAR Expr   { $$ = create_node("Mul", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr DIV Expr    { $$ = create_node("Div", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr MOD Expr    { $$ = create_node("Mod", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr AND Expr    { $$ = create_node("And", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr OR Expr     { $$ = create_node("Or", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr XOR Expr    { $$ = create_node("Xor", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr LSHIFT Expr { $$ = create_node("Lshift", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr RSHIFT Expr { $$ = create_node("Rshift", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr EQ Expr     { $$ = create_node("Eq", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr NE Expr     { $$ = create_node("Ne", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr LT Expr     { $$ = create_node("Lt", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr LE Expr     { $$ = create_node("Le", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr GT Expr     { $$ = create_node("Gt", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | Expr GE Expr     { $$ = create_node("Ge", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
-     | PLUS Expr %prec UNARY_PLUS   { $$ = create_node("Plus", NULL, $1.line, $1.col); add_child($$, $2); }
-     | MINUS Expr %prec UNARY_MINUS { $$ = create_node("Minus", NULL, $1.line, $1.col); add_child($$, $2); }
-     | NOT Expr         { $$ = create_node("Not", NULL, $1.line, $1.col); add_child($$, $2); }
-     | MethodInvocation { $$ = $1; }
-     | ParseArgs        { $$ = $1; }
-     | AnyId            { $$ = create_node("Identifier", $1.str, $1.line, $1.col); }
-     | NATURAL          { $$ = create_node("Natural", $1.str, $1.line, $1.col); }
-     | DECIMAL          { $$ = create_node("Decimal", $1.str, $1.line, $1.col); }
-     | BOOLLIT          { $$ = create_node("BoolLit", $1.str, $1.line, $1.col); }
-     | AnyId DOTLENGTH  { $$ = create_node("Length", NULL, $2.line, $2.col); add_child($$, create_node("Identifier", $1.str, $1.line, $1.col)); }
-     | LPAR Expr RPAR   { $$ = $2; }
-     | LPAR error RPAR  { $$ = NULL; }
+     | ExprNotAssign { $$ = $1; }
+     ;
+
+ExprNotAssign : ExprNotAssign PLUS ExprNotAssign   { $$ = create_node("Add", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign MINUS ExprNotAssign  { $$ = create_node("Sub", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign STAR ExprNotAssign   { $$ = create_node("Mul", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign DIV ExprNotAssign    { $$ = create_node("Div", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign MOD ExprNotAssign    { $$ = create_node("Mod", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign AND ExprNotAssign    { $$ = create_node("And", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign OR ExprNotAssign     { $$ = create_node("Or", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign XOR ExprNotAssign    { $$ = create_node("Xor", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign LSHIFT ExprNotAssign { $$ = create_node("Lshift", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign RSHIFT ExprNotAssign { $$ = create_node("Rshift", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign EQ ExprNotAssign     { $$ = create_node("Eq", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign NE ExprNotAssign     { $$ = create_node("Ne", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign LT ExprNotAssign     { $$ = create_node("Lt", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign LE ExprNotAssign     { $$ = create_node("Le", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign GT ExprNotAssign     { $$ = create_node("Gt", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | ExprNotAssign GE ExprNotAssign     { $$ = create_node("Ge", NULL, $2.line, $2.col); add_child($$, $1); add_child($$, $3); }
+     | PLUS ExprNotAssign %prec UNARY_PLUS   { $$ = create_node("Plus", NULL, $1.line, $1.col); add_child($$, $2); }
+     | MINUS ExprNotAssign %prec UNARY_MINUS { $$ = create_node("Minus", NULL, $1.line, $1.col); add_child($$, $2); }
+     | NOT ExprNotAssign         { $$ = create_node("Not", NULL, $1.line, $1.col); add_child($$, $2); }
+     | MethodInvocation          { $$ = $1; }
+     | ParseArgs                 { $$ = $1; }
+     | AnyId                     { $$ = create_node("Identifier", $1.str, $1.line, $1.col); }
+     | NATURAL                   { $$ = create_node("Natural", $1.str, $1.line, $1.col); }
+     | DECIMAL                   { $$ = create_node("Decimal", $1.str, $1.line, $1.col); }
+     | BOOLLIT                   { $$ = create_node("BoolLit", $1.str, $1.line, $1.col); }
+     | AnyId DOTLENGTH           { $$ = create_node("Length", NULL, $2.line, $2.col); add_child($$, create_node("Identifier", $1.str, $1.line, $1.col)); }
+     | LPAR Expr RPAR            { $$ = $2; }
+     | LPAR error RPAR           { $$ = NULL; }
      ;
 %%
 void yyerror(char *s) {
