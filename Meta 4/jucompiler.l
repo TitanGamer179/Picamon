@@ -19,18 +19,13 @@
     extern int flag_lex; 
     #define YY_USER_ACTION token_line = line; token_col = col; col += yyleng;
 %}
-
 IDENTIFIER [a-zA-Z_$]
 NATURAL [0-9]
 NUMERO {NATURAL}([_0-9]*{NATURAL})?
 EXPO   [eE][+-]?{NUMERO}
-
 %option nounput noinput
-
 %X COMMENT STR LINE_COMMENT
-
 %%
-
 "++"|"--"|"null"|"Integer"|"System"|"abstract"|"assert"|"break"|"byte"|"case"|"catch"|"char"|"const"|"continue"|"default"|"do"|"enum"|"extends"|"final"|"finally"|"float"|"for"|"goto"|"implements"|"import"|"instanceof"|"interface"|"long"|"native"|"new"|"package"|"private"|"protected"|"short"|"strictfp"|"super"|"switch"|"synchronized"|"this"|"throw"|"throws"|"transient"|"try"|"volatile"|"_" { if (flag_lex) printf("RESERVED(%s)\n", yytext); return RESERVED; }
 "boolean"               { if (flag_lex) printf("BOOL\n"); return BOOL; }
 "class"                 { if (flag_lex) printf("CLASS\n"); return CLASS; }
@@ -75,35 +70,29 @@ EXPO   [eE][+-]?{NUMERO}
 "<<"                    { if (flag_lex) printf("LSHIFT\n"); return LSHIFT; }
 ">>"                    { if (flag_lex) printf("RSHIFT\n"); return RSHIFT; }
 "^"                     { if (flag_lex) printf("XOR\n"); return XOR; }
-
 {IDENTIFIER}({IDENTIFIER}|{NATURAL})* { 
     if (flag_lex) printf("IDENTIFIER(%s)\n", yytext);
     yylval.token.str = strdup(yytext); yylval.token.line = token_line; yylval.token.col = token_col; 
     return IDENTIFIER;
 }
-
 0|([1-9]([_0-9]*[0-9])?) { 
     if (flag_lex) printf("NATURAL(%s)\n", yytext); 
     yylval.token.str = strdup(yytext); yylval.token.line = token_line; yylval.token.col = token_col; 
     return NATURAL; 
 }
-
 ({NUMERO}\.{NUMERO}?{EXPO}?)|(\.{NUMERO}{EXPO}?)|({NUMERO}{EXPO}) { 
     if (flag_lex) printf("DECIMAL(%s)\n", yytext); 
     yylval.token.str = strdup(yytext); yylval.token.line = token_line; yylval.token.col = token_col; 
     return DECIMAL; 
 }
-
 "//"                    { BEGIN(LINE_COMMENT); }
 <LINE_COMMENT>\n|\r|\r\n { line++; col = 1; BEGIN(INITIAL); }
 <LINE_COMMENT>.         { }
-
 "/*"                    { BEGIN(COMMENT); comment_line = token_line; comment_col = token_col; }
 <COMMENT>"*/"           { BEGIN(INITIAL); }
 <COMMENT>\n|\r|\r\n     { line++; col = 1; }
 <COMMENT>.              { }
 <COMMENT><<EOF>>        { printf("Line %d, col %d: unterminated comment\n", comment_line, comment_col); return 0; }
-
 \"                      { BEGIN(STR); str_idx = 0; str_invalid_escape = false; str_line = token_line; str_col = token_col;}
 <STR>\" { 
     BEGIN(INITIAL);
@@ -122,11 +111,9 @@ EXPO   [eE][+-]?{NUMERO}
 <STR>\n|\r|\r\n      { printf("Line %d, col %d: unterminated string literal\n", str_line, str_col); line++; col = 1; BEGIN(INITIAL); }
 <STR><<EOF>>         { printf("Line %d, col %d: unterminated string literal\n", str_line, str_col); return 0; }
 <STR>.               { if(str_idx < 65535) {str_buf[str_idx++] = yytext[0];}}
-
 [ \t\f]                 { }
 \n|\r|\r\n              { line++; col = 1; }
 .                       { printf("Line %d, col %d: illegal character (%s)\n", token_line, token_col, yytext); }
-
 %%
 int yywrap() {  
     return 1;

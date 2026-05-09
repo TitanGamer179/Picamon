@@ -1,35 +1,28 @@
 /* Daniel José Mendes Ribeiro nº 2023208712*/
 /* Matilde de Oliveira Tavares Ângelo nº2023210357 */
 %{
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <unistd.h>
-
 int flag_lex = 0;
 int flag_syntax = 0;
 int syntax_errors_count = 0;
-
 extern int line, col;
 extern int token_line, token_col;
 extern char* yytext;
 extern int yyleng;
 extern int yychar;
 extern int str_line, str_col;
-
 int yylex(void);
 void yyerror(char *s);
-
 typedef struct _symbol Symbol;
 typedef struct _table SymTable;
 typedef struct _node Node;
-
 char* lookup_variable_type(SymTable *table, char *name);
 void annotate_ast(Node *node, SymTable *current_env);
 int is_expression(char *type);
-
 typedef struct _symbol {
     char *name;
     char *type;
@@ -39,15 +32,12 @@ typedef struct _symbol {
     int col;
     struct _symbol *next;
 } Symbol;
-
 typedef struct _table {
     char *name;
     char *type;
-    // "Global" or "Method"
     Symbol *symbols;
     struct _table *next;
 } SymTable;
-
 typedef struct _node {
     char *type;
     char *value;
@@ -57,11 +47,9 @@ typedef struct _node {
     struct _node *child;
     struct _node *sibling;
 } Node;
-
 Node* root = NULL; 
 SymTable *global_table = NULL;
 SymTable *all_tables = NULL;
-
 Node* create_node(char *type, char *value, int line, int col) {
     Node* new_node = (Node*)malloc(sizeof(Node));
     if (!new_node) return NULL;
@@ -74,7 +62,6 @@ Node* create_node(char *type, char *value, int line, int col) {
     new_node->sibling = NULL;
     return new_node;
 }
-
 Node* add_sibling(Node* node, Node* sibling) {
     if (!node) return sibling;
     if (!sibling) return node;
@@ -85,7 +72,6 @@ Node* add_sibling(Node* node, Node* sibling) {
     curr->sibling = sibling;
     return node;
 }
-
 void add_child(Node *parent, Node *child) {
     if (!parent || !child) return;
     if (!parent->child) {
@@ -94,7 +80,6 @@ void add_child(Node *parent, Node *child) {
         add_sibling(parent->child, child);
     }
 }
-
 SymTable* create_table(char *name, char *type) {
     SymTable *t = (SymTable*)malloc(sizeof(SymTable));
     t->name = strdup(name);
@@ -109,7 +94,6 @@ SymTable* create_table(char *name, char *type) {
     }
     return t;
 }
-
 void clear_anot(Node *node) {
     if (!node) return;
     if (node->anot_type) {
@@ -122,7 +106,6 @@ void clear_anot(Node *node) {
         c = c->sibling;
     }
 }
-
 Symbol* create_symbol(char *name, char *type, char *param_types, int is_param, int line, int col) {
     Symbol *s = (Symbol*)malloc(sizeof(Symbol));
     s->name = name ? strdup(name) : strdup("");
@@ -134,10 +117,8 @@ Symbol* create_symbol(char *name, char *type, char *param_types, int is_param, i
     s->next = NULL;
     return s;
 }
-
 int insert_symbol(SymTable *table, char *name, char *type, char *param_types, int is_param, int line, int col) {
     if (!table) return 0;
-    
     Symbol *curr = table->symbols;
     Symbol *prev = NULL;
     while (curr) {
@@ -153,13 +134,11 @@ int insert_symbol(SymTable *table, char *name, char *type, char *param_types, in
         prev = curr;
         curr = curr->next;
     }
-    
     Symbol *new_s = create_symbol(name, type, param_types, is_param, line, col);
     if (!table->symbols) table->symbols = new_s;
     else prev->next = new_s;
     return 1;
 }
-
 char* lookup_variable_type(SymTable *table, char *name) {
     if (!table || !name) return "undef";
     Symbol *curr = table->symbols;
@@ -170,23 +149,6 @@ char* lookup_variable_type(SymTable *table, char *name) {
     if (table != global_table) return lookup_variable_type(global_table, name);
     return "undef";
 }
-
-static SymTable *current_method_table = NULL;
-static int is_in_main = 0;
-static const char *current_method_return_type = NULL;
-static char *current_str_array_param = NULL;
-int semantic_errors_count = 0;
-void report_error() { semantic_errors_count++; }
-
-static int is_local(const char *name) {
-    if (!current_method_table) return 0;
-    Symbol *curr = current_method_table->symbols;
-    while (curr) {
-        if (strcmp(curr->name, name) == 0 && !curr->param_types) return 1;
-        curr = curr->next;
-    }
-    return 0;
-}
 char* get_juc_type(char *type) {
     if (!type) return "undef";
     if (strcmp(type, "Bool") == 0) return "boolean";
@@ -196,7 +158,6 @@ char* get_juc_type(char *type) {
     if (strcmp(type, "StringArray") == 0) return "String[]";
     return type;
 }
-
 int is_expression(char *type) {
     if (!type) return 0;
     char *exprs[] = {"Assign", "Or", "And", "Eq", "Ne", "Lt", "Gt", "Le", "Ge", 
@@ -208,10 +169,9 @@ int is_expression(char *type) {
     }
     return 0;
 }
-
 char* build_param_types(Node *params_node) {
     if (!params_node || !params_node->child) return strdup("");
-    char buf[8192] = ""; // Expanded buffer to prevent segmentation fault
+    char buf[8192] = ""; 
     Node *curr = params_node->child;
     while (curr) {
         if (curr->child) {
@@ -222,7 +182,6 @@ char* build_param_types(Node *params_node) {
     }
     return strdup(buf);
 }
-
 char* get_op_str(char *type) {
     if (!type) return "";
     if (strcmp(type, "Add") == 0) return "+";
@@ -243,19 +202,16 @@ char* get_op_str(char *type) {
     if (strcmp(type, "Rshift") == 0) return ">>";
     return "";
 }
-
 void annotate_ast(Node *node, SymTable *current_env) {
     if (!node) return;
-    
     if (strcmp(node->type, "Identifier") == 0) {
-        // 5. ADICIONAR AQUI VERIFICAÇÃO NO USO DO IDENTIFICADOR:
         if (strcmp(node->value, "_") == 0) {
-            report_error(); printf("Line %d, col %d: Symbol _ is reserved\n", node->line, node->col);
+            printf("Line %d, col %d: Symbol _ is reserved\n", node->line, node->col);
             node->anot_type = strdup("undef");
             return;
         }
         char *type = lookup_variable_type(current_env, node->value);
-        if (strcmp(type, "undef") == 0) { report_error(); printf("Line %d, col %d: Cannot find symbol %s\n", node->line, node->col, node->value); }
+        if (strcmp(type, "undef") == 0) printf("Line %d, col %d: Cannot find symbol %s\n", node->line, node->col, node->value);
         node->anot_type = strdup(type);
         return;
     } else if (strcmp(node->type, "Natural") == 0) {
@@ -290,7 +246,6 @@ void annotate_ast(Node *node, SymTable *current_env) {
     } else if (strcmp(node->type, "VarDecl") == 0 || strcmp(node->type, "FieldDecl") == 0) {
         if (node->child && node->child->sibling) {
             Node *id_node = node->child->sibling;
-            // 6. ADICIONAR AQUI PARA VARIÁVEIS LOCAIS:
             if (strcmp(id_node->value, "_") == 0) {
                 printf("Line %d, col %d: Symbol _ is reserved\n", id_node->line, id_node->col);
             } else {
@@ -299,7 +254,6 @@ void annotate_ast(Node *node, SymTable *current_env) {
         }
         return;
     }
-
     if (strcmp(node->type, "Program") == 0) {
         if (node->child && strcmp(node->child->value, "_") == 0) {
             printf("Line %d, col %d: Symbol _ is reserved\n", node->child->line, node->child->col);
@@ -307,13 +261,11 @@ void annotate_ast(Node *node, SymTable *current_env) {
         global_table = create_table("Class", "Global");
         Node *child = node->child ? node->child->sibling : NULL;
         Node *temp = child;
-        
         while (temp) {
             if (strcmp(temp->type, "MethodDecl") == 0) {
                 Node *header = temp->child;
                 Node *id_node = header->child->sibling;
                 char *params_str = build_param_types(id_node->sibling);
-                
                 int is_duplicate = 0;
                 if (strcmp(id_node->value, "_") == 0) {
                     printf("Line %d, col %d: Symbol _ is reserved\n", id_node->line, id_node->col);
@@ -328,23 +280,18 @@ void annotate_ast(Node *node, SymTable *current_env) {
                         s_curr = s_curr->next;
                     }
                 }
-
                 SymTable *method_table = NULL;
                 if (!is_duplicate) {
                     char table_name[8192];
                     snprintf(table_name, sizeof(table_name), "Method %s(%s)", id_node->value, params_str);
                     method_table = create_table(table_name, "Method");
-                    // Inserir na global_table IMEDIATAMENTE (tal como o código do teu amigo faz)
                     insert_symbol(global_table, id_node->value, get_juc_type(header->child->type), params_str, 0, id_node->line, id_node->col);
                 } else {
                     method_table = (SymTable*)malloc(sizeof(SymTable));
                     method_table->name = "TMP"; method_table->type = "Tmp"; method_table->symbols = NULL; method_table->next = NULL;
                 }
-                
-                // 3. Inserir return e parâmetros na tabela
                 insert_symbol(method_table, "return", get_juc_type(header->child->type), NULL, 0, id_node->line, id_node->col);
-                
-                if (strcmp(id_node->value, "_") != 0) { // IGNORA PARAMETROS DE METODOS RESERVADOS
+                if (strcmp(id_node->value, "_") != 0) { 
                     Node *params = id_node->sibling->child;
                     while (params) {
                         if (strcmp(params->child->sibling->value, "_") == 0) {
@@ -355,10 +302,8 @@ void annotate_ast(Node *node, SymTable *current_env) {
                         params = params->sibling;
                     }
                 }
-
-                // 4. Só NO FIM imprime o erro do método duplicado e liberta a TMP
                 if (is_duplicate) {
-                    if (strcmp(id_node->value, "_") != 0) { // <-- NÃO IMPRIME ALREADY DEFINED PARA O _
+                    if (strcmp(id_node->value, "_") != 0) { 
                         printf("Line %d, col %d: Symbol %s(%s) already defined\n", id_node->line, id_node->col, id_node->value, params_str);
                     }
                     Symbol *cs = method_table->symbols;
@@ -373,7 +318,6 @@ void annotate_ast(Node *node, SymTable *current_env) {
                     free(method_table);
                 }
                 free(params_str);
-
             } else if (strcmp(temp->type, "FieldDecl") == 0) { 
                 Node *id_node = temp->child->sibling;
                 if (strcmp(id_node->value, "_") == 0) {
@@ -384,7 +328,6 @@ void annotate_ast(Node *node, SymTable *current_env) {
             }
             temp = temp->sibling;
         }
-        
         temp = child;
         while (temp) {
             if (strcmp(temp->type, "MethodDecl") == 0) annotate_ast(temp, global_table);
@@ -392,19 +335,16 @@ void annotate_ast(Node *node, SymTable *current_env) {
         }
         return;
     }
-
     if (strcmp(node->type, "MethodDecl") == 0) {
         Node *header = node->child;
         Node *id_node = header->child->sibling;
         char *params_str = build_param_types(id_node->sibling);
         char table_name[8192];
         snprintf(table_name, sizeof(table_name), "Method %s(%s)", id_node->value, params_str);
-        
         int redefined = 0;
         Symbol *s = global_table->symbols;
         while (s) {
             if (strcmp(s->name, id_node->value) == 0 && s->param_types && strcmp(s->param_types, params_str) == 0) {
-                // Descobre se este nó é o método duplicado e não o original
                 if (s->line < id_node->line || (s->line == id_node->line && s->col < id_node->col)) {
                     redefined = 1;
                     break;
@@ -413,21 +353,17 @@ void annotate_ast(Node *node, SymTable *current_env) {
             s = s->next;
         }
         free(params_str);
-        
-        if (redefined) return; // Salta o interior de métodos duplicados!
-
+        if (redefined) return; 
         SymTable *method_table = all_tables;
         while (method_table) {
             if (strcmp(method_table->name, table_name) == 0) break;
             method_table = method_table->next;
         }
-        
         if (method_table && node->child->sibling) {
             annotate_ast(node->child->sibling, method_table);
         }
         return;
     }
-
     Node *child = node->child;
     while (child) {
         if (strcmp(node->type, "Call") == 0 && child == node->child) {
@@ -439,7 +375,6 @@ void annotate_ast(Node *node, SymTable *current_env) {
         }
         child = child->sibling;
     }
-
     if (strcmp(node->type, "Assign") == 0) {
         Node *c1 = node->child;
         Node *c2 = c1 ? c1->sibling : NULL;
@@ -458,7 +393,6 @@ void annotate_ast(Node *node, SymTable *current_env) {
         char *t2 = (c2 && c2->anot_type) ? c2->anot_type : "none";
         int valid = 0;
         char *res = "undef";
-        
         if ((strcmp(t1, "double") == 0 || strcmp(t2, "double") == 0) && (strcmp(t1, "int") == 0 || strcmp(t1, "double") == 0) && (strcmp(t2, "int") == 0 || strcmp(t2, "double") == 0)) {
             valid = 1;
             res = "double";
@@ -466,7 +400,6 @@ void annotate_ast(Node *node, SymTable *current_env) {
             valid = 1;
             res = "int";
         }
-        
         if (!valid) printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->line, node->col, get_op_str(node->type), t1, t2);
         node->anot_type = strdup(res);
     } else if (strcmp(node->type, "And") == 0 || strcmp(node->type, "Or") == 0) {
@@ -500,7 +433,6 @@ void annotate_ast(Node *node, SymTable *current_env) {
         Node *c2 = c1 ? c1->sibling : NULL;
         char *t1 = (c1 && c1->anot_type) ? c1->anot_type : "none";
         char *t2 = (c2 && c2->anot_type) ? c2->anot_type : "none";
-        
         if (strcmp(t1, "int") != 0 || strcmp(t2, "int") != 0) {
             printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", node->line, node->col, strcmp(node->type, "Lshift") == 0 ? "<<" : ">>", t1, t2);
             node->anot_type = strdup("undef");
@@ -530,14 +462,12 @@ void annotate_ast(Node *node, SymTable *current_env) {
         }
     } else if (strcmp(node->type, "Not") == 0) {
         char *t1 = (node->child && node->child->anot_type) ? node->child->anot_type : "none";
-        
         if (strcmp(t1, "boolean") != 0) {
             printf("Line %d, col %d: Operator ! cannot be applied to type %s\n", node->line, node->col, t1);
         }
         node->anot_type = strdup("boolean");
     } else if (strcmp(node->type, "Length") == 0) {
         char *t1 = (node->child && node->child->anot_type) ? node->child->anot_type : "none";
-        
         if (strcmp(t1, "String[]") != 0) {
             printf("Line %d, col %d: Operator .length cannot be applied to type %s\n", node->line, node->col, t1);
         }
@@ -545,11 +475,9 @@ void annotate_ast(Node *node, SymTable *current_env) {
     } else if (strcmp(node->type, "Call") == 0) {
         char *method_name = node->child->value;
         Node *arg = node->child->sibling;
-        
-        char arg_types[512][64]; // Prevenção de Segfault de limit tests
+        char arg_types[512][64]; 
         int num_args = 0;
         char arg_sig[8192] = ""; 
-        
         while (arg && num_args < 512) {
             strcpy(arg_types[num_args], arg->anot_type ? arg->anot_type : "none");
             if (num_args > 0) strcat(arg_sig, ",");
@@ -557,7 +485,6 @@ void annotate_ast(Node *node, SymTable *current_env) {
             num_args++;
             arg = arg->sibling;
         }
-        
         Symbol *exact_match = NULL;
         Symbol *compat_matches[512];
         int compat_count = 0;
@@ -575,7 +502,6 @@ void annotate_ast(Node *node, SymTable *current_env) {
                     }
                     free(p_copy);
                 }
-                
                 if (num_args == num_formals) {
                     int exact = 1;
                     int compat = 1;
@@ -593,10 +519,8 @@ void annotate_ast(Node *node, SymTable *current_env) {
             }
             sym = sym->next;
         }
-        
         int el = node->child ? node->child->line : node->line;
         int ec = node->child ? node->child->col : node->col;
-
         if (exact_match) {
             node->anot_type = strdup(exact_match->type);
             char sig_form[8192];
@@ -621,7 +545,6 @@ void annotate_ast(Node *node, SymTable *current_env) {
         Node *c2 = c1 ? c1->sibling : NULL;
         char *t1 = (c1 && c1->anot_type) ? c1->anot_type : "none";
         char *t2 = (c2 && c2->anot_type) ? c2->anot_type : "none";
-        
         if (strcmp(t1, "String[]") != 0 || strcmp(t2, "int") != 0) {
             printf("Line %d, col %d: Operator Integer.parseInt cannot be applied to types %s, %s\n", node->line, node->col, t1, t2);
         }
@@ -637,7 +560,6 @@ void annotate_ast(Node *node, SymTable *current_env) {
         } else if (strcmp(actual, expected) == 0) {
             valid = 1;
         }
-        
         if (!valid) {
             int el = node->child ? node->child->line : node->line;
             int ec = node->child ? node->child->col : node->col;
@@ -661,13 +583,11 @@ void annotate_ast(Node *node, SymTable *current_env) {
         }
     }
 }
-
 void print_tables() {
     SymTable *t = all_tables;
     while (t) {
         if (strcmp(t->type, "Global") == 0 && root && root->child) printf("===== %s %s Symbol Table =====\n", t->name, root->child->value);
         else printf("===== %s Symbol Table =====\n", t->name);
-        
         Symbol *s = t->symbols;
         while (s) {
             if (s->param_types) printf("%s\t(%s)\t%s\n", s->name, s->param_types, s->type);
@@ -678,23 +598,21 @@ void print_tables() {
         t = t->next;
     }
 }
-
 static int reg_counter = 0;
 static int label_counter = 0;
 static int str_const_counter = 0;
-
+static int is_in_main = 0; 
 #define MAX_STR_CONSTS 4096
 static char *str_consts[MAX_STR_CONSTS];
 static int str_const_len[MAX_STR_CONSTS];
 static int str_const_ids[MAX_STR_CONSTS];
 static int num_str_consts = 0;
-
+static char *current_method_return_type = NULL;
+static SymTable *current_method_table = NULL;
 static char *class_name = NULL;
-static int has_real_main = 0;
-
+static char *current_str_array_param = NULL;
 static int new_reg() { return ++reg_counter; }
 static int new_label() { return ++label_counter; }
-
 static const char* llvm_type(const char *juc_type) {
     if (!juc_type) return "i32";
     if (strcmp(juc_type, "int") == 0) return "i32";
@@ -704,14 +622,12 @@ static const char* llvm_type(const char *juc_type) {
     if (strcmp(juc_type, "String[]") == 0) return "i8**";
     return "i32";
 }
-
 static const char* default_value(const char *juc_type) {
     if (!juc_type) return "0";
     if (strcmp(juc_type, "double") == 0) return "0.0";
     if (strcmp(juc_type, "boolean") == 0) return "0";
     return "0";
 }
-
 static char* clean_num(const char *s) {
     char *r = (char*)malloc(strlen(s) + 1);
     int j = 0;
@@ -719,7 +635,6 @@ static char* clean_num(const char *s) {
     r[j] = 0;
     return r;
 }
-
 static char* process_strlit(const char *raw) {
     int len = strlen(raw);
     char *out = (char*)malloc(len + 1);
@@ -731,12 +646,7 @@ static char* process_strlit(const char *raw) {
             switch(c) {
                 case 'n': out[j++] = '\n'; i += 2; break;
                 case 't': out[j++] = '\t'; i += 2; break;
-                case 'r':
-                    if (j == 0) out[j] = '\r';
-                    else out[j] = '\n';
-                    j++;
-                    i += 2;
-                    break;
+                case 'r': out[j++] = '\r'; i += 2; break;
                 case 'f': out[j++] = '\f'; i += 2; break;
                 case '\\': out[j++] = '\\'; i += 2; break;
                 case '"': out[j++] = '"'; i += 2; break;
@@ -749,7 +659,6 @@ static char* process_strlit(const char *raw) {
     out[j] = 0;
     return out;
 }
-
 static char* to_llvm_str(const char *s, int *outlen) {
     int len = strlen(s);
     char *buf = (char*)malloc(len * 4 + 4);
@@ -770,7 +679,6 @@ static char* to_llvm_str(const char *s, int *outlen) {
     *outlen = len + 1;
     return buf;
 }
-
 static int register_strlit(const char *raw_strlit) {
     char *content = process_strlit(raw_strlit);
     int slen = 0;
@@ -789,13 +697,12 @@ static int register_strlit(const char *raw_strlit) {
     num_str_consts++;
     return id;
 }
-
-
-
+static int lookup_strlit(const char *raw_strlit) {
+    return register_strlit(raw_strlit);
+}
 static int codegen_expr(Node *node);
 static void codegen_stmt(Node *node);
 static void codegen_method(Node *node);
-
 static int emit_to_double(int reg, const char *t) {
     if (strcmp(t, "int") == 0) {
         int r2 = new_reg();
@@ -804,7 +711,6 @@ static int emit_to_double(int reg, const char *t) {
     }
     return reg;
 }
-
 static int codegen_expr(Node *node) {
     if (!node) return 0;
     if (strcmp(node->type, "Natural") == 0) {
@@ -814,7 +720,6 @@ static int codegen_expr(Node *node) {
         free(clean);
         return r;
     }
-
     if (strcmp(node->type, "Decimal") == 0) {
         char *clean = clean_num(node->value);
         int r = new_reg();
@@ -825,51 +730,84 @@ static int codegen_expr(Node *node) {
         printf("  %%r%d = fadd double 0.0, 0x%016llX\n", r, (unsigned long long)conv.u);
         return r;
     }
-
     if (strcmp(node->type, "BoolLit") == 0) {
         int r = new_reg();
         int val = (strcmp(node->value, "true") == 0) ? 1 : 0;
         printf("  %%r%d = add i1 0, %d\n", r, val);
         return r;
     }
-
     if (strcmp(node->type, "StrLit") == 0) {
         int id = register_strlit(node->value);
         int r = new_reg();
         char *content = process_strlit(node->value);
         int slen = strlen(content) + 1;
         free(content);
-            printf("  %%r%d = getelementptr inbounds [%d x i8], [%d x i8]* @.str%d, i32 0, i32 0\n", r, slen, slen, id);
+        printf("  %%r%d = getelementptr inbounds [%d x i8], [%d x i8]* @.str%d, i32 0, i32 0\n", r, slen, slen, id);
         return r;
     }
-
-        if (strcmp(node->type, "Identifier") == 0) {
-        int r = new_reg();
+    if (strcmp(node->type, "Identifier") == 0) {
+        char *name = node->value;
         char *t = node->anot_type ? node->anot_type : "int";
-        char prefix = is_local(node->value) ? '%' : '@';
-        printf("  %%r%d = load %s, %s* %c%s\n", r, llvm_type(t), llvm_type(t), prefix, node->value);
+        const char *lt = llvm_type(t);
+        int r = new_reg();
+        int is_global = 0;
+        if (current_method_table) {
+            Symbol *s = current_method_table->symbols;
+            while (s) {
+                if (strcmp(s->name, name) == 0 && !s->param_types) { is_global = 0; goto found_local; }
+                s = s->next;
+            }
+        }
+        if (global_table) {
+            Symbol *s = global_table->symbols;
+            while (s) {
+                if (strcmp(s->name, name) == 0 && !s->param_types) { is_global = 1; break; }
+                s = s->next;
+            }
+        }
+        found_local:;
+        if (is_global) {
+            printf("  %%r%d = load %s, %s* @%s\n", r, lt, lt, name);
+        } else {
+            printf("  %%r%d = load %s, %s* %%%s\n", r, lt, lt, name);
+        }
         return r;
     }
-
     if (strcmp(node->type, "Assign") == 0) {
         Node *lhs = node->child;
         Node *rhs = lhs ? lhs->sibling : NULL;
+        char *t = lhs ? (lhs->anot_type ? lhs->anot_type : "int") : "int";
+        const char *lt = llvm_type(t);
         int rv = codegen_expr(rhs);
-        char *t_lhs = lhs->anot_type ? lhs->anot_type : "int";
-        char *t_rhs = rhs->anot_type ? rhs->anot_type : "int";
-        
-        if (strcmp(t_lhs, "double") == 0 && strcmp(t_rhs, "int") == 0) {
+        if (strcmp(t, "double") == 0 && rhs && rhs->anot_type && strcmp(rhs->anot_type, "int") == 0) {
             rv = emit_to_double(rv, "int");
         }
-        
-        char prefix = is_local(lhs->value) ? '%' : '@';
-        printf("  store %s %%r%d, %s* %c%s\n", llvm_type(t_lhs), rv, llvm_type(t_lhs), prefix, lhs->value);
-        
+        char *name = lhs->value;
+        int is_global = 0;
+        if (current_method_table) {
+            Symbol *s = current_method_table->symbols;
+            while (s) {
+                if (strcmp(s->name, name) == 0 && !s->param_types) { is_global = 0; goto found_local2; }
+                s = s->next;
+            }
+        }
+        if (global_table) {
+            Symbol *s = global_table->symbols;
+            while (s) {
+                if (strcmp(s->name, name) == 0 && !s->param_types) { is_global = 1; break; }
+                s = s->next;
+            }
+        }
+        found_local2:;
+        if (is_global) {
+            printf("  store %s %%r%d, %s* @%s\n", lt, rv, lt, name);
+        } else {
+            printf("  store %s %%r%d, %s* %%%s\n", lt, rv, lt, name);
+        }
         int r = new_reg();
-        printf("  %%r%d = load %s, %s* %c%s\n", r, llvm_type(t_lhs), llvm_type(t_lhs), prefix, lhs->value);
+        printf("  %%r%d = load %s, %s* %s%s\n", r, lt, lt, is_global ? "@" : "%", name);
         return r;
     }
-
     if (strcmp(node->type, "Add") == 0 || strcmp(node->type, "Sub") == 0 ||
         strcmp(node->type, "Mul") == 0 || strcmp(node->type, "Div") == 0 ||
         strcmp(node->type, "Mod") == 0) {
@@ -894,57 +832,46 @@ static int codegen_expr(Node *node) {
         printf("  %%r%d = %s %s %%r%d, %%r%d\n", r, op, lt, r1, r2);
         return r;
     }
-
     if (strcmp(node->type, "And") == 0) {
         int r_ptr = new_reg();
         printf("  %%r%d = alloca i1\n", r_ptr);
         int lbl_true = new_label();
         int lbl_false = new_label();
         int lbl_end = new_label();
-        
         int r1 = codegen_expr(node->child);
         printf("  br i1 %%r%d, label %%lbl%d, label %%lbl%d\n", r1, lbl_true, lbl_false);
-        
         printf("lbl%d:\n", lbl_true);
         int r2 = codegen_expr(node->child->sibling);
         printf("  store i1 %%r%d, i1* %%r%d\n", r2, r_ptr);
         printf("  br label %%lbl%d\n", lbl_end);
-        
         printf("lbl%d:\n", lbl_false);
         printf("  store i1 0, i1* %%r%d\n", r_ptr);
         printf("  br label %%lbl%d\n", lbl_end);
-        
         printf("lbl%d:\n", lbl_end);
         int r_res = new_reg();
         printf("  %%r%d = load i1, i1* %%r%d\n", r_res, r_ptr);
         return r_res;
     }
-
     if (strcmp(node->type, "Or") == 0) {
         int r_ptr = new_reg();
         printf("  %%r%d = alloca i1\n", r_ptr);
         int lbl_true = new_label();
         int lbl_false = new_label();
         int lbl_end = new_label();
-        
         int r1 = codegen_expr(node->child);
         printf("  br i1 %%r%d, label %%lbl%d, label %%lbl%d\n", r1, lbl_true, lbl_false);
-        
         printf("lbl%d:\n", lbl_true);
         printf("  store i1 1, i1* %%r%d\n", r_ptr);
         printf("  br label %%lbl%d\n", lbl_end);
-        
         printf("lbl%d:\n", lbl_false);
         int r2 = codegen_expr(node->child->sibling);
         printf("  store i1 %%r%d, i1* %%r%d\n", r2, r_ptr);
         printf("  br label %%lbl%d\n", lbl_end);
-        
         printf("lbl%d:\n", lbl_end);
         int r_res = new_reg();
         printf("  %%r%d = load i1, i1* %%r%d\n", r_res, r_ptr);
         return r_res;
     }
-
     if (strcmp(node->type, "Xor") == 0 || strcmp(node->type, "Lshift") == 0 || strcmp(node->type, "Rshift") == 0) {
         Node *c1 = node->child;
         Node *c2 = c1 ? c1->sibling : NULL;
@@ -954,15 +881,12 @@ static int codegen_expr(Node *node) {
         const char *lt = llvm_type(t);
         int r = new_reg();
         const char *op;
-        
         if (strcmp(node->type, "Xor") == 0) op = "xor";
         else if (strcmp(node->type, "Lshift") == 0) op = "shl";
         else op = "ashr";
-        
         printf("  %%r%d = %s %s %%r%d, %%r%d\n", r, op, lt, r1, r2);
         return r;
     }
-
     if (strcmp(node->type, "Eq") == 0 || strcmp(node->type, "Ne") == 0 ||
         strcmp(node->type, "Lt") == 0 || strcmp(node->type, "Gt") == 0 ||
         strcmp(node->type, "Le") == 0 || strcmp(node->type, "Ge") == 0) {
@@ -999,7 +923,6 @@ static int codegen_expr(Node *node) {
         printf("  %%r%d = %s %s %%r%d, %%r%d\n", r, op, cmp_type, r1, r2);
         return r;
     }
-
     if (strcmp(node->type, "Minus") == 0) {
         int r1 = codegen_expr(node->child);
         char *t = node->anot_type ? node->anot_type : "int";
@@ -1010,26 +933,26 @@ static int codegen_expr(Node *node) {
             printf("  %%r%d = sub i32 0, %%r%d\n", r, r1);
         return r;
     }
-
     if (strcmp(node->type, "Plus") == 0) {
         return codegen_expr(node->child);
     }
-
     if (strcmp(node->type, "Not") == 0) {
         int r1 = codegen_expr(node->child);
         int r = new_reg();
         printf("  %%r%d = xor i1 %%r%d, 1\n", r, r1);
         return r;
     }
-
     if (strcmp(node->type, "Length") == 0) {
         Node *arr_node = node->child;
         char *arrname = (arr_node && arr_node->value) ? arr_node->value : "args";
         int r = new_reg();
-        printf("  %%r%d = load i32, i32* %%__len_%s\n", r, arrname);
+        if (is_in_main) {
+            printf("  %%r%d = load i32, i32* %%__argc\n", r);
+        } else {
+            printf("  %%r%d = load i32, i32* %%__len_%s\n", r, arrname);
+        }
         return r;
     }
-
     if (strcmp(node->type, "ParseArgs") == 0) {
         Node *arr = node->child;
         Node *idx = arr ? arr->sibling : NULL;
@@ -1045,7 +968,6 @@ static int codegen_expr(Node *node) {
         printf("  %%r%d = call i32 @atoi(i8* %%r%d)\n", r, rstr);
         return r;
     }
-
     if (strcmp(node->type, "Call") == 0) {
         Node *fname = node->child;
         char *name = fname->value;
@@ -1067,7 +989,6 @@ static int codegen_expr(Node *node) {
             }
             free(tmp);
         }
-
         Node *arg = fname->sibling;
         int arg_regs[512];
         char *arg_types_arr[512];
@@ -1086,7 +1007,9 @@ static int codegen_expr(Node *node) {
             /* Pre-load length for String[] args (must be before the call instruction) */
             if (strcmp(arg_types_arr[num_args], "String[]") == 0) {
                 int rlen = new_reg();
-                if (current_str_array_param) {
+                if (is_in_main) {
+                    printf("  %%r%d = load i32, i32* %%__argc\n", rlen);
+                } else if (current_str_array_param) {
                     printf("  %%r%d = load i32, i32* %%__len_%s\n", rlen, current_str_array_param);
                 } else {
                     printf("  %%r%d = add i32 0, 0\n", rlen);
@@ -1105,22 +1028,25 @@ static int codegen_expr(Node *node) {
         /* Always emit @name[.param_types]( */
         /* Special case: main(String[]) is the real @main with no suffix */
         {
+            int is_real_main = (strcmp(name, "main") == 0 &&
+                                strcmp(formal_types_str, "String[]") == 0);
             printf("@%s", name);
-            printf(".");
-            if (strlen(formal_types_str) > 0) {
-                char *tmp = strdup(formal_types_str);
-                char *tok = strtok(tmp, ",");
-                while(tok) {
-                    if (strcmp(tok, "String[]") == 0) printf("StringArray");
-                    else printf("%s", tok);
-                    tok = strtok(NULL, ",");
-                    if (tok) printf(".");
+            if (!is_real_main) {
+                printf(".");
+                if (strlen(formal_types_str) > 0) {
+                    char *tmp = strdup(formal_types_str);
+                    char *tok = strtok(tmp, ",");
+                    while(tok) {
+                        if (strcmp(tok, "String[]") == 0) printf("StringArray");
+                        else printf("%s", tok);
+                        tok = strtok(NULL, ",");
+                        if (tok) printf(".");
+                    }
+                    free(tmp);
                 }
-                free(tmp);
             }
             printf("(");
         }
-
         for (int i = 0; i < num_args; i++) {
             if (i > 0) printf(", ");
             printf("%s %%r%d", llvm_type(arg_types_arr[i]), arg_regs[i]);
@@ -1133,7 +1059,6 @@ static int codegen_expr(Node *node) {
     }
     return 0;
 }
-
 static void emit_print(int reg, const char *t) {
     if (strcmp(t, "int") == 0) {
         printf("  call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.fmt_int, i32 0, i32 0), i32 %%r%d)\n", reg);
@@ -1155,7 +1080,6 @@ static void emit_print(int reg, const char *t) {
         printf("  call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @.fmt_str, i32 0, i32 0), i8* %%r%d)\n", reg);
     }
 }
-
 static void codegen_stmt(Node *node) {
     if (!node) return;
     if (strcmp(node->type, "Block") == 0) {
@@ -1163,9 +1087,7 @@ static void codegen_stmt(Node *node) {
         while (c) { codegen_stmt(c); c = c->sibling; }
         return;
     }
-
     if (strcmp(node->type, "VarDecl") == 0) return;
-
     if (strcmp(node->type, "If") == 0) {
         Node *cond = node->child;
         Node *then_br = cond ? cond->sibling : NULL;
@@ -1184,7 +1106,6 @@ static void codegen_stmt(Node *node) {
         printf("lbl%d:\n", lbl_end);
         return;
     }
-
     if (strcmp(node->type, "While") == 0) {
         Node *cond = node->child;
         Node *body = cond ? cond->sibling : NULL;
@@ -1201,7 +1122,6 @@ static void codegen_stmt(Node *node) {
         printf("lbl%d:\n", lbl_end);
         return;
     }
-
     if (strcmp(node->type, "Return") == 0) {
         if (node->child) {
             int r = codegen_expr(node->child);
@@ -1213,36 +1133,31 @@ static void codegen_stmt(Node *node) {
             }
             printf("  ret %s %%r%d\n", llvm_type(t), r);
         } else {
-            printf("  ret void\n");
+            /* NOVO: Se estamos no main, retorna 0, senão retorna void */
+            if (is_in_main) printf("  ret i32 0\n");
+            else printf("  ret void\n");
         }
         int dummy = new_label();
         printf("lbl%d:\n", dummy);
         return;
     }
-
     if (strcmp(node->type, "Assign") == 0) { codegen_expr(node); return; }
-
     if (strcmp(node->type, "Print") == 0) {
         Node *arg = node->child;
         if (!arg) return;
         int r = codegen_expr(arg);
         char *t = arg->anot_type ? arg->anot_type : "int";
-        
         // Ensure the value passed to printf matches the format string expected
         if (strcmp(t, "double") == 0 && arg->anot_type && strcmp(arg->anot_type, "int") == 0) {
             r = emit_to_double(r, "int");
         }
-        
         emit_print(r, t);
         return;
     }
-    
-
     if (strcmp(node->type, "ParseArgs") == 0) { codegen_expr(node); return; }
     if (strcmp(node->type, "Call") == 0) { codegen_expr(node); return; }
     if (is_expression(node->type)) { codegen_expr(node); return; }
 }
-
 static void emit_allocas(Node *body, SymTable *method_table) {
     if (!body) return;
     Node *c = body->child;
@@ -1259,21 +1174,16 @@ static void emit_allocas(Node *body, SymTable *method_table) {
         c = c->sibling;
     }
 }
-
 static void codegen_method(Node *node) {
     Node *header = node->child;
     Node *body = header ? header->sibling : NULL;
     if (!header) return;
-
     Node *ret_type_node = header->child;
     Node *name_node = ret_type_node ? ret_type_node->sibling : NULL;
     Node *params_node = name_node ? name_node->sibling : NULL;
-
     char *ret_jt = get_juc_type(ret_type_node ? ret_type_node->type : "Void");
     char *mname = name_node ? name_node->value : "unknown";
-
     current_method_return_type = ret_jt;
-
     char *params_str = build_param_types(params_node);
     char table_name[8192];
     snprintf(table_name, sizeof(table_name), "Method %s(%s)", mname, params_str);
@@ -1282,74 +1192,88 @@ static void codegen_method(Node *node) {
         if (strcmp(current_method_table->name, table_name) == 0) break;
         current_method_table = current_method_table->next;
     }
-
-    /* is_main_juc = true only for main(String[]) */
-    int is_main_juc = 0;
+    /* is_main = true only for main(String[]) — the real entry point */
+    int is_main = 0;
     if (strcmp(mname, "main") == 0 && params_node && params_node->child) {
         Node *first_param_type = params_node->child->child;
-        if (first_param_type && strcmp(first_param_type->type, "StringArray") == 0) is_main_juc = 1;
+        if (first_param_type && strcmp(first_param_type->type, "StringArray") == 0) is_main = 1;
     }
-    if (is_main_juc) has_real_main = 1;
-    is_in_main = is_main_juc;
-
-    printf("define %s @%s", llvm_type(ret_jt), mname);
-    printf(".");
-    if (params_str && strlen(params_str) > 0) {
-        char *tmp = strdup(params_str);
-        char *tok = strtok(tmp, ",");
-        while(tok) {
-            if (strcmp(tok, "String[]") == 0) printf("StringArray");
-            else printf("%s", tok);
-            tok = strtok(NULL, ",");
-            if (tok) printf(".");
-        }
-        free(tmp);
+    is_in_main = is_main;
+    /* NOVO: Descobrir o nome verdadeiro do array de Strings (nem sempre é "args") */
+    char *main_param_name = "args";
+    if (is_main && params_node && params_node->child) {
+        Node *p_decl = params_node->child;
+        Node *p_id = p_decl->child ? p_decl->child->sibling : NULL;
+        if (p_id && p_id->value) main_param_name = p_id->value;
     }
-    printf("(");
-    
-    /* Emit parameter types and names in the signature */
-    if (params_node && params_node->child) {
-        Node *p = params_node->child;
-        int first = 1;
-        while (p) {
-            Node *pt = p->child;
-            Node *pid = pt ? pt->sibling : NULL;
-            char *pjt = get_juc_type(pt ? pt->type : "Int");
-            if (pid) {
-                if (!first) printf(", ");
-                printf("%s %%%s_arg", llvm_type(pjt), pid->value);
-                first = 0;
-                /* String[] gets an extra implicit i32 length arg */
-                if (strcmp(pjt, "String[]") == 0) {
-                    printf(", i32 %%__len_%s_arg", pid->value);
+    if (is_main) {
+        printf("\ndefine i32 @main(i32 %%argc, i8** %%argv) {\n");
+        printf("  %%%s = alloca i8**\n", main_param_name);
+        printf("  %%__args_base = getelementptr inbounds i8*, i8** %%argv, i32 1\n");
+        printf("  store i8** %%__args_base, i8*** %%%s\n", main_param_name);
+        printf("  %%__argc = alloca i32\n");
+        printf("  %%r%d = sub i32 %%argc, 1\n", new_reg());
+        printf("  store i32 %%r%d, i32* %%__argc\n", reg_counter);
+    } else {
+        printf("define %s @%s", llvm_type(ret_jt), mname);
+        if (!is_main) {
+            printf(".");
+            if (params_str && strlen(params_str) > 0) {
+                char *tmp = strdup(params_str);
+                char *tok = strtok(tmp, ",");
+                while(tok) {
+                    if (strcmp(tok, "String[]") == 0) printf("StringArray");
+                    else printf("%s", tok);
+                    tok = strtok(NULL, ",");
+                    if (tok) printf(".");
                 }
+                free(tmp);
             }
-            p = p->sibling;
         }
-    }
-    printf(") {\n");
-
-    /* Alloca and store each parameter */
-    current_str_array_param = NULL;
-    if (params_node && params_node->child) {
-        Node *p = params_node->child;
-        while (p) {
-            Node *pt = p->child;
-            Node *pid = pt ? pt->sibling : NULL;
-            char *pjt = get_juc_type(pt ? pt->type : "Int");
-            if (pid) {
-                printf("  %%%s = alloca %s\n", pid->value, llvm_type(pjt));
-                printf("  store %s %%%s_arg, %s* %%%s\n", llvm_type(pjt), pid->value, llvm_type(pjt), pid->value);
-                if (strcmp(pjt, "String[]") == 0) {
-                    current_str_array_param = pid->value;
-                    printf("  %%__len_%s = alloca i32\n", pid->value);
-                    printf("  store i32 %%__len_%s_arg, i32* %%__len_%s\n", pid->value, pid->value);
+        printf("(");
+        /* Emit parameter types and names in the signature */
+        if (params_node && params_node->child) {
+            Node *p = params_node->child;
+            int first = 1;
+            while (p) {
+                Node *pt = p->child;
+                Node *pid = pt ? pt->sibling : NULL;
+                char *pjt = get_juc_type(pt ? pt->type : "Int");
+                if (pid) {
+                    if (!first) printf(", ");
+                    printf("%s %%%s_arg", llvm_type(pjt), pid->value);
+                    first = 0;
+                    /* String[] gets an extra implicit i32 length arg */
+                    if (strcmp(pjt, "String[]") == 0) {
+                        printf(", i32 %%__len_%s_arg", pid->value);
+                    }
                 }
+                p = p->sibling;
             }
-            p = p->sibling;
+        }
+        printf(") {\n");
+        /* Alloca and store each parameter */
+        current_str_array_param = NULL;
+        if (params_node && params_node->child) {
+            Node *p = params_node->child;
+            while (p) {
+                Node *pt = p->child;
+                Node *pid = pt ? pt->sibling : NULL;
+                char *pjt = get_juc_type(pt ? pt->type : "Int");
+                if (pid) {
+                    printf("  %%%s = alloca %s\n", pid->value, llvm_type(pjt));
+                    printf("  store %s %%%s_arg, %s* %%%s\n", llvm_type(pjt), pid->value, llvm_type(pjt), pid->value);
+                    if (strcmp(pjt, "String[]") == 0) {
+                        current_str_array_param = pid->value;
+                        printf("  %%__len_%s = alloca i32\n", pid->value);
+                        printf("  store i32 %%__len_%s_arg, i32* %%__len_%s\n", pid->value, pid->value);
+                    }
+                }
+                p = p->sibling;
+            }
         }
     }
-
+    /* FIM DA DEFINIÇÃO DA FUNÇÃO */
     emit_allocas(body, current_method_table);
     if (body) {
         Node *c = body->child;
@@ -1358,8 +1282,9 @@ static void codegen_method(Node *node) {
             c = c->sibling;
         }
     }
-
-    if (strcmp(ret_jt, "void") == 0) {
+    if (is_main) {
+        printf("  ret i32 0\n");
+    } else if (strcmp(ret_jt, "void") == 0) {
         printf("  ret void\n");
     } else {
         printf("  ret %s %s\n", llvm_type(ret_jt), default_value(ret_jt));
@@ -1367,46 +1292,30 @@ static void codegen_method(Node *node) {
     printf("}\n");
     if (params_str) free(params_str);
 }
-
-static void emit_main_wrapper() {
-    printf("\ndefine i32 @main(i32 %%argc, i8** %%argv) {\n");
-    printf("  %%__argc_minus_1 = sub i32 %%argc, 1\n");
-    printf("  %%__argv_plus_1 = getelementptr inbounds i8*, i8** %%argv, i32 1\n");
-    printf("  call void @main.StringArray(i8** %%__argv_plus_1, i32 %%__argc_minus_1)\n");
-    printf("  ret i32 0\n");
-    printf("}\n");
-}
-
 static void prescan_strlits(Node *n) {
     if (!n) return;
     if (strcmp(n->type, "StrLit") == 0) register_strlit(n->value);
     Node *ch = n->child;
     while (ch) { prescan_strlits(ch); ch = ch->sibling; }
 }
-
 static void codegen_program(Node *prog) {
     if (!prog) return;
-
     class_name = prog->child ? prog->child->value : "Main";
     printf("; Juc compiler - LLVM IR output\n");
     printf("declare i32 @printf(i8*, ...)\n");
     printf("declare i32 @atoi(i8*)\n");
     printf("\n");
-
     printf("@.fmt_int    = private constant [3 x i8] c\"%%d\\00\"\n");
     printf("@.fmt_double = private constant [6 x i8] c\"%%.16e\\00\"\n");
     printf("@.fmt_str    = private constant [3 x i8] c\"%%s\\00\"\n");
     printf("@.fmt_true   = private constant [5 x i8] c\"true\\00\"\n");
     printf("@.fmt_false  = private constant [6 x i8] c\"false\\00\"\n");
     printf("\n");
-
     Node *c = prog->child ? prog->child->sibling : NULL;
     while (c) { prescan_strlits(c); c = c->sibling; }
-
     for (int i = 0; i < num_str_consts; i++) {
         printf("@.str%d = private constant [%d x i8] c\"%s\"\n", str_const_ids[i], str_const_len[i], str_consts[i]);
     }
-
     c = prog->child ? prog->child->sibling : NULL;
     while (c) {
         if (strcmp(c->type, "FieldDecl") == 0) {
@@ -1419,7 +1328,6 @@ static void codegen_program(Node *prog) {
         }
         c = c->sibling;
     }
-
     c = prog->child ? prog->child->sibling : NULL;
     while (c) {
         if (strcmp(c->type, "MethodDecl") == 0) {
@@ -1429,12 +1337,9 @@ static void codegen_program(Node *prog) {
         }
         c = c->sibling;
     }
-    if (has_real_main) emit_main_wrapper();
-    printf("\n");
 }
-
+int semantic_errors_count = 0;
 %}
-
 %union {
     struct {
         char* str;
@@ -1443,21 +1348,17 @@ static void codegen_program(Node *prog) {
     } token;
     struct _node* node;
 }
-
 %token <token> BOOL CLASS DOTLENGTH DOUBLE ELSE IF INT PRINT PARSEINT PUBLIC RETURN STATIC STRING VOID WHILE
 %token <token> AND ASSIGN STAR COMMA DIV EQ GE GT LBRACE LE LPAR LSQ LT MINUS MOD NE NOT OR PLUS RBRACE RPAR RSQ SEMICOLON ARROW LSHIFT RSHIFT XOR
 %token <token> IDENTIFIER NATURAL DECIMAL STRLIT BOOLLIT RESERVED
-
 %type <node> Program ProgramElements MethodDecl FieldDecl Type MethodHeader 
 %type <node> OptFormalParams FormalParams FormalParamsRest MethodBody 
 %type <node> StatementAndVarDeclList VarDecl IdList StatementList Statement 
 %type <node> OptExpr ExprOrStrlit MethodInvocation OptExprList ExprList 
 %type <node> ParseArgs Expr
 %type <token> AnyId
-
 %nonassoc IF_WITHOUT_ELSE
 %nonassoc ELSE
-
 %right ASSIGN
 %left OR
 %left AND
@@ -1469,32 +1370,26 @@ static void codegen_program(Node *prog) {
 %left STAR DIV MOD
 %right NOT UNARY_PLUS UNARY_MINUS
 %start Program
-
 %%
-
 AnyId: IDENTIFIER { $$ = $1; }
      ;
-
 Program : CLASS AnyId LBRACE ProgramElements RBRACE {
             $$ = create_node("Program", NULL, $1.line, $1.col);
             add_child($$, create_node("Identifier", $2.str, $2.line, $2.col));
             if ($4) add_child($$, $4); 
             root = $$; 
         }
-
 ProgramElements : { $$ = NULL; }
                 | ProgramElements MethodDecl { $$ = add_sibling($1, $2); }
                 | ProgramElements FieldDecl { $$ = add_sibling($1, $2); }
                 | ProgramElements SEMICOLON { $$ = $1; }
                 ;
-
 MethodDecl : PUBLIC STATIC MethodHeader MethodBody {
             $$ = create_node("MethodDecl", NULL, $1.line, $1.col);
             add_child($$, $3);
             add_sibling($3, $4);
         }
            ;
-
 FieldDecl : PUBLIC STATIC Type AnyId IdList SEMICOLON {
             $$ = create_node("FieldDecl", NULL, $1.line, $1.col);
             add_child($$, $3);
@@ -1512,7 +1407,6 @@ FieldDecl : PUBLIC STATIC Type AnyId IdList SEMICOLON {
           }
           | error SEMICOLON { $$ = NULL; }
           ;
-
 VarDecl : Type AnyId IdList SEMICOLON {
             $$ = create_node("VarDecl", NULL, $1->line, $1->col);
             add_child($$, $1);
@@ -1529,21 +1423,17 @@ VarDecl : Type AnyId IdList SEMICOLON {
             }
         }
         ;
-
 IdList :{ $$ = NULL; }
        | IdList COMMA AnyId {   $$ = add_sibling($1, create_node("Identifier", $3.str, $3.line, $3.col)); }
        ;
-
 Type : BOOL   { $$ = create_node("Bool", NULL, $1.line, $1.col); }
      | INT    { $$ = create_node("Int", NULL, $1.line, $1.col); }
      | DOUBLE { $$ = create_node("Double", NULL, $1.line, $1.col); }
      ;
-
 MethodHeader : Type AnyId LPAR OptFormalParams RPAR {
                 $$ = create_node("MethodHeader", NULL, $1->line, $1->col);
                 add_child($$, $1);
                 add_child($$, create_node("Identifier", $2.str, $2.line, $2.col));
-                
                 Node* params = create_node("MethodParams", NULL, $3.line, $3.col);
                 if ($4) add_child(params, $4);
                 add_child($$, params);
@@ -1558,11 +1448,9 @@ MethodHeader : Type AnyId LPAR OptFormalParams RPAR {
                 add_child($$, params);
              }
              ;
-
 OptFormalParams : { $$ = NULL; }
                 | FormalParams { $$ = $1; }
                 ;
-
 FormalParams : Type AnyId FormalParamsRest {
                 $$ = create_node("ParamDecl", NULL, $1->line, $1->col);
                 add_child($$, $1);
@@ -1576,7 +1464,6 @@ FormalParams : Type AnyId FormalParamsRest {
                 add_child($$, create_node("Identifier", $4.str, $4.line, $4.col));
              }
              ;
-
 FormalParamsRest : { $$ = NULL; }
                  | FormalParamsRest COMMA Type AnyId {
                     Node* param = create_node("ParamDecl", NULL, $3->line, $3->col);
@@ -1585,13 +1472,11 @@ FormalParamsRest : { $$ = NULL; }
                     $$ = add_sibling($1, param);
                  }
                  ;
-
 MethodBody : LBRACE StatementAndVarDeclList RBRACE {
                 $$ = create_node("MethodBody", NULL, $1.line, $1.col);
                 if ($2) add_child($$, $2);
            }
            ;
-
 StatementAndVarDeclList : { $$ = NULL; }
                         | StatementAndVarDeclList Statement {
                             if ($2 != NULL) $$ = add_sibling($1, $2);
@@ -1599,14 +1484,12 @@ StatementAndVarDeclList : { $$ = NULL; }
                         }
                         | StatementAndVarDeclList VarDecl { $$ = add_sibling($1, $2); }
                         ;
-
 StatementList : { $$ = NULL; }
               | StatementList Statement {
                   if ($2 != NULL) $$ = add_sibling($1, $2);
                   else $$ = $1;
               }
               ;
-
 Statement : LBRACE StatementList RBRACE {
               if ($2 != NULL && $2->sibling != NULL) {
                   $$ = create_node("Block", NULL, $1.line, $1.col);
@@ -1656,15 +1539,12 @@ Statement : LBRACE StatementList RBRACE {
           | error SEMICOLON { $$ = NULL; }
           | SEMICOLON { $$ = NULL; }
           ;
-
 OptExpr : { $$ = NULL; }
         | Expr { $$ = $1; }
         ;
-
 ExprOrStrlit : Expr { $$ = $1; }
              | STRLIT { $$ = create_node("StrLit", $1.str, $1.line, $1.col); }
              ;
-
 MethodInvocation : AnyId LPAR OptExprList RPAR {
                      $$ = create_node("Call", NULL, $1.line, $1.col);
                      Node* id = create_node("Identifier", $1.str, $1.line, $1.col);
@@ -1673,15 +1553,12 @@ MethodInvocation : AnyId LPAR OptExprList RPAR {
                  }
                  | AnyId LPAR error RPAR { $$ = NULL; }
                  ;
-
 OptExprList : { $$ = NULL; }
             | ExprList { $$ = $1; }
             ;
-
 ExprList : Expr { $$ = $1; }
          | ExprList COMMA Expr { $$ = add_sibling($1, $3); }
          ;
-
 ParseArgs : PARSEINT LPAR AnyId LSQ Expr RSQ RPAR {
               $$ = create_node("ParseArgs", NULL, $1.line, $1.col);
               Node* id = create_node("Identifier", $3.str, $3.line, $3.col);
@@ -1690,7 +1567,6 @@ ParseArgs : PARSEINT LPAR AnyId LSQ Expr RSQ RPAR {
           }
           | PARSEINT LPAR error RPAR { $$ = NULL; }
           ;
-
 Expr : Expr ASSIGN Expr { 
           if ($1 && strcmp($1->type, "Identifier") != 0) {
               printf("Line %d, col %d: syntax error: =\n", $2.line, $2.col);
@@ -1746,29 +1622,24 @@ const char* display_type(const char *type) {
     if (!type) return "";
     return type;
 }
-
 void print_tree(Node* node, int depth) {
     if (!node) return;
     for (int i = 0; i < depth; i++) printf("..");
-    
     const char *disp = display_type(node->type);
     if (node->value) printf("%s(%s)", disp, node->value);
     else printf("%s", disp);
     if (node->anot_type && is_expression(node->type)) printf(" - %s", node->anot_type);
     printf("\n");
-    
     Node* child = node->child;
     while (child) {
         print_tree(child, depth + 1);
         child = child->sibling;
     }
 }
-
 int main(int argc, char *argv[]) {
     int flag_s = 0;
     int flag_t = 0;
     int flag_e3 = 0;
-
     if (argc > 1) {
         if (strcmp(argv[1], "-l") == 0) {
             flag_lex = 1;
@@ -1780,39 +1651,26 @@ int main(int argc, char *argv[]) {
         } else if (strcmp(argv[1], "-t") == 0) {
             flag_t = 1;
         } else if (strcmp(argv[1], "-e2") == 0) {
-            // Apenas erros sintáticos (yyparse trata isso)
         } else if (strcmp(argv[1], "-s") == 0) {
             flag_s = 1;
         } else if (strcmp(argv[1], "-e3") == 0) {
             flag_e3 = 1;
         }
     }
-
     yyparse();
-
-    // Se houver erros sintáticos, não fazemos mais nada [cite: 226]
     if (syntax_errors_count > 0) return 0;
-
-    // Se a flag for -t, imprime apenas a AST e termina [cite: 202]
     if (flag_t) {
         print_tree(root, 0);
         return 0;
     }
-
-    // Análise semântica é necessária para -s, -e3 e para Geração de Código
     annotate_ast(root, NULL);
-
     if (flag_s) {
         print_tables();
-        printf("\n"); // Linha em branco entre tabelas e AST [cite: 327]
+        printf("\n"); 
         print_tree(root, 0);
     } else if (flag_e3) {
-        // Apenas reporta erros (já feito em annotate_ast)
-    } else if (argc == 1 && semantic_errors_count == 0) {
-        // META 4: Só gera código se não houver NENHUM erro e sem flags [cite: 416]
-        // Se chega aqui e não houve prints de erros (semânticos), gera LLVM
+    } else if (argc == 1) {
         codegen_program(root);
     }
-
     return 0;
 }
