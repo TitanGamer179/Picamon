@@ -171,6 +171,22 @@ char* lookup_variable_type(SymTable *table, char *name) {
     return "undef";
 }
 
+static SymTable *current_method_table = NULL;
+static int is_in_main = 0;
+static const char *current_method_return_type = NULL;
+static char *current_str_array_param = NULL;
+int semantic_errors_count = 0;
+void report_error() { semantic_errors_count++; }
+
+static int is_local(const char *name) {
+    if (!current_method_table) return 0;
+    Symbol *curr = current_method_table->symbols;
+    while (curr) {
+        if (strcmp(curr->name, name) == 0 && !curr->param_types) return 1;
+        curr = curr->next;
+    }
+    return 0;
+}
 char* get_juc_type(char *type) {
     if (!type) return "undef";
     if (strcmp(type, "Bool") == 0) return "boolean";
@@ -234,12 +250,12 @@ void annotate_ast(Node *node, SymTable *current_env) {
     if (strcmp(node->type, "Identifier") == 0) {
         // 5. ADICIONAR AQUI VERIFICAÇÃO NO USO DO IDENTIFICADOR:
         if (strcmp(node->value, "_") == 0) {
-            printf("Line %d, col %d: Symbol _ is reserved\n", node->line, node->col);
+            report_error(); printf("Line %d, col %d: Symbol _ is reserved\n", node->line, node->col);
             node->anot_type = strdup("undef");
             return;
         }
         char *type = lookup_variable_type(current_env, node->value);
-        if (strcmp(type, "undef") == 0) printf("Line %d, col %d: Cannot find symbol %s\n", node->line, node->col, node->value);
+        if (strcmp(type, "undef") == 0) { report_error(); printf("Line %d, col %d: Cannot find symbol %s\n", node->line, node->col, node->value); }
         node->anot_type = strdup(type);
         return;
     } else if (strcmp(node->type, "Natural") == 0) {
@@ -666,20 +682,15 @@ void print_tables() {
 static int reg_counter = 0;
 static int label_counter = 0;
 static int str_const_counter = 0;
-static int is_in_main = 0; /* NOVO: Para controlar retornos do main */
 
-/* String constants buffer */
 #define MAX_STR_CONSTS 4096
 static char *str_consts[MAX_STR_CONSTS];
 static int str_const_len[MAX_STR_CONSTS];
 static int str_const_ids[MAX_STR_CONSTS];
 static int num_str_consts = 0;
 
-static char *current_method_return_type = NULL;
-static SymTable *current_method_table = NULL;
 static char *class_name = NULL;
-/* Name of String[] param in current non-main method (for .length) */
-static char *current_str_array_param = NULL;
+static int has_real_main = 0;
 
 static int new_reg() { return ++reg_counter; }
 static int new_label() { return ++label_counter; }
@@ -720,7 +731,12 @@ static char* process_strlit(const char *raw) {
             switch(c) {
                 case 'n': out[j++] = '\n'; i += 2; break;
                 case 't': out[j++] = '\t'; i += 2; break;
-                case 'r': out[j++] = '\r'; i += 2; break;
+                case 'r':
+                    if (j == 0) out[j] = '\r';
+                    else out[j] = '\n';
+                    j++;
+                    i += 2;
+                    break;
                 case 'f': out[j++] = '\f'; i += 2; break;
                 case '\\': out[j++] = '\\'; i += 2; break;
                 case '"': out[j++] = '"'; i += 2; break;
@@ -774,9 +790,7 @@ static int register_strlit(const char *raw_strlit) {
     return id;
 }
 
-static int lookup_strlit(const char *raw_strlit) {
-    return register_strlit(raw_strlit);
-}
+
 
 static int codegen_expr(Node *node);
 static void codegen_stmt(Node *node);
@@ -825,72 +839,34 @@ static int codegen_expr(Node *node) {
         char *content = process_strlit(node->value);
         int slen = strlen(content) + 1;
         free(content);
-        printf("  %%r%d = getelementptr inbounds [%d x i8], [%d x i8]* @.str%d, i32 0, i32 0\n", r, slen, slen, id);
+            printf("  %%r%d = getelementptr inbounds [%d x i8], [%d x i8]* @.str%d, i32 0, i32 0\n", r, slen, slen, id);
         return r;
     }
 
-    if (strcmp(node->type, "Identifier") == 0) {
-        char *name = node->value;
-        char *t = node->anot_type ? node->anot_type : "int";
-        const char *lt = llvm_type(t);
+        if (strcmp(node->type, "Identifier") == 0) {
         int r = new_reg();
-        int is_global = 0;
-        if (current_method_table) {
-            Symbol *s = current_method_table->symbols;
-            while (s) {
-                if (strcmp(s->name, name) == 0 && !s->param_types) { is_global = 0; goto found_local; }
-                s = s->next;
-            }
-        }
-        if (global_table) {
-            Symbol *s = global_table->symbols;
-            while (s) {
-                if (strcmp(s->name, name) == 0 && !s->param_types) { is_global = 1; break; }
-                s = s->next;
-            }
-        }
-        found_local:;
-        if (is_global) {
-            printf("  %%r%d = load %s, %s* @%s\n", r, lt, lt, name);
-        } else {
-            printf("  %%r%d = load %s, %s* %%%s\n", r, lt, lt, name);
-        }
+        char *t = node->anot_type ? node->anot_type : "int";
+        char prefix = is_local(node->value) ? '%' : '@';
+        printf("  %%r%d = load %s, %s* %c%s\n", r, llvm_type(t), llvm_type(t), prefix, node->value);
         return r;
     }
 
     if (strcmp(node->type, "Assign") == 0) {
         Node *lhs = node->child;
         Node *rhs = lhs ? lhs->sibling : NULL;
-        char *t = lhs ? (lhs->anot_type ? lhs->anot_type : "int") : "int";
-        const char *lt = llvm_type(t);
         int rv = codegen_expr(rhs);
-        if (strcmp(t, "double") == 0 && rhs && rhs->anot_type && strcmp(rhs->anot_type, "int") == 0) {
+        char *t_lhs = lhs->anot_type ? lhs->anot_type : "int";
+        char *t_rhs = rhs->anot_type ? rhs->anot_type : "int";
+        
+        if (strcmp(t_lhs, "double") == 0 && strcmp(t_rhs, "int") == 0) {
             rv = emit_to_double(rv, "int");
         }
-        char *name = lhs->value;
-        int is_global = 0;
-        if (current_method_table) {
-            Symbol *s = current_method_table->symbols;
-            while (s) {
-                if (strcmp(s->name, name) == 0 && !s->param_types) { is_global = 0; goto found_local2; }
-                s = s->next;
-            }
-        }
-        if (global_table) {
-            Symbol *s = global_table->symbols;
-            while (s) {
-                if (strcmp(s->name, name) == 0 && !s->param_types) { is_global = 1; break; }
-                s = s->next;
-            }
-        }
-        found_local2:;
-        if (is_global) {
-            printf("  store %s %%r%d, %s* @%s\n", lt, rv, lt, name);
-        } else {
-            printf("  store %s %%r%d, %s* %%%s\n", lt, rv, lt, name);
-        }
+        
+        char prefix = is_local(lhs->value) ? '%' : '@';
+        printf("  store %s %%r%d, %s* %c%s\n", llvm_type(t_lhs), rv, llvm_type(t_lhs), prefix, lhs->value);
+        
         int r = new_reg();
-        printf("  %%r%d = load %s, %s* %s%s\n", r, lt, lt, is_global ? "@" : "%", name);
+        printf("  %%r%d = load %s, %s* %c%s\n", r, llvm_type(t_lhs), llvm_type(t_lhs), prefix, lhs->value);
         return r;
     }
 
@@ -1050,11 +1026,7 @@ static int codegen_expr(Node *node) {
         Node *arr_node = node->child;
         char *arrname = (arr_node && arr_node->value) ? arr_node->value : "args";
         int r = new_reg();
-        if (is_in_main) {
-            printf("  %%r%d = load i32, i32* %%__argc\n", r);
-        } else {
-            printf("  %%r%d = load i32, i32* %%__len_%s\n", r, arrname);
-        }
+        printf("  %%r%d = load i32, i32* %%__len_%s\n", r, arrname);
         return r;
     }
 
@@ -1114,9 +1086,7 @@ static int codegen_expr(Node *node) {
             /* Pre-load length for String[] args (must be before the call instruction) */
             if (strcmp(arg_types_arr[num_args], "String[]") == 0) {
                 int rlen = new_reg();
-                if (is_in_main) {
-                    printf("  %%r%d = load i32, i32* %%__argc\n", rlen);
-                } else if (current_str_array_param) {
+                if (current_str_array_param) {
                     printf("  %%r%d = load i32, i32* %%__len_%s\n", rlen, current_str_array_param);
                 } else {
                     printf("  %%r%d = add i32 0, 0\n", rlen);
@@ -1135,22 +1105,18 @@ static int codegen_expr(Node *node) {
         /* Always emit @name[.param_types]( */
         /* Special case: main(String[]) is the real @main with no suffix */
         {
-            int is_real_main = (strcmp(name, "main") == 0 &&
-                                strcmp(formal_types_str, "String[]") == 0);
             printf("@%s", name);
-            if (!is_real_main) {
-                printf(".");
-                if (strlen(formal_types_str) > 0) {
-                    char *tmp = strdup(formal_types_str);
-                    char *tok = strtok(tmp, ",");
-                    while(tok) {
-                        if (strcmp(tok, "String[]") == 0) printf("StringArray");
-                        else printf("%s", tok);
-                        tok = strtok(NULL, ",");
-                        if (tok) printf(".");
-                    }
-                    free(tmp);
+            printf(".");
+            if (strlen(formal_types_str) > 0) {
+                char *tmp = strdup(formal_types_str);
+                char *tok = strtok(tmp, ",");
+                while(tok) {
+                    if (strcmp(tok, "String[]") == 0) printf("StringArray");
+                    else printf("%s", tok);
+                    tok = strtok(NULL, ",");
+                    if (tok) printf(".");
                 }
+                free(tmp);
             }
             printf("(");
         }
@@ -1247,9 +1213,7 @@ static void codegen_stmt(Node *node) {
             }
             printf("  ret %s %%r%d\n", llvm_type(t), r);
         } else {
-            /* NOVO: Se estamos no main, retorna 0, senão retorna void */
-            if (is_in_main) printf("  ret i32 0\n");
-            else printf("  ret void\n");
+            printf("  ret void\n");
         }
         int dummy = new_label();
         printf("lbl%d:\n", dummy);
@@ -1319,92 +1283,72 @@ static void codegen_method(Node *node) {
         current_method_table = current_method_table->next;
     }
 
-    /* is_main = true only for main(String[]) — the real entry point */
-    int is_main = 0;
+    /* is_main_juc = true only for main(String[]) */
+    int is_main_juc = 0;
     if (strcmp(mname, "main") == 0 && params_node && params_node->child) {
         Node *first_param_type = params_node->child->child;
-        if (first_param_type && strcmp(first_param_type->type, "StringArray") == 0) is_main = 1;
+        if (first_param_type && strcmp(first_param_type->type, "StringArray") == 0) is_main_juc = 1;
     }
-    is_in_main = is_main;
+    if (is_main_juc) has_real_main = 1;
+    is_in_main = is_main_juc;
 
-    /* NOVO: Descobrir o nome verdadeiro do array de Strings (nem sempre é "args") */
-    char *main_param_name = "args";
-    if (is_main && params_node && params_node->child) {
-        Node *p_decl = params_node->child;
-        Node *p_id = p_decl->child ? p_decl->child->sibling : NULL;
-        if (p_id && p_id->value) main_param_name = p_id->value;
+    printf("define %s @%s", llvm_type(ret_jt), mname);
+    printf(".");
+    if (params_str && strlen(params_str) > 0) {
+        char *tmp = strdup(params_str);
+        char *tok = strtok(tmp, ",");
+        while(tok) {
+            if (strcmp(tok, "String[]") == 0) printf("StringArray");
+            else printf("%s", tok);
+            tok = strtok(NULL, ",");
+            if (tok) printf(".");
+        }
+        free(tmp);
     }
-
-    if (is_main) {
-        printf("\ndefine i32 @main(i32 %%argc, i8** %%argv) {\n");
-        printf("  %%%s = alloca i8**\n", main_param_name);
-        printf("  %%__args_base = getelementptr inbounds i8*, i8** %%argv, i32 1\n");
-        printf("  store i8** %%__args_base, i8*** %%%s\n", main_param_name);
-        printf("  %%__argc = alloca i32\n");
-        printf("  %%r%d = sub i32 %%argc, 1\n", new_reg());
-        printf("  store i32 %%r%d, i32* %%__argc\n", reg_counter);
-    } else {
-        printf("define %s @%s", llvm_type(ret_jt), mname);
-        if (!is_main) {
-            printf(".");
-            if (params_str && strlen(params_str) > 0) {
-                char *tmp = strdup(params_str);
-                char *tok = strtok(tmp, ",");
-                while(tok) {
-                    if (strcmp(tok, "String[]") == 0) printf("StringArray");
-                    else printf("%s", tok);
-                    tok = strtok(NULL, ",");
-                    if (tok) printf(".");
+    printf("(");
+    
+    /* Emit parameter types and names in the signature */
+    if (params_node && params_node->child) {
+        Node *p = params_node->child;
+        int first = 1;
+        while (p) {
+            Node *pt = p->child;
+            Node *pid = pt ? pt->sibling : NULL;
+            char *pjt = get_juc_type(pt ? pt->type : "Int");
+            if (pid) {
+                if (!first) printf(", ");
+                printf("%s %%%s_arg", llvm_type(pjt), pid->value);
+                first = 0;
+                /* String[] gets an extra implicit i32 length arg */
+                if (strcmp(pjt, "String[]") == 0) {
+                    printf(", i32 %%__len_%s_arg", pid->value);
                 }
-                free(tmp);
             }
-        }
-        printf("(");
-        
-        /* Emit parameter types and names in the signature */
-        if (params_node && params_node->child) {
-            Node *p = params_node->child;
-            int first = 1;
-            while (p) {
-                Node *pt = p->child;
-                Node *pid = pt ? pt->sibling : NULL;
-                char *pjt = get_juc_type(pt ? pt->type : "Int");
-                if (pid) {
-                    if (!first) printf(", ");
-                    printf("%s %%%s_arg", llvm_type(pjt), pid->value);
-                    first = 0;
-                    /* String[] gets an extra implicit i32 length arg */
-                    if (strcmp(pjt, "String[]") == 0) {
-                        printf(", i32 %%__len_%s_arg", pid->value);
-                    }
-                }
-                p = p->sibling;
-            }
-        }
-        printf(") {\n");
-
-        /* Alloca and store each parameter */
-        current_str_array_param = NULL;
-        if (params_node && params_node->child) {
-            Node *p = params_node->child;
-            while (p) {
-                Node *pt = p->child;
-                Node *pid = pt ? pt->sibling : NULL;
-                char *pjt = get_juc_type(pt ? pt->type : "Int");
-                if (pid) {
-                    printf("  %%%s = alloca %s\n", pid->value, llvm_type(pjt));
-                    printf("  store %s %%%s_arg, %s* %%%s\n", llvm_type(pjt), pid->value, llvm_type(pjt), pid->value);
-                    if (strcmp(pjt, "String[]") == 0) {
-                        current_str_array_param = pid->value;
-                        printf("  %%__len_%s = alloca i32\n", pid->value);
-                        printf("  store i32 %%__len_%s_arg, i32* %%__len_%s\n", pid->value, pid->value);
-                    }
-                }
-                p = p->sibling;
-            }
+            p = p->sibling;
         }
     }
-    /* FIM DA DEFINIÇÃO DA FUNÇÃO */
+    printf(") {\n");
+
+    /* Alloca and store each parameter */
+    current_str_array_param = NULL;
+    if (params_node && params_node->child) {
+        Node *p = params_node->child;
+        while (p) {
+            Node *pt = p->child;
+            Node *pid = pt ? pt->sibling : NULL;
+            char *pjt = get_juc_type(pt ? pt->type : "Int");
+            if (pid) {
+                printf("  %%%s = alloca %s\n", pid->value, llvm_type(pjt));
+                printf("  store %s %%%s_arg, %s* %%%s\n", llvm_type(pjt), pid->value, llvm_type(pjt), pid->value);
+                if (strcmp(pjt, "String[]") == 0) {
+                    current_str_array_param = pid->value;
+                    printf("  %%__len_%s = alloca i32\n", pid->value);
+                    printf("  store i32 %%__len_%s_arg, i32* %%__len_%s\n", pid->value, pid->value);
+                }
+            }
+            p = p->sibling;
+        }
+    }
 
     emit_allocas(body, current_method_table);
     if (body) {
@@ -1415,15 +1359,22 @@ static void codegen_method(Node *node) {
         }
     }
 
-    if (is_main) {
-        printf("  ret i32 0\n");
-    } else if (strcmp(ret_jt, "void") == 0) {
+    if (strcmp(ret_jt, "void") == 0) {
         printf("  ret void\n");
     } else {
         printf("  ret %s %s\n", llvm_type(ret_jt), default_value(ret_jt));
     }
     printf("}\n");
     if (params_str) free(params_str);
+}
+
+static void emit_main_wrapper() {
+    printf("\ndefine i32 @main(i32 %%argc, i8** %%argv) {\n");
+    printf("  %%__argc_minus_1 = sub i32 %%argc, 1\n");
+    printf("  %%__argv_plus_1 = getelementptr inbounds i8*, i8** %%argv, i32 1\n");
+    printf("  call void @main.StringArray(i8** %%__argv_plus_1, i32 %%__argc_minus_1)\n");
+    printf("  ret i32 0\n");
+    printf("}\n");
 }
 
 static void prescan_strlits(Node *n) {
@@ -1478,9 +1429,10 @@ static void codegen_program(Node *prog) {
         }
         c = c->sibling;
     }
+    if (has_real_main) emit_main_wrapper();
+    printf("\n");
 }
 
-int semantic_errors_count = 0;
 %}
 
 %union {
@@ -1856,7 +1808,7 @@ int main(int argc, char *argv[]) {
         print_tree(root, 0);
     } else if (flag_e3) {
         // Apenas reporta erros (já feito em annotate_ast)
-    } else if (argc == 1) {
+    } else if (argc == 1 && semantic_errors_count == 0) {
         // META 4: Só gera código se não houver NENHUM erro e sem flags [cite: 416]
         // Se chega aqui e não houve prints de erros (semânticos), gera LLVM
         codegen_program(root);
